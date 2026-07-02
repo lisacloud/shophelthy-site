@@ -32,7 +32,7 @@
   --amber-line: #f0e2c4;
   --serif: "Fraunces", Georgia, serif;
   --sans: "Instrument Sans", -apple-system, "Helvetica Neue", sans-serif;
-  --maxw: 1080px;
+  --maxw: 1280px;
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
@@ -47,7 +47,7 @@ body{
 a{ color:inherit; text-decoration:none; }
 img{ max-width:100%; display:block; }
 
-.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 clamp(20px, 4vw, 48px); }
 
 /* ---------- Header ---------- */
 header{
@@ -209,8 +209,8 @@ footer{ padding:56px 0 40px; }
 
 /* ---------- Interactive How-it-works ---------- */
 .hiw{
-  display:grid; grid-template-columns:1fr 340px; gap:56px; align-items:center;
-  max-width:940px; margin:0 auto;
+  display:grid; grid-template-columns:1fr 340px; gap:72px; align-items:center;
+  max-width:1040px; margin:0 auto;
 }
 .hiw-steps{ display:flex; flex-direction:column; gap:14px; }
 .hiw-step{
