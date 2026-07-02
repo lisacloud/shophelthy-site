@@ -96,12 +96,12 @@ header{
     var(--paper);
 }
 .hero-grid{
-  display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center;
+  display:grid; grid-template-columns:1.5fr .8fr; gap:36px; align-items:center;
 }
 .hero-copy{ min-width:0; }
 .hero-media{ display:flex; justify-content:center; }
 .hero-media img{
-  width:100%; max-width:460px; height:auto; display:block;
+  width:100%; max-width:340px; height:auto; display:block;
   border-radius:22px;
   box-shadow:0 30px 60px rgba(37,41,31,.14);
 }
@@ -115,8 +115,8 @@ header{
 }
 h1{
   font-family:var(--serif); font-weight:600;
-  font-size:clamp(38px, 6vw, 62px); line-height:1.05; letter-spacing:-.02em;
-  max-width:16ch;
+  font-size:clamp(32px, 4vw, 46px); line-height:1.1; letter-spacing:-.02em;
+  max-width:none;
 }
 h1 .hl{ color:var(--green); }
 .hero p.lede{
@@ -271,7 +271,6 @@ footer{ padding:56px 0 40px; }
     <nav class="menu">
       <a href="index.html" class="active">About Helthy</a>
       <a href="how-it-works.html">How Helthy works</a>
-      <a href="#retailers">Retailers</a>
       <a href="#" class="cta" data-beta="nav">Get the app</a>
     </nav>
     <button class="hamburger" aria-label="Menu">☰</button>
@@ -283,7 +282,7 @@ footer{ padding:56px 0 40px; }
   <div class="wrap hero-grid">
     <div class="hero-copy">
       <span class="eyebrow">About Helthy</span>
-      <h1>Using science and clinical research, to help you <span class="hl">grocery shop smarter.</span></h1>
+      <h1>Using science and clinical research,<br class="hero-br"> to help you <span class="hl">grocery shop smarter.</span></h1>
       <p class="lede">At Helthy, we believe nutritional labels shouldn't be a barrier to living a smarter and healthier life with diabetes. We've made it our mission to bring you the relevant, healthier facts you need to know.</p>
       <div class="hero-actions">
         <a href="mailto:lisa@shophelthy.com?subject=Helthy%20beta%20access" class="btn-solid" data-beta="hero">Get beta access</a>
@@ -366,27 +365,6 @@ footer{ padding:56px 0 40px; }
         <div class="person"><div class="avatar">NS</div><div class="name">Nora Saul, RD, CDE</div><div class="role">Diabetes Nutritionist</div></div>
         <div class="person"><div class="avatar">PS</div><div class="name">Prashanth Saka</div><div class="role">Advisor</div></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ RETAILERS ============ -->
-<section class="retailers" id="retailers">
-  <div class="wrap">
-    <h2>Scan your groceries wherever you shop</h2>
-    <p>Helthy works with products from all the major grocery retailers.</p>
-    <div class="chips">
-      <span class="chip">Amazon</span>
-      <span class="chip">Aldi</span>
-      <span class="chip">Costco</span>
-      <span class="chip">Walmart</span>
-      <span class="chip">Whole Foods</span>
-      <span class="chip">Instacart</span>
-      <span class="chip">Publix</span>
-      <span class="chip">Safeway</span>
-      <span class="chip">HEB</span>
-      <span class="chip">Stop &amp; Shop</span>
-      <span class="chip">Kroger</span>
     </div>
   </div>
 </section>
