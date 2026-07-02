@@ -90,10 +90,20 @@ header{
 
 /* ---------- Hero ---------- */
 .hero{
-  padding:96px 0 80px;
+  padding:72px 0 72px;
   background:
-    radial-gradient(1200px 500px at 80% -10%, var(--leaf) 0%, transparent 60%),
+    radial-gradient(1100px 600px at 88% 20%, var(--leaf) 0%, transparent 55%),
     var(--paper);
+}
+.hero-grid{
+  display:grid; grid-template-columns:1.05fr .95fr; gap:40px; align-items:center;
+}
+.hero-copy{ min-width:0; }
+.hero-media{ display:flex; justify-content:center; }
+.hero-media img{
+  width:100%; max-width:460px; height:auto; display:block;
+  border-radius:22px;
+  box-shadow:0 30px 60px rgba(37,41,31,.14);
 }
 .eyebrow{
   display:inline-block;
@@ -222,6 +232,11 @@ footer{ padding:56px 0 40px; }
   .menu{ display:none; }
   .hamburger{ display:block; }
   .band{ padding:48px 26px; }
+  .hero-grid{ grid-template-columns:1fr; gap:36px; }
+  .hero-media{ order:-1; }
+  .hero-media img{ max-width:300px; }
+  h1{ max-width:none; }
+  .hero p.lede{ max-width:none; }
 }
 </style>
 </head>
@@ -243,12 +258,17 @@ footer{ padding:56px 0 40px; }
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <div class="wrap">
-    <span class="eyebrow">About Helthy</span>
-    <h1>Using science and clinical research, to help you <span class="hl">grocery shop smarter.</span></h1>
-    <p class="lede">At Helthy, we believe nutritional labels shouldn't be a barrier to living a smarter and healthier life with diabetes. We've made it our mission to bring you the relevant, healthier facts you need to know.</p>
-    <div class="hero-actions">
-      <a href="mailto:lisa@shophelthy.com?subject=Helthy%20beta%20access" class="btn-solid">Get beta access</a>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">About Helthy</span>
+      <h1>Using science and clinical research, to help you <span class="hl">grocery shop smarter.</span></h1>
+      <p class="lede">At Helthy, we believe nutritional labels shouldn't be a barrier to living a smarter and healthier life with diabetes. We've made it our mission to bring you the relevant, healthier facts you need to know.</p>
+      <div class="hero-actions">
+        <a href="mailto:lisa@shophelthy.com?subject=Helthy%20beta%20access" class="btn-solid">Get beta access</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <img src="assets/hero-phone.jpg" alt="The Helthy app showing a diabetes-specific read of Cape Cod potato chips — an 'OK Choice' with a breakdown of whole grains, sodium, fiber, protein and sugar." />
     </div>
   </div>
 </section>
