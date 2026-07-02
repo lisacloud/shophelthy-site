@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>How Helthy works — Grocery shop smarter</title>
+<meta name="description" content="How Helthy works: shop online at your grocery store, sign in, and let Helthy guide you to healthier foods." />
+
+<meta property="og:title" content="How Helthy works" />
+<meta property="og:description" content="Shop online, sign in, and let Helthy guide you to healthier foods." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --green:      #386840;
+  --green-deep: #2a5232;
+  --green-soft: #5a9a6f;
+  --leaf:       #F2FCE2;
+  --leaf-line:  #dcedc8;
+  --paper:      #fbfaf7;
+  --card:       #ffffff;
+  --ink:        #25291f;
+  --ink-soft:   #6b7263;
+  --ink-faint:  #9aa191;
+  --hairline:   #e6e4dc;
+  --amber:      #a87b2d;
+  --amber-soft: #f7efdd;
+  --amber-line: #f0e2c4;
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Instrument Sans", -apple-system, "Helvetica Neue", sans-serif;
+  --maxw: 1080px;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+
+/* ---------- Header ---------- */
+header{
+  position:sticky; top:0; z-index:50;
+  background:rgba(251,250,247,.85);
+  backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--hairline);
+}
+.nav{ display:flex; align-items:center; justify-content:space-between; height:72px; }
+.brand{
+  display:flex; align-items:center; gap:11px;
+  font-family:var(--serif); font-weight:600; font-size:23px; letter-spacing:-.01em;
+  color:var(--green-deep);
+}
+.brand .mark{
+  width:34px; height:34px; border-radius:9px;
+  background:var(--green); color:#fff;
+  display:grid; place-items:center;
+  font-family:var(--serif); font-weight:600; font-size:20px;
+  box-shadow:0 2px 8px rgba(56,104,64,.28);
+}
+.menu{ display:flex; align-items:center; gap:34px; }
+.menu a{ font-size:15px; font-weight:500; color:var(--ink-soft); transition:color .18s; }
+.menu a:hover{ color:var(--green-deep); }
+.menu a.active{ color:var(--green-deep); font-weight:600; }
+.cta{
+  background:var(--green); color:#fff !important;
+  padding:10px 20px; border-radius:999px;
+  font-weight:600; font-size:14px;
+  box-shadow:0 3px 10px rgba(56,104,64,.25);
+  transition:transform .15s, box-shadow .15s;
+}
+.cta:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(56,104,64,.32); }
+.hamburger{ display:none; background:none; border:0; font-size:26px; color:var(--green-deep); cursor:pointer; }
+
+/* ---------- Hero ---------- */
+.hero{
+  padding:88px 0 56px;
+  background:
+    radial-gradient(1200px 500px at 80% -10%, var(--leaf) 0%, transparent 60%),
+    var(--paper);
+  text-align:center;
+}
+.eyebrow{
+  display:inline-block;
+  font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--green-soft);
+  background:var(--leaf); border:1px solid var(--leaf-line);
+  padding:6px 14px; border-radius:999px;
+  margin-bottom:26px;
+}
+h1{
+  font-family:var(--serif); font-weight:600;
+  font-size:clamp(36px, 5.5vw, 56px); line-height:1.06; letter-spacing:-.02em;
+  max-width:18ch; margin:0 auto;
+}
+h1 .hl{ color:var(--green); }
+.hero p.lede{
+  margin:22px auto 0; font-size:clamp(17px,2.2vw,20px);
+  color:var(--ink-soft); max-width:56ch;
+}
+.installed{
+  display:inline-flex; align-items:center; gap:10px;
+  margin-top:30px;
+  background:var(--leaf); border:1px solid var(--leaf-line);
+  color:var(--green-deep); font-weight:600; font-size:15px;
+  padding:12px 22px; border-radius:999px;
+}
+.installed .check{
+  width:22px; height:22px; border-radius:50%; background:var(--green); color:#fff;
+  display:grid; place-items:center; font-size:13px;
+}
+
+/* ---------- Steps ---------- */
+.section{ padding:70px 0; }
+.section-head{ text-align:center; max-width:640px; margin:0 auto 54px; }
+.section-head h2{
+  font-family:var(--serif); font-weight:600; font-size:clamp(28px,4vw,40px);
+  letter-spacing:-.02em; line-height:1.12;
+}
+.section-head p{ margin-top:14px; color:var(--ink-soft); font-size:17px; }
+
+.step{
+  display:grid; grid-template-columns:auto 1fr; gap:28px;
+  align-items:start;
+  max-width:760px; margin:0 auto;
+  padding:34px 0;
+  border-bottom:1px dashed var(--leaf-line);
+}
+.step:last-child{ border-bottom:0; }
+.step-num{
+  width:60px; height:60px; border-radius:16px;
+  background:var(--green); color:#fff;
+  display:grid; place-items:center;
+  font-family:var(--serif); font-weight:600; font-size:26px;
+  box-shadow:0 4px 14px rgba(56,104,64,.28);
+}
+.step h3{
+  font-family:var(--serif); font-weight:600; font-size:23px; color:var(--green-deep);
+  margin-bottom:8px; line-height:1.2;
+}
+.step p{ color:var(--ink-soft); font-size:16px; }
+.step .hint{
+  margin-top:12px; display:inline-block;
+  background:var(--amber-soft); border:1px solid var(--amber-line);
+  color:var(--amber); font-size:14px; font-weight:500;
+  padding:8px 14px; border-radius:10px;
+}
+.retail-line{ margin-top:14px; display:flex; flex-wrap:wrap; gap:8px; }
+.retail-line .chip{
+  background:#fff; border:1px solid var(--leaf-line);
+  padding:6px 13px; border-radius:999px;
+  font-weight:600; font-size:13.5px; color:var(--green-deep);
+}
+
+/* ---------- Icon guide ---------- */
+.guide{ background:var(--leaf); border-top:1px solid var(--leaf-line); border-bottom:1px solid var(--leaf-line); }
+.guide .wrap{ padding-top:66px; padding-bottom:66px; }
+.guide-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:840px; margin:44px auto 0; }
+.guide-card{
+  background:#fff; border:1px solid var(--leaf-line);
+  border-radius:18px; padding:30px 24px; text-align:center;
+  box-shadow:0 1px 2px rgba(37,41,31,.04);
+}
+.guide-ico{
+  width:58px; height:58px; border-radius:50%;
+  display:grid; place-items:center; margin:0 auto 16px;
+  font-family:var(--serif); font-weight:600; font-size:28px; color:#fff;
+}
+.guide-ico.good{ background:var(--green); }
+.guide-ico.warn{ background:var(--amber); }
+.guide-ico.unknown{ background:var(--ink-faint); }
+.guide-card h4{ font-family:var(--serif); font-weight:600; font-size:17px; color:var(--ink); }
+
+/* ---------- Support band ---------- */
+.band{
+  background:var(--green); color:#fff; border-radius:26px;
+  padding:56px 48px; text-align:center;
+  background-image:radial-gradient(600px 300px at 50% -30%, rgba(255,255,255,.14), transparent 70%);
+}
+.band h2{
+  font-family:var(--serif); font-weight:500; font-size:clamp(24px,3.4vw,32px);
+  line-height:1.3; max-width:24ch; margin:0 auto; letter-spacing:-.01em;
+}
+.band p{ margin-top:14px; color:#eafbe9; font-size:16.5px; max-width:46ch; margin-left:auto; margin-right:auto; }
+.band .btn{
+  display:inline-block; margin-top:26px;
+  background:#fff; color:var(--green-deep) !important;
+  padding:12px 26px; border-radius:999px; font-weight:600; font-size:15px;
+  transition:transform .15s;
+}
+.band .btn:hover{ transform:translateY(-1px); }
+
+/* ---------- Footer ---------- */
+footer{ padding:56px 0 40px; }
+.foot{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
+.foot .brand{ font-size:20px; }
+.foot .links{ display:flex; gap:26px; font-size:14px; color:var(--ink-soft); }
+.foot .links a:hover{ color:var(--green-deep); }
+.foot-note{ margin-top:26px; padding-top:22px; border-top:1px solid var(--hairline);
+  font-size:13px; color:var(--ink-faint); }
+
+@media (max-width:860px){
+  .guide-grid{ grid-template-columns:1fr; }
+  .menu{ display:none; }
+  .hamburger{ display:block; }
+  .band{ padding:44px 24px; }
+  .step{ grid-template-columns:1fr; gap:16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand"><span class="mark">H</span>Helthy</a>
+    <nav class="menu">
+      <a href="index.html">About Helthy</a>
+      <a href="how-it-works.html" class="active">How Helthy works</a>
+      <a href="index.html#retailers">Retailers</a>
+      <a href="#" class="cta">Get the app</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">How Helthy works</span>
+    <h1>Healthier choices, right where you <span class="hl">already shop.</span></h1>
+    <p class="lede">Helthy adds simple, at-a-glance guidance to your online grocery store — so smarter choices take zero extra effort.</p>
+    <div class="installed"><span class="check">✓</span> Helthy has been successfully added to your browser!</div>
+  </div>
+</section>
+
+<!-- ============ STEPS ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Three simple steps</h2>
+      <p>From install to healthier shopping in under a minute.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>
+        <h3>Visit the online grocery shop</h3>
+        <p>Head to your favorite grocery retailer's website and start shopping like you normally would. Helthy works across the major stores:</p>
+        <div class="retail-line">
+          <span class="chip">HEB</span>
+          <span class="chip">Walmart</span>
+          <span class="chip">Safeway</span>
+          <span class="chip">Instacart</span>
+          <span class="chip">Whole Foods Market</span>
+          <span class="chip">Kroger</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>
+        <h3>Sign in with the email you registered on the Helthy website</h3>
+        <p>Use the same email you signed up with so Helthy can personalize your guidance.</p>
+        <span class="hint">💡 Don't know which email to use? Check your inbox and look for Helthy's email.</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>
+        <h3>Enjoy online grocery shopping</h3>
+        <p>Look for the Helthy icons to guide you toward foods that are healthier — as you browse and add to cart.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ICON GUIDE ============ -->
+<section class="guide">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:0">
+      <h2>Your at-a-glance guide</h2>
+      <p>Three simple icons tell you everything you need to know.</p>
+    </div>
+    <div class="guide-grid">
+      <div class="guide-card">
+        <div class="guide-ico good">H</div>
+        <h4>Meets Helthy's criteria</h4>
+      </div>
+      <div class="guide-card">
+        <div class="guide-ico warn">!</div>
+        <h4>Doesn't meet Helthy's criteria</h4>
+      </div>
+      <div class="guide-card">
+        <div class="guide-ico unknown">?</div>
+        <h4>Missing nutritional information</h4>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUPPORT BAND ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="band">
+      <h2>Encounter an issue? No worries.</h2>
+      <p>Click "Report issue to Helthy" any time to leave us feedback — we read every message.</p>
+      <a href="mailto:contact.lisazhu@gmail.com" class="btn">Contact us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a href="index.html" class="brand"><span class="mark">H</span>Helthy</a>
+      <div class="links">
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="mailto:contact.lisazhu@gmail.com">Contact</a>
+      </div>
+    </div>
+    <div class="foot-note">© 2026 Helthy. All rights reserved. · shophelthy.com</div>
+  </div>
+</footer>
+
+</body>
+</html>
