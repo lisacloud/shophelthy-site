@@ -238,6 +238,28 @@ footer{ padding:56px 0 40px; }
   h1{ max-width:none; }
   .hero p.lede{ max-width:none; }
 }
+
+/* ---------- Beta signup modal ---------- */
+.beta-overlay{ position:fixed; inset:0; background:rgba(20,23,15,.55); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; z-index:100; padding:20px; }
+.beta-overlay.open{ display:flex; }
+.beta-modal{ background:var(--card); border-radius:22px; max-width:440px; width:100%; padding:34px 32px 28px; box-shadow:0 30px 70px rgba(0,0,0,.3); position:relative; animation:betaIn .22s ease; }
+@keyframes betaIn{ from{ opacity:0; transform:translateY(12px) scale(.98); } to{ opacity:1; transform:none; } }
+.beta-close{ position:absolute; top:14px; right:16px; background:none; border:0; font-size:26px; color:var(--ink-faint); cursor:pointer; line-height:1; }
+.beta-close:hover{ color:var(--ink); }
+.beta-modal h3{ font-family:var(--serif); font-weight:600; font-size:26px; color:var(--green-deep); }
+.beta-modal p.sub{ color:var(--ink-soft); font-size:15px; margin-top:8px; }
+.beta-form{ margin-top:20px; display:flex; flex-direction:column; gap:13px; }
+.beta-field label{ display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px; }
+.beta-field input{ width:100%; padding:12px 14px; border:1px solid var(--hairline); border-radius:11px; font-family:inherit; font-size:15px; background:var(--paper); color:var(--ink); }
+.beta-field input:focus{ outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(56,104,64,.13); }
+.beta-submit{ margin-top:6px; background:var(--green); color:#fff; border:0; border-radius:999px; padding:14px; font-family:inherit; font-weight:600; font-size:15px; cursor:pointer; transition:transform .15s; }
+.beta-submit:hover{ transform:translateY(-1px); }
+.beta-submit:disabled{ opacity:.6; cursor:default; transform:none; }
+.beta-error{ color:#c0392b; font-size:13.5px; display:none; }
+.beta-note{ font-size:12px; color:var(--ink-faint); text-align:center; margin-top:2px; }
+.beta-success{ display:none; text-align:center; padding:12px 0 6px; }
+.beta-success .tick{ width:58px; height:58px; border-radius:50%; background:var(--leaf); border:1px solid var(--leaf-line); color:var(--green); display:grid; place-items:center; font-size:28px; margin:0 auto 16px; }
+.beta-success h3{ margin-bottom:8px; }
 </style>
 </head>
 <body>
@@ -250,7 +272,7 @@ footer{ padding:56px 0 40px; }
       <a href="index.html" class="active">About Helthy</a>
       <a href="how-it-works.html">How Helthy works</a>
       <a href="#retailers">Retailers</a>
-      <a href="#" class="cta">Get the app</a>
+      <a href="#" class="cta" data-beta="nav">Get the app</a>
     </nav>
     <button class="hamburger" aria-label="Menu">☰</button>
   </div>
@@ -264,7 +286,7 @@ footer{ padding:56px 0 40px; }
       <h1>Using science and clinical research, to help you <span class="hl">grocery shop smarter.</span></h1>
       <p class="lede">At Helthy, we believe nutritional labels shouldn't be a barrier to living a smarter and healthier life with diabetes. We've made it our mission to bring you the relevant, healthier facts you need to know.</p>
       <div class="hero-actions">
-        <a href="mailto:lisa@shophelthy.com?subject=Helthy%20beta%20access" class="btn-solid">Get beta access</a>
+        <a href="mailto:lisa@shophelthy.com?subject=Helthy%20beta%20access" class="btn-solid" data-beta="hero">Get beta access</a>
       </div>
     </div>
     <div class="hero-media">
@@ -383,6 +405,89 @@ footer{ padding:56px 0 40px; }
     <div class="foot-note">© 2026 Helthy. All rights reserved. · shophelthy.com</div>
   </div>
 </footer>
+
+<!-- ============ BETA SIGNUP MODAL ============ -->
+<div class="beta-overlay" id="betaOverlay" role="dialog" aria-modal="true" aria-labelledby="betaTitle">
+  <div class="beta-modal">
+    <button class="beta-close" type="button" aria-label="Close" data-beta-close>&times;</button>
+    <div class="beta-form-wrap" id="betaFormWrap">
+      <h3 id="betaTitle">Get early access to Helthy</h3>
+      <p class="sub">Join the beta and we'll send you an invite. Takes 10 seconds.</p>
+      <form class="beta-form" id="betaForm" novalidate>
+        <div class="beta-field"><label for="bName">Name</label><input id="bName" type="text" autocomplete="name" required></div>
+        <div class="beta-field"><label for="bEmail">Email</label><input id="bEmail" type="email" autocomplete="email" required></div>
+        <div class="beta-field"><label for="bPhone">Phone</label><input id="bPhone" type="tel" autocomplete="tel" required></div>
+        <div class="beta-error" id="betaError"></div>
+        <button class="beta-submit" type="submit">Request access</button>
+        <div class="beta-note">We'll only use this to contact you about the Helthy beta.</div>
+      </form>
+    </div>
+    <div class="beta-success" id="betaSuccess">
+      <div class="tick">&#10003;</div>
+      <h3>You're on the list!</h3>
+      <p class="sub">Thanks — we'll be in touch at the email you gave us.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* Google Apps Script Web App URL for storing beta signups (leave '' to use the email fallback). */
+  var ENDPOINT = '';
+
+  var overlay = document.getElementById('betaOverlay');
+  if(!overlay) return;
+  var form     = document.getElementById('betaForm');
+  var formWrap = document.getElementById('betaFormWrap');
+  var success  = document.getElementById('betaSuccess');
+  var errEl    = document.getElementById('betaError');
+  var nameEl=document.getElementById('bName'), emailEl=document.getElementById('bEmail'), phoneEl=document.getElementById('bPhone');
+  var source='';
+
+  function open(src){
+    source = src || '';
+    formWrap.style.display=''; success.style.display='none';
+    var btn=form.querySelector('.beta-submit'); btn.disabled=false; btn.textContent='Request access';
+    errEl.style.display='none';
+    overlay.classList.add('open'); document.body.style.overflow='hidden';
+    setTimeout(function(){ nameEl.focus(); }, 60);
+  }
+  function close(){ overlay.classList.remove('open'); document.body.style.overflow=''; }
+
+  document.querySelectorAll('[data-beta]').forEach(function(el){
+    el.addEventListener('click', function(e){ e.preventDefault(); open(el.getAttribute('data-beta')); });
+  });
+  overlay.querySelectorAll('[data-beta-close]').forEach(function(b){ b.addEventListener('click', close); });
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && overlay.classList.contains('open')) close(); });
+
+  function showErr(m){ errEl.textContent=m; errEl.style.display='block'; }
+  function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    errEl.style.display='none';
+    var name=nameEl.value.trim(), email=emailEl.value.trim(), phone=phoneEl.value.trim();
+    if(!name)                     return showErr('Please enter your name.');
+    if(!isEmail(email))           return showErr('Please enter a valid email address.');
+    if(phone.replace(/\D/g,'').length < 7) return showErr('Please enter a valid phone number.');
+
+    var btn=form.querySelector('.beta-submit'); btn.disabled=true; btn.textContent='Submitting…';
+    var payload={ name:name, email:email, phone:phone, source:source, page:location.pathname, ts:new Date().toISOString() };
+
+    if(ENDPOINT){
+      fetch(ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) })
+        .then(function(){ formWrap.style.display='none'; success.style.display='block'; })
+        .catch(function(){ btn.disabled=false; btn.textContent='Request access'; showErr('Something went wrong — please try again.'); });
+    } else {
+      /* Interim fallback until the Google Sheet endpoint is connected: open a pre-filled email. */
+      window.location.href='mailto:lisa@shophelthy.com?subject='+encodeURIComponent('Helthy beta signup')
+        +'&body='+encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nPhone: '+phone+'\nSource: '+source);
+      formWrap.style.display='none'; success.style.display='block';
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
