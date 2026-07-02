@@ -207,12 +207,123 @@ footer{ padding:56px 0 40px; }
 .foot-note{ margin-top:26px; padding-top:22px; border-top:1px solid var(--hairline);
   font-size:13px; color:var(--ink-faint); }
 
+/* ---------- Interactive How-it-works ---------- */
+.hiw{
+  display:grid; grid-template-columns:1fr 340px; gap:56px; align-items:center;
+  max-width:940px; margin:0 auto;
+}
+.hiw-steps{ display:flex; flex-direction:column; gap:14px; }
+.hiw-step{
+  position:relative; text-align:left; cursor:pointer;
+  background:transparent; border:1px solid transparent; border-radius:18px;
+  padding:22px 26px; font-family:inherit;
+  transition:background .3s var(--ease, ease), border-color .3s, box-shadow .3s, transform .3s;
+}
+.hiw-step .hiw-bar{
+  position:absolute; left:0; top:14px; bottom:14px; width:3px; border-radius:3px;
+  background:var(--leaf-line); transition:background .3s;
+}
+.hiw-top{ display:flex; align-items:center; gap:14px; }
+.hiw-num{ font-family:var(--serif); font-style:italic; font-weight:500; font-size:30px; color:var(--ink-faint); transition:color .3s; }
+.hiw-title{ font-family:var(--serif); font-weight:600; font-size:25px; color:var(--ink); transition:color .3s; }
+.hiw-arrow{ margin-left:auto; font-size:22px; color:var(--green); opacity:0; transform:translateX(-6px); transition:opacity .3s, transform .3s; }
+.hiw-desc{ display:block; margin-top:10px; color:var(--ink-soft); font-size:15.5px; max-width:44ch; }
+.hiw-step.active{
+  background:var(--card); border-color:var(--leaf-line);
+  box-shadow:0 10px 30px rgba(37,41,31,.07);
+}
+.hiw-step.active .hiw-bar{ background:var(--green); }
+.hiw-step.active .hiw-num{ color:var(--green); }
+.hiw-step.active .hiw-title{ color:var(--green-deep); }
+.hiw-step.active .hiw-arrow{ opacity:1; transform:translateX(0); }
+.hiw-step:not(.active):hover{ background:rgba(242,252,226,.5); }
+
+/* Phone */
+.hiw-phone-wrap{ display:flex; justify-content:center; }
+.phone{
+  position:relative; width:300px; height:620px;
+  background:#111; border-radius:46px; padding:11px;
+  box-shadow:0 30px 60px rgba(37,41,31,.22), inset 0 0 0 2px #2a2a2a;
+}
+.phone-island{
+  position:absolute; top:22px; left:50%; transform:translateX(-50%);
+  width:96px; height:26px; background:#000; border-radius:99px; z-index:5;
+}
+.screen{
+  position:absolute; inset:11px; border-radius:36px; overflow:hidden;
+  background:#fff; display:flex; flex-direction:column;
+  opacity:0; transform:scale(1.02); pointer-events:none;
+  transition:opacity .45s ease, transform .45s ease;
+}
+.screen.show{ opacity:1; transform:scale(1); pointer-events:auto; }
+
+/* Scan screen */
+.scan-view{ flex:1; background:#14170f; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:40px 24px 20px; }
+.scan-status{ color:#9fe6b0; font-size:13px; font-weight:600; letter-spacing:.06em; margin-top:14px; }
+.scan-frame{ position:relative; width:190px; height:150px; display:flex; align-items:center; justify-content:center; }
+.scan-frame .c{ position:absolute; width:26px; height:26px; border:3px solid #6fbf86; }
+.scan-frame .tl{ top:0; left:0; border-right:0; border-bottom:0; border-radius:6px 0 0 0; }
+.scan-frame .tr{ top:0; right:0; border-left:0; border-bottom:0; border-radius:0 6px 0 0; }
+.scan-frame .bl{ bottom:0; left:0; border-right:0; border-top:0; border-radius:0 0 0 6px; }
+.scan-frame .br{ bottom:0; right:0; border-left:0; border-top:0; border-radius:0 0 6px 0; }
+.barcode{ display:flex; align-items:flex-end; gap:3px; height:64px; }
+.barcode i{ width:4px; height:100%; background:#e9e9e9; border-radius:1px; }
+.barcode i:nth-child(2n){ height:78%; } .barcode i:nth-child(3n){ height:90%; width:6px; } .barcode i:nth-child(5n){ height:65%; }
+.scan-line{ position:absolute; left:8px; right:8px; height:2px; background:linear-gradient(90deg,transparent,#6fbf86,transparent); box-shadow:0 0 10px #6fbf86; animation:scanmove 2.2s ease-in-out infinite; }
+@keyframes scanmove{ 0%,100%{ top:14px; } 50%{ top:132px; } }
+.scan-hint{ color:#c7ccbf; font-size:13.5px; }
+
+/* App chrome */
+.app-top{ display:flex; align-items:center; justify-content:space-between; padding:16px 16px 12px; border-bottom:1px solid var(--hairline); }
+.app-logo{ display:flex; align-items:center; gap:7px; font-family:var(--serif); font-weight:600; font-size:17px; color:var(--green-deep); }
+.app-logo b{ width:22px; height:22px; background:var(--leaf); border:1px solid var(--leaf-line); border-radius:50%; display:grid; place-items:center; font-size:12px; }
+.app-cart{ position:relative; font-size:17px; }
+.app-cart em{ position:absolute; top:-6px; right:-8px; background:var(--green); color:#fff; font-style:normal; font-size:10px; font-weight:700; min-width:15px; height:15px; border-radius:99px; display:grid; place-items:center; padding:0 3px; }
+.app-body{ flex:1; overflow:hidden; padding:12px 16px; }
+.crumb{ font-size:13px; color:var(--ink); font-weight:600; margin-bottom:12px; }
+.prod{ display:flex; gap:12px; }
+.prod-img{ width:56px; height:64px; background:var(--leaf); border:1px solid var(--leaf-line); border-radius:8px; display:grid; place-items:center; font-size:26px; flex-shrink:0; }
+.prod-img.sm{ width:42px; height:42px; border-radius:8px; font-size:20px; }
+.prod-name{ font-weight:700; font-size:16px; line-height:1.2; }
+.prod-name.sm{ font-size:14px; margin-bottom:5px; }
+.prod-brand{ font-size:12px; color:var(--ink-soft); margin:2px 0 7px; line-height:1.3; }
+.badge{ display:inline-block; font-size:12px; font-weight:700; padding:4px 11px; border-radius:99px; }
+.badge.ok{ background:var(--amber-soft); color:var(--amber); }
+.badge.great{ background:#e4f5e9; color:#2f8a4a; }
+.serving{ font-size:12px; color:var(--ink-soft); margin:12px 0 14px; }
+.why-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:8px; }
+.why-head b{ font-size:16px; } .why-head span{ font-size:11px; color:var(--ink-faint); }
+.rows{ border:1px solid var(--hairline); border-radius:12px; overflow:hidden; }
+.row{ display:flex; align-items:center; gap:10px; padding:9px 11px; border-bottom:1px solid var(--hairline); }
+.row:last-child{ border-bottom:0; }
+.ri{ font-size:16px; width:20px; text-align:center; }
+.rt{ display:flex; flex-direction:column; flex:1; } .rt b{ font-size:13px; } .rt em{ font-style:normal; font-size:11px; color:var(--ink-soft); }
+.rv{ font-size:12.5px; color:var(--ink-soft); font-weight:600; }
+.d{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.d.red{ background:#e5533d; } .d.amber{ background:#e0a52e; } .d.green{ background:#3fae5e; }
+
+/* Swap screen */
+.swap-title{ font-family:var(--serif); font-weight:600; font-size:19px; color:var(--green-deep); margin-bottom:14px; }
+.swap-from,.swap-to{ display:flex; align-items:center; gap:12px; padding:12px; border:1px solid var(--hairline); border-radius:12px; }
+.swap-to{ border-color:#bfe6c9; background:#f3fbf5; }
+.swap-arrow{ text-align:center; font-size:12px; font-weight:600; color:var(--green-soft); margin:8px 0; }
+.swap-wins{ display:flex; flex-direction:column; gap:7px; margin:16px 0; }
+.win{ background:var(--leaf); border:1px solid var(--leaf-line); color:var(--green-deep); font-size:12.5px; font-weight:600; padding:8px 12px; border-radius:9px; }
+.add-btn{ width:100%; background:var(--green); color:#fff; border:0; border-radius:12px; padding:13px; font-family:inherit; font-weight:600; font-size:14.5px; cursor:pointer; }
+
+/* Tab bar */
+.tabbar{ display:flex; border-top:1px solid var(--hairline); padding:9px 6px 12px; background:#fff; }
+.tabbar span{ flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; font-size:16px; color:var(--ink-faint); }
+.tabbar span em{ font-style:normal; font-size:10px; }
+.tabbar span.on{ color:var(--green); }
+
 @media (max-width:860px){
   .diff-grid{ grid-template-columns:1fr; }
   .menu{ display:none; }
   .hamburger{ display:block; }
   .band{ padding:44px 24px; }
-  .step{ grid-template-columns:1fr; gap:16px; }
+  .hiw{ grid-template-columns:1fr; gap:40px; }
+  .hiw-phone-wrap{ order:-1; }
 }
 </style>
 </head>
@@ -243,7 +354,7 @@ footer{ padding:56px 0 40px; }
   </div>
 </section>
 
-<!-- ============ STEPS ============ -->
+<!-- ============ INTERACTIVE HOW-IT-WORKS ============ -->
 <section class="section">
   <div class="wrap">
     <div class="section-head">
@@ -251,30 +362,106 @@ footer{ padding:56px 0 40px; }
       <p>Right at the shelf, in the moment you're deciding.</p>
     </div>
 
-    <div class="step">
-      <div class="step-num">📷</div>
-      <div>
-        <div class="kicker">Step 1</div>
-        <h3>Scan</h3>
-        <p>Point at any barcode or nutrition label, right in the store. No typing, no searching — just aim your camera.</p>
+    <div class="hiw">
+      <!-- Steps -->
+      <div class="hiw-steps">
+        <button class="hiw-step active" data-i="0" type="button">
+          <span class="hiw-bar"></span>
+          <span class="hiw-top"><span class="hiw-num">01.</span><span class="hiw-title">Scan</span><span class="hiw-arrow">→</span></span>
+          <span class="hiw-desc">Point at any barcode or nutrition label, right in the store. No typing, no searching — just aim your camera.</span>
+        </button>
+        <button class="hiw-step" data-i="1" type="button">
+          <span class="hiw-bar"></span>
+          <span class="hiw-top"><span class="hiw-num">02.</span><span class="hiw-title">Understand</span><span class="hiw-arrow">→</span></span>
+          <span class="hiw-desc">A clear, diabetes-specific read of what that food actually does to you — built for diabetes, not a generic score.</span>
+        </button>
+        <button class="hiw-step" data-i="2" type="button">
+          <span class="hiw-bar"></span>
+          <span class="hiw-top"><span class="hiw-num">03.</span><span class="hiw-title">Swap</span><span class="hiw-arrow">→</span></span>
+          <span class="hiw-desc">See a better alternative tailored to your needs, so you can put a smarter choice in the cart on the spot.</span>
+        </button>
       </div>
-    </div>
 
-    <div class="step">
-      <div class="step-num">🧠</div>
-      <div>
-        <div class="kicker">Step 2</div>
-        <h3>Understand</h3>
-        <p>Get a clear, diabetes-specific read of what that food actually does to you — built for diabetes from the ground up, not a one-size-fits-all score.</p>
-      </div>
-    </div>
+      <!-- Phone -->
+      <div class="hiw-phone-wrap">
+        <div class="phone">
+          <span class="phone-island"></span>
 
-    <div class="step">
-      <div class="step-num">🔄</div>
-      <div>
-        <div class="kicker">Step 3</div>
-        <h3>Swap</h3>
-        <p>See better alternatives tailored to your needs, so you can put a smarter choice in the cart on the spot.</p>
+          <!-- SCREEN 0 · SCAN -->
+          <div class="screen show" data-screen="0">
+            <div class="scan-view">
+              <div class="scan-status">Scanning…</div>
+              <div class="scan-frame">
+                <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+                <div class="barcode">
+                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <div class="scan-line"></div>
+              </div>
+              <div class="scan-hint">Point at any barcode or label</div>
+            </div>
+            <div class="tabbar">
+              <span>⌂<em>Home</em></span><span class="on">▥<em>Scan</em></span><span>⌕<em>Search</em></span><span>◯<em>Profile</em></span>
+            </div>
+          </div>
+
+          <!-- SCREEN 1 · UNDERSTAND (placeholder recreated from Helthy app) -->
+          <div class="screen" data-screen="1">
+            <div class="app-top"><span class="app-logo"><b>H</b> Helthy</span><span class="app-cart">🛒<em>3</em></span></div>
+            <div class="app-body">
+              <div class="crumb">‹ Back</div>
+              <div class="prod">
+                <div class="prod-img">🥔</div>
+                <div>
+                  <div class="prod-name">Potato Chips</div>
+                  <div class="prod-brand">Cape Cod, Cape Cod Potato Chips Inc.</div>
+                  <span class="badge ok">OK Choice</span>
+                </div>
+              </div>
+              <div class="serving">Serving size: 1 ONZ (28 g)</div>
+              <div class="why-head"><b>Why this score</b><span>Ordered by impact</span></div>
+              <div class="rows">
+                <div class="row"><span class="ri">🌱</span><span class="rt"><b>Whole Grains</b><em>No whole grains</em></span><span class="rv"></span><span class="d red"></span></div>
+                <div class="row"><span class="ri">🧂</span><span class="rt"><b>Sodium</b><em>Moderate sodium</em></span><span class="rv">264mg</span><span class="d amber"></span></div>
+                <div class="row"><span class="ri">🌾</span><span class="rt"><b>Fiber</b><em>Low fiber</em></span><span class="rv">1g</span><span class="d amber"></span></div>
+                <div class="row"><span class="ri">🐟</span><span class="rt"><b>Protein</b><em>Low protein</em></span><span class="rv">2g</span><span class="d amber"></span></div>
+                <div class="row"><span class="ri">🧊</span><span class="rt"><b>Total Sugar</b><em>Low sugar</em></span><span class="rv">1g</span><span class="d green"></span></div>
+                <div class="row"><span class="ri">🧊</span><span class="rt"><b>Added Sugar</b><em>Low added sugar</em></span><span class="rv">0g</span><span class="d green"></span></div>
+              </div>
+            </div>
+            <div class="tabbar">
+              <span>⌂<em>Home</em></span><span>▥<em>Scan</em></span><span>⌕<em>Search</em></span><span>◯<em>Profile</em></span>
+            </div>
+          </div>
+
+          <!-- SCREEN 2 · SWAP -->
+          <div class="screen" data-screen="2">
+            <div class="app-top"><span class="app-logo"><b>H</b> Helthy</span><span class="app-cart">🛒<em>3</em></span></div>
+            <div class="app-body">
+              <div class="crumb">‹ Back</div>
+              <div class="swap-title">A better swap for you</div>
+              <div class="swap-from">
+                <div class="prod-img sm">🥔</div>
+                <div><div class="prod-name sm">Potato Chips</div><span class="badge ok">OK Choice</span></div>
+              </div>
+              <div class="swap-arrow">↓ try instead</div>
+              <div class="swap-to">
+                <div class="prod-img sm">🫛</div>
+                <div><div class="prod-name sm">Lentil Snack Crisps</div><span class="badge great">Great Choice</span></div>
+              </div>
+              <div class="swap-wins">
+                <span class="win">＋ More fiber · 5g</span>
+                <span class="win">－ Less sodium · 110mg</span>
+                <span class="win">＋ More protein · 6g</span>
+              </div>
+              <button class="add-btn" type="button">Add to cart</button>
+            </div>
+            <div class="tabbar">
+              <span>⌂<em>Home</em></span><span>▥<em>Scan</em></span><span class="on">⌕<em>Search</em></span><span>◯<em>Profile</em></span>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
@@ -332,6 +519,47 @@ footer{ padding:56px 0 40px; }
     <div class="foot-note">© 2026 Helthy. All rights reserved. · shophelthy.com</div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var steps   = [].slice.call(document.querySelectorAll('.hiw-step'));
+  var screens = [].slice.call(document.querySelectorAll('.hiw .screen'));
+  if(!steps.length) return;
+  var i = 0, timer = null, DUR = 3600;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function show(n){
+    i = n;
+    steps.forEach(function(s,k){ s.classList.toggle('active', k===n); });
+    screens.forEach(function(s,k){ s.classList.toggle('show', k===n); });
+  }
+  function next(){ show((i+1) % steps.length); }
+  function start(){ stop(); if(!reduce){ timer = setInterval(next, DUR); } }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+
+  steps.forEach(function(s){
+    s.addEventListener('click', function(){ show(parseInt(s.dataset.i,10)); start(); });
+  });
+
+  // Pause while the tab is hidden; resume on return.
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){ stop(); } else { start(); }
+  });
+
+  // Only run the auto-cycle once the section scrolls into view.
+  var section = document.querySelector('.hiw');
+  if('IntersectionObserver' in window && section){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ e.isIntersecting ? start() : stop(); });
+    }, { threshold: 0.35 });
+    io.observe(section);
+  } else {
+    start();
+  }
+
+  show(0);
+})();
+</script>
 
 </body>
 </html>
