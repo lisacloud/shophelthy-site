@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>How Helthy works — Grocery shop smarter</title>
-<meta name="description" content="How Helthy works: shop online at your grocery store, sign in, and let Helthy guide you to healthier foods." />
+<title>How Helthy works — Scan, understand, swap</title>
+<meta name="description" content="Helthy is the food companion for diabetes. Scan any packaged food for an instant, diabetes-personalized read — and a better swap." />
 
 <meta property="og:title" content="How Helthy works" />
-<meta property="og:description" content="Shop online, sign in, and let Helthy guide you to healthier foods." />
+<meta property="og:description" content="Scan any food. Get a diabetes-smart read. Find a better swap." />
 <meta property="og:type" content="website" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,7 +85,7 @@ header{
 
 /* ---------- Hero ---------- */
 .hero{
-  padding:88px 0 56px;
+  padding:88px 0 60px;
   background:
     radial-gradient(1200px 500px at 80% -10%, var(--leaf) 0%, transparent 60%),
     var(--paper);
@@ -101,29 +101,30 @@ header{
 }
 h1{
   font-family:var(--serif); font-weight:600;
-  font-size:clamp(36px, 5.5vw, 56px); line-height:1.06; letter-spacing:-.02em;
-  max-width:18ch; margin:0 auto;
+  font-size:clamp(38px, 6vw, 60px); line-height:1.05; letter-spacing:-.02em;
+  max-width:16ch; margin:0 auto;
 }
 h1 .hl{ color:var(--green); }
 .hero p.lede{
   margin:22px auto 0; font-size:clamp(17px,2.2vw,20px);
   color:var(--ink-soft); max-width:56ch;
 }
-.installed{
+.store{
   display:inline-flex; align-items:center; gap:10px;
   margin-top:30px;
-  background:var(--leaf); border:1px solid var(--leaf-line);
-  color:var(--green-deep); font-weight:600; font-size:15px;
-  padding:12px 22px; border-radius:999px;
+  background:var(--green); color:#fff !important; font-weight:600; font-size:15px;
+  padding:13px 26px; border-radius:999px;
+  box-shadow:0 4px 14px rgba(56,104,64,.28);
+  transition:transform .15s;
 }
-.installed .check{
-  width:22px; height:22px; border-radius:50%; background:var(--green); color:#fff;
-  display:grid; place-items:center; font-size:13px;
-}
+.store:hover{ transform:translateY(-1px); }
+.store .apple{ font-size:18px; line-height:1; }
+.livenote{ margin-top:14px; font-size:14px; color:var(--green-soft); font-weight:600; }
+.livenote .dot{ color:#3fae5e; }
 
 /* ---------- Steps ---------- */
 .section{ padding:70px 0; }
-.section-head{ text-align:center; max-width:640px; margin:0 auto 54px; }
+.section-head{ text-align:center; max-width:660px; margin:0 auto 54px; }
 .section-head h2{
   font-family:var(--serif); font-weight:600; font-size:clamp(28px,4vw,40px);
   letter-spacing:-.02em; line-height:1.12;
@@ -139,14 +140,18 @@ h1 .hl{ color:var(--green); }
 }
 .step:last-child{ border-bottom:0; }
 .step-num{
-  width:60px; height:60px; border-radius:16px;
+  width:64px; height:64px; border-radius:16px;
   background:var(--green); color:#fff;
   display:grid; place-items:center;
-  font-family:var(--serif); font-weight:600; font-size:26px;
+  font-size:30px;
   box-shadow:0 4px 14px rgba(56,104,64,.28);
 }
+.step .kicker{
+  font-size:12.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--green-soft); margin-bottom:5px;
+}
 .step h3{
-  font-family:var(--serif); font-weight:600; font-size:23px; color:var(--green-deep);
+  font-family:var(--serif); font-weight:600; font-size:24px; color:var(--green-deep);
   margin-bottom:8px; line-height:1.2;
 }
 .step p{ color:var(--ink-soft); font-size:16px; }
@@ -156,31 +161,23 @@ h1 .hl{ color:var(--green); }
   color:var(--amber); font-size:14px; font-weight:500;
   padding:8px 14px; border-radius:10px;
 }
-.retail-line{ margin-top:14px; display:flex; flex-wrap:wrap; gap:8px; }
-.retail-line .chip{
-  background:#fff; border:1px solid var(--leaf-line);
-  padding:6px 13px; border-radius:999px;
-  font-weight:600; font-size:13.5px; color:var(--green-deep);
-}
 
-/* ---------- Icon guide ---------- */
-.guide{ background:var(--leaf); border-top:1px solid var(--leaf-line); border-bottom:1px solid var(--leaf-line); }
-.guide .wrap{ padding-top:66px; padding-bottom:66px; }
-.guide-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:840px; margin:44px auto 0; }
-.guide-card{
+/* ---------- Difference cards ---------- */
+.diff{ background:var(--leaf); border-top:1px solid var(--leaf-line); border-bottom:1px solid var(--leaf-line); }
+.diff .wrap{ padding-top:66px; padding-bottom:66px; }
+.diff-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:900px; margin:44px auto 0; }
+.diff-card{
   background:#fff; border:1px solid var(--leaf-line);
-  border-radius:18px; padding:30px 24px; text-align:center;
+  border-radius:18px; padding:30px 26px;
   box-shadow:0 1px 2px rgba(37,41,31,.04);
 }
-.guide-ico{
-  width:58px; height:58px; border-radius:50%;
-  display:grid; place-items:center; margin:0 auto 16px;
-  font-family:var(--serif); font-weight:600; font-size:28px; color:#fff;
+.diff-ico{
+  width:52px; height:52px; border-radius:14px;
+  background:var(--leaf); border:1px solid var(--leaf-line);
+  display:grid; place-items:center; font-size:26px; margin-bottom:18px;
 }
-.guide-ico.good{ background:var(--green); }
-.guide-ico.warn{ background:var(--amber); }
-.guide-ico.unknown{ background:var(--ink-faint); }
-.guide-card h4{ font-family:var(--serif); font-weight:600; font-size:17px; color:var(--ink); }
+.diff-card h4{ font-family:var(--serif); font-weight:600; font-size:19px; color:var(--green-deep); margin-bottom:8px; }
+.diff-card p{ color:var(--ink-soft); font-size:15px; }
 
 /* ---------- Support band ---------- */
 .band{
@@ -192,7 +189,7 @@ h1 .hl{ color:var(--green); }
   font-family:var(--serif); font-weight:500; font-size:clamp(24px,3.4vw,32px);
   line-height:1.3; max-width:24ch; margin:0 auto; letter-spacing:-.01em;
 }
-.band p{ margin-top:14px; color:#eafbe9; font-size:16.5px; max-width:46ch; margin-left:auto; margin-right:auto; }
+.band p{ margin-top:14px; color:#eafbe9; font-size:16.5px; max-width:48ch; margin-left:auto; margin-right:auto; }
 .band .btn{
   display:inline-block; margin-top:26px;
   background:#fff; color:var(--green-deep) !important;
@@ -211,7 +208,7 @@ footer{ padding:56px 0 40px; }
   font-size:13px; color:var(--ink-faint); }
 
 @media (max-width:860px){
-  .guide-grid{ grid-template-columns:1fr; }
+  .diff-grid{ grid-template-columns:1fr; }
   .menu{ display:none; }
   .hamburger{ display:block; }
   .band{ padding:44px 24px; }
@@ -229,7 +226,7 @@ footer{ padding:56px 0 40px; }
       <a href="index.html">About Helthy</a>
       <a href="how-it-works.html" class="active">How Helthy works</a>
       <a href="index.html#retailers">Retailers</a>
-      <a href="#" class="cta">Get the app</a>
+      <a href="#get" class="cta">Get the app</a>
     </nav>
     <button class="hamburger" aria-label="Menu">☰</button>
   </div>
@@ -239,9 +236,10 @@ footer{ padding:56px 0 40px; }
 <section class="hero">
   <div class="wrap">
     <span class="eyebrow">How Helthy works</span>
-    <h1>Healthier choices, right where you <span class="hl">already shop.</span></h1>
-    <p class="lede">Helthy adds simple, at-a-glance guidance to your online grocery store — so smarter choices take zero extra effort.</p>
-    <div class="installed"><span class="check">✓</span> Helthy has been successfully added to your browser!</div>
+    <h1>Scan. Understand. <span class="hl">Swap.</span></h1>
+    <p class="lede">Helthy is the food companion for diabetes. Point your phone at any packaged food for an instant, diabetes-personalized read — and a better swap. Not a generic 0–100 score.</p>
+    <a href="#get" class="store"><span class="apple"></span> Download on the App Store</a>
+    <div class="livenote"><span class="dot">●</span> Live today — a real app people scan with every day</div>
   </div>
 </section>
 
@@ -249,76 +247,73 @@ footer{ padding:56px 0 40px; }
 <section class="section">
   <div class="wrap">
     <div class="section-head">
-      <h2>Three simple steps</h2>
-      <p>From install to healthier shopping in under a minute.</p>
+      <h2>Three taps to a smarter choice</h2>
+      <p>Right at the shelf, in the moment you're deciding.</p>
     </div>
 
     <div class="step">
-      <div class="step-num">1</div>
+      <div class="step-num">📷</div>
       <div>
-        <h3>Visit the online grocery shop</h3>
-        <p>Head to your favorite grocery retailer's website and start shopping like you normally would. Helthy works across the major stores:</p>
-        <div class="retail-line">
-          <span class="chip">HEB</span>
-          <span class="chip">Walmart</span>
-          <span class="chip">Safeway</span>
-          <span class="chip">Instacart</span>
-          <span class="chip">Whole Foods Market</span>
-          <span class="chip">Kroger</span>
-        </div>
+        <div class="kicker">Step 1</div>
+        <h3>Scan</h3>
+        <p>Point at any barcode or nutrition label, right in the store. No typing, no searching — just aim your camera.</p>
       </div>
     </div>
 
     <div class="step">
-      <div class="step-num">2</div>
+      <div class="step-num">🧠</div>
       <div>
-        <h3>Sign in with the email you registered on the Helthy website</h3>
-        <p>Use the same email you signed up with so Helthy can personalize your guidance.</p>
-        <span class="hint">💡 Don't know which email to use? Check your inbox and look for Helthy's email.</span>
+        <div class="kicker">Step 2</div>
+        <h3>Understand</h3>
+        <p>Get a clear, diabetes-specific read of what that food actually does to you — built for diabetes from the ground up, not a one-size-fits-all score.</p>
       </div>
     </div>
 
     <div class="step">
-      <div class="step-num">3</div>
+      <div class="step-num">🔄</div>
       <div>
-        <h3>Enjoy online grocery shopping</h3>
-        <p>Look for the Helthy icons to guide you toward foods that are healthier — as you browse and add to cart.</p>
+        <div class="kicker">Step 3</div>
+        <h3>Swap</h3>
+        <p>See better alternatives tailored to your needs, so you can put a smarter choice in the cart on the spot.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ ICON GUIDE ============ -->
-<section class="guide">
+<!-- ============ WHAT MAKES IT DIFFERENT ============ -->
+<section class="diff">
   <div class="wrap">
     <div class="section-head" style="margin-bottom:0">
-      <h2>Your at-a-glance guide</h2>
-      <p>Three simple icons tell you everything you need to know.</p>
+      <h2>Built for diabetes, from the ground up</h2>
+      <p>Most food scanners give everyone the same generic number. Helthy is different.</p>
     </div>
-    <div class="guide-grid">
-      <div class="guide-card">
-        <div class="guide-ico good">H</div>
-        <h4>Meets Helthy's criteria</h4>
+    <div class="diff-grid">
+      <div class="diff-card">
+        <div class="diff-ico">🎯</div>
+        <h4>Personalized to you</h4>
+        <p>A diabetes-specific read tuned to what matters for prediabetes and type 2 — not a generic 0–100 score.</p>
       </div>
-      <div class="guide-card">
-        <div class="guide-ico warn">!</div>
-        <h4>Doesn't meet Helthy's criteria</h4>
+      <div class="diff-card">
+        <div class="diff-ico">🔄</div>
+        <h4>Always a better swap</h4>
+        <p>We don't just flag problems — we show you a healthier alternative you can actually buy.</p>
       </div>
-      <div class="guide-card">
-        <div class="guide-ico unknown">?</div>
-        <h4>Missing nutritional information</h4>
+      <div class="diff-card">
+        <div class="diff-ico">🛒</div>
+        <h4>Right at the shelf</h4>
+        <p>Guidance in the exact moment you're choosing, so smarter choices take zero extra effort.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ============ SUPPORT BAND ============ -->
-<section class="section">
+<section class="section" id="get">
   <div class="wrap">
     <div class="band">
-      <h2>Encounter an issue? No worries.</h2>
-      <p>Click "Report issue to Helthy" any time to leave us feedback — we read every message.</p>
-      <a href="mailto:contact.lisazhu@gmail.com" class="btn">Contact us</a>
+      <h2>Ready to shop smarter?</h2>
+      <p>Download Helthy and scan your first product today. Questions or feedback? We read every message.</p>
+      <a href="#" class="btn">Download on the App Store</a>
     </div>
   </div>
 </section>
@@ -331,7 +326,7 @@ footer{ padding:56px 0 40px; }
       <div class="links">
         <a href="#">Terms of Use</a>
         <a href="#">Privacy Policy</a>
-        <a href="mailto:contact.lisazhu@gmail.com">Contact</a>
+        <a href="mailto:lisa@shophelthy.com">Contact</a>
       </div>
     </div>
     <div class="foot-note">© 2026 Helthy. All rights reserved. · shophelthy.com</div>
