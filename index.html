@@ -349,7 +349,7 @@ footer{ padding:56px 0 40px; }
 /* ---------- Beta signup modal ---------- */
 .beta-overlay{ position:fixed; inset:0; background:rgba(20,23,15,.55); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; z-index:100; padding:20px; }
 .beta-overlay.open{ display:flex; }
-.beta-modal{ background:var(--card); border-radius:22px; max-width:440px; width:100%; padding:34px 32px 28px; box-shadow:0 30px 70px rgba(0,0,0,.3); position:relative; animation:betaIn .22s ease; }
+.beta-modal{ background:var(--card); border-radius:22px; max-width:440px; width:100%; padding:34px 32px 28px; box-shadow:0 30px 70px rgba(0,0,0,.3); position:relative; animation:betaIn .22s ease; max-height:90vh; overflow-y:auto; }
 @keyframes betaIn{ from{ opacity:0; transform:translateY(12px) scale(.98); } to{ opacity:1; transform:none; } }
 .beta-close{ position:absolute; top:14px; right:16px; background:none; border:0; font-size:26px; color:var(--ink-faint); cursor:pointer; line-height:1; }
 .beta-close:hover{ color:var(--ink); }
@@ -359,6 +359,13 @@ footer{ padding:56px 0 40px; }
 .beta-field label{ display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px; }
 .beta-field input{ width:100%; padding:12px 14px; border:1px solid var(--hairline); border-radius:11px; font-family:inherit; font-size:15px; background:var(--paper); color:var(--ink); }
 .beta-field input:focus{ outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(56,104,64,.13); }
+.beta-field select{ width:100%; padding:12px 14px; border:1px solid var(--hairline); border-radius:11px; font-family:inherit; font-size:15px; background:var(--paper); color:var(--ink); cursor:pointer; }
+.beta-field select:focus{ outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(56,104,64,.13); }
+.beta-qlabel{ display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:8px; }
+.seg{ display:flex; gap:8px; flex-wrap:wrap; }
+.seg-opt{ flex:1 1 auto; padding:10px 12px; border:1px solid var(--hairline); border-radius:10px; background:var(--paper); font-family:inherit; font-size:13.5px; font-weight:600; color:var(--ink-soft); cursor:pointer; transition:background .15s, border-color .15s, color .15s; }
+.seg-opt:hover{ border-color:var(--green-soft); }
+.seg-opt.active{ background:var(--leaf); border-color:var(--green); color:var(--green-deep); }
 .beta-submit{ margin-top:6px; background:var(--green); color:#fff; border:0; border-radius:999px; padding:14px; font-family:inherit; font-weight:600; font-size:15px; cursor:pointer; transition:transform .15s; }
 .beta-submit:hover{ transform:translateY(-1px); }
 .beta-submit:disabled{ opacity:.6; cursor:default; transform:none; }
@@ -622,7 +629,32 @@ footer{ padding:56px 0 40px; }
       <form class="beta-form" id="betaForm" novalidate>
         <div class="beta-field"><label for="bName">Name</label><input id="bName" type="text" autocomplete="name" required></div>
         <div class="beta-field"><label for="bEmail">Email</label><input id="bEmail" type="email" autocomplete="email" required></div>
-        <div class="beta-field"><label for="bPhone">Phone</label><input id="bPhone" type="tel" autocomplete="tel" required></div>
+        <div class="beta-field">
+          <label for="bPersona">Which best describes you?</label>
+          <select id="bPersona" required>
+            <option value="" disabled selected>Select one…</option>
+            <option>I have type 2 diabetes</option>
+            <option>I have prediabetes</option>
+            <option>I have another type of diabetes</option>
+            <option>I shop for someone with diabetes/prediabetes</option>
+            <option>Just interested in the app</option>
+          </select>
+        </div>
+        <div class="beta-field">
+          <span class="beta-qlabel">What phone do you use?</span>
+          <div class="seg" id="segPhone">
+            <button type="button" class="seg-opt" data-val="iPhone">iPhone</button>
+            <button type="button" class="seg-opt" data-val="Android">Android</button>
+            <button type="button" class="seg-opt" data-val="Other">Other</button>
+          </div>
+        </div>
+        <div class="beta-field">
+          <span class="beta-qlabel">Are you open to sharing quick feedback?</span>
+          <div class="seg" id="segFeedback">
+            <button type="button" class="seg-opt" data-val="Yes, I'm in">Yes, I'm in</button>
+            <button type="button" class="seg-opt" data-val="Maybe — tell me more first">Maybe, tell me more</button>
+          </div>
+        </div>
         <div class="beta-error" id="betaError"></div>
         <button class="beta-submit" type="submit">Request access</button>
         <div class="beta-note">We'll only use this to contact you about the Helthy beta.</div>
@@ -647,8 +679,19 @@ footer{ padding:56px 0 40px; }
   var formWrap = document.getElementById('betaFormWrap');
   var success  = document.getElementById('betaSuccess');
   var errEl    = document.getElementById('betaError');
-  var nameEl=document.getElementById('bName'), emailEl=document.getElementById('bEmail'), phoneEl=document.getElementById('bPhone');
+  var nameEl=document.getElementById('bName'), emailEl=document.getElementById('bEmail'), personaEl=document.getElementById('bPersona');
   var source='';
+
+  /* Segmented single-select controls */
+  function segVal(id){ var a=document.querySelector('#'+id+' .seg-opt.active'); return a ? a.getAttribute('data-val') : ''; }
+  [].forEach.call(document.querySelectorAll('.seg'), function(seg){
+    seg.addEventListener('click', function(e){
+      var b=e.target.closest('.seg-opt'); if(!b) return;
+      [].forEach.call(seg.querySelectorAll('.seg-opt'), function(o){ o.classList.remove('active'); });
+      b.classList.add('active');
+    });
+  });
+  function resetSegs(){ [].forEach.call(document.querySelectorAll('.seg-opt'), function(o){ o.classList.remove('active'); }); }
 
   function open(src){
     source = src || '';
@@ -673,13 +716,16 @@ footer{ padding:56px 0 40px; }
   form.addEventListener('submit', function(e){
     e.preventDefault();
     errEl.style.display='none';
-    var name=nameEl.value.trim(), email=emailEl.value.trim(), phone=phoneEl.value.trim();
-    if(!name)                     return showErr('Please enter your name.');
-    if(!isEmail(email))           return showErr('Please enter a valid email address.');
-    if(phone.replace(/\D/g,'').length < 7) return showErr('Please enter a valid phone number.');
+    var name=nameEl.value.trim(), email=emailEl.value.trim();
+    var persona=personaEl.value, phoneType=segVal('segPhone'), feedback=segVal('segFeedback');
+    if(!name)             return showErr('Please enter your name.');
+    if(!isEmail(email))   return showErr('Please enter a valid email address.');
+    if(!persona)          return showErr('Please tell us which best describes you.');
+    if(!phoneType)        return showErr('Please select what phone you use.');
+    if(!feedback)         return showErr('Please let us know if you’re open to feedback.');
 
     var btn=form.querySelector('.beta-submit'); btn.disabled=true; btn.textContent='Submitting…';
-    var payload={ name:name, email:email, phone:phone, source:source, page:location.pathname, ts:new Date().toISOString() };
+    var payload={ name:name, email:email, persona:persona, phoneType:phoneType, feedback:feedback, source:source, page:location.pathname, ts:new Date().toISOString() };
 
     if(ENDPOINT){
       fetch(ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) })
@@ -688,7 +734,7 @@ footer{ padding:56px 0 40px; }
     } else {
       /* Interim fallback until the Google Sheet endpoint is connected: open a pre-filled email. */
       window.location.href='mailto:lisa@shophelthy.com?subject='+encodeURIComponent('Helthy beta signup')
-        +'&body='+encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nPhone: '+phone+'\nSource: '+source);
+        +'&body='+encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nDescribes: '+persona+'\nPhone: '+phoneType+'\nFeedback: '+feedback+'\nSource: '+source);
       formWrap.style.display='none'; success.style.display='block';
     }
   });
