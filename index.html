@@ -582,7 +582,6 @@ footer{ padding:56px 0 40px; }
         <span class="eyebrow">Contact</span>
         <h2>Questions? We're here to help.</h2>
         <p>Our team is dedicated to giving you the best possible experience. Send us a note — we read every message and usually reply within a day.</p>
-        <a class="contact-email" href="mailto:lisa@shophelthy.com">lisa@shophelthy.com</a>
       </div>
       <div class="contact-formwrap" id="contactFormWrap">
         <form class="beta-form contact-form" id="contactForm" novalidate>
@@ -610,7 +609,7 @@ footer{ padding:56px 0 40px; }
       <div class="links">
         <a href="#">Terms of Use</a>
         <a href="#">Privacy Policy</a>
-        <a href="mailto:lisa@shophelthy.com">Contact</a>
+        <a href="#contact" class="js-contact-link">Contact</a>
       </div>
     </div>
     <div class="foot-note">© 2026 Helthy. All rights reserved. · shophelthy.com</div>
@@ -784,6 +783,14 @@ footer{ padding:56px 0 40px; }
   var success = document.getElementById('contactSuccess');
   var errEl = document.getElementById('contactError');
   var nameEl=document.getElementById('cName'), emailEl=document.getElementById('cEmail'), msgEl=document.getElementById('cMessage');
+
+  // Footer "Contact" link: scroll to the form and focus it.
+  document.querySelectorAll('.js-contact-link').forEach(function(a){
+    a.addEventListener('click', function(){
+      wrap.style.display=''; success.style.display='none';
+      setTimeout(function(){ nameEl.focus({ preventScroll:true }); }, 500);
+    });
+  });
 
   function showErr(m){ errEl.textContent=m; errEl.style.display='block'; }
   function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
