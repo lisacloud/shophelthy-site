@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Become a Helthy beta tester</title>
+<meta name="description" content="You're invited to join the Helthy beta — help shape the app that makes grocery shopping smarter with diabetes." />
+<meta name="robots" content="noindex" />
+
+<!-- Social preview -->
+<meta property="og:title" content="Become a Helthy beta tester" />
+<meta property="og:description" content="Get early access to Helthy and help shape the app." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --green:      #386840;
+  --green-deep: #2a5232;
+  --green-soft: #5a9a6f;
+  --leaf:       #F2FCE2;
+  --leaf-line:  #dcedc8;
+  --paper:      #fbfaf7;
+  --card:       #ffffff;
+  --ink:        #25291f;
+  --ink-soft:   #6b7263;
+  --ink-faint:  #9aa191;
+  --hairline:   #e6e4dc;
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Instrument Sans", -apple-system, "Helvetica Neue", sans-serif;
+  --maxw: 1440px;
+  --site-margin: clamp(1.25rem, 0.28rem + 4.14vw, 4rem);
+  --wrap-pad:    clamp(2.5rem, 1.97rem + 2.26vw, 4rem);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{ color:inherit; text-decoration:none; }
+
+.wrap{ width:calc(100% - var(--site-margin)*2); max-width:var(--maxw); margin:0 auto; padding:0 var(--wrap-pad); }
+
+/* ---------- Header ---------- */
+header{
+  position:sticky; top:0; z-index:50;
+  background:rgba(251,250,247,.85);
+  backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--hairline);
+}
+.nav{
+  display:flex; align-items:center; justify-content:space-between;
+  height:72px;
+}
+.brand{
+  display:flex; align-items:center; gap:11px;
+  font-family:var(--serif); font-weight:600; font-size:23px; letter-spacing:-.01em;
+  color:var(--green-deep);
+}
+.brand .mark{
+  width:34px; height:34px; border-radius:9px;
+  background:var(--green); color:#fff;
+  display:grid; place-items:center;
+  font-family:var(--serif); font-weight:600; font-size:20px;
+  box-shadow:0 2px 8px rgba(56,104,64,.28);
+}
+.menu{ display:flex; align-items:center; gap:34px; }
+.menu a{ font-size:15px; font-weight:500; color:var(--ink-soft); transition:color .18s; }
+.menu a:hover{ color:var(--green-deep); }
+
+/* ---------- Invite ---------- */
+.invite{
+  padding:64px 0 88px;
+  background:
+    radial-gradient(1100px 600px at 88% 10%, var(--leaf) 0%, transparent 55%),
+    var(--paper);
+}
+.invite-card{
+  display:grid; grid-template-columns:1.05fr 1fr; gap:56px; align-items:start;
+  background:var(--card); border:1px solid var(--hairline); border-radius:26px;
+  padding:56px 52px; box-shadow:0 1px 2px rgba(37,41,31,.04);
+  max-width:1000px; margin:0 auto;
+}
+.eyebrow{
+  display:inline-block;
+  font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--green-soft);
+  background:var(--leaf); border:1px solid var(--leaf-line);
+  padding:6px 14px; border-radius:999px;
+  margin-bottom:22px;
+}
+.invite-copy h1{
+  font-family:var(--serif); font-weight:600;
+  font-size:clamp(30px, 3.6vw, 42px); line-height:1.12; letter-spacing:-.02em;
+}
+.invite-copy h1 .hl{ color:var(--green); }
+.invite-copy p.lede{ margin-top:18px; font-size:17px; color:var(--ink-soft); max-width:46ch; }
+.perks{ margin-top:28px; display:flex; flex-direction:column; gap:14px; }
+.perk{ display:flex; gap:14px; align-items:flex-start; }
+.perk .ico{
+  width:40px; height:40px; border-radius:12px; flex-shrink:0;
+  background:var(--leaf); border:1px solid var(--leaf-line);
+  display:grid; place-items:center; font-size:19px;
+}
+.perk b{ display:block; font-size:15px; }
+.perk span{ font-size:14px; color:var(--ink-soft); }
+.invite-note{ margin-top:28px; font-size:13.5px; color:var(--ink-faint); }
+
+/* ---------- Form ---------- */
+.beta-form{ display:flex; flex-direction:column; gap:13px; }
+.form-title{ font-family:var(--serif); font-weight:600; font-size:22px; color:var(--green-deep); margin-bottom:4px; }
+.beta-field label{ display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px; }
+.beta-field input{ width:100%; padding:12px 14px; border:1px solid var(--hairline); border-radius:11px; font-family:inherit; font-size:15px; background:var(--paper); color:var(--ink); }
+.beta-field input:focus{ outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(56,104,64,.13); }
+.beta-field select{ width:100%; padding:12px 14px; border:1px solid var(--hairline); border-radius:11px; font-family:inherit; font-size:15px; background:var(--paper); color:var(--ink); cursor:pointer; }
+.beta-field select:focus{ outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(56,104,64,.13); }
+.beta-qlabel{ display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:8px; }
+.seg{ display:flex; gap:8px; flex-wrap:wrap; }
+.seg-opt{ flex:1 1 auto; padding:10px 12px; border:1px solid var(--hairline); border-radius:10px; background:var(--paper); font-family:inherit; font-size:13.5px; font-weight:600; color:var(--ink-soft); cursor:pointer; transition:background .15s, border-color .15s, color .15s; }
+.seg-opt:hover{ border-color:var(--green-soft); }
+.seg-opt.active{ background:var(--leaf); border-color:var(--green); color:var(--green-deep); }
+.beta-submit{ margin-top:6px; background:var(--green); color:#fff; border:0; border-radius:999px; padding:14px; font-family:inherit; font-weight:600; font-size:15px; cursor:pointer; transition:transform .15s; }
+.beta-submit:hover{ transform:translateY(-1px); }
+.beta-submit:disabled{ opacity:.6; cursor:default; transform:none; }
+.beta-error{ color:#c0392b; font-size:13.5px; display:none; }
+.beta-note{ font-size:12px; color:var(--ink-faint); text-align:center; margin-top:2px; }
+.beta-success{ display:none; text-align:center; padding:36px 0; }
+.beta-success .tick{ width:58px; height:58px; border-radius:50%; background:var(--leaf); border:1px solid var(--leaf-line); color:var(--green); display:grid; place-items:center; font-size:28px; margin:0 auto 16px; }
+.beta-success h3{ font-family:var(--serif); font-weight:600; font-size:26px; color:var(--green-deep); margin-bottom:8px; }
+.beta-success p{ color:var(--ink-soft); font-size:15px; }
+
+/* ---------- Footer ---------- */
+footer{ padding:40px 0; }
+.foot-note{ text-align:center; font-size:13px; color:var(--ink-faint); }
+
+@media (max-width:860px){
+  .menu{ display:none; }
+  .invite{ padding:36px 0 64px; }
+  .invite-card{ grid-template-columns:1fr; gap:40px; padding:36px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand"><span class="mark">H</span>Helthy</a>
+    <nav class="menu">
+      <a href="index.html">About Helthy</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ INVITE ============ -->
+<section class="invite">
+  <div class="wrap">
+    <div class="invite-card">
+
+      <div class="invite-copy">
+        <span class="eyebrow">You&rsquo;re invited</span>
+        <h1>Help shape <span class="hl">Helthy</span> as one of our first beta testers.</h1>
+        <p class="lede">Helthy gives you a clear, diabetes-specific read of any grocery item — scan, understand, swap, right at the shelf. Before we launch, we&rsquo;re inviting a small group of 30 people to try it first.</p>
+        <div class="perks">
+          <div class="perk"><span class="ico">📱</span><div><b>Get the app before anyone else</b><span>Early access to the Helthy beta on your phone.</span></div></div>
+          <div class="perk"><span class="ico">🛒</span><div><b>Use it on real grocery runs or at home</b><span>No homework — just shop the way you already do.</span></div></div>
+          <div class="perk"><span class="ico">💬</span><div><b>Tell us what you really think</b><span>A few minutes of honest feedback, on your schedule.</span></div></div>
+        </div>
+        <p class="invite-note">Spots are limited — we&rsquo;re keeping the first group small so every voice counts.</p>
+      </div>
+
+      <div>
+        <div class="beta-form-wrap" id="betaFormWrap">
+          <form class="beta-form" id="betaForm" novalidate>
+            <div class="form-title">Count me in — takes 10 seconds</div>
+            <div class="beta-field"><label for="bName">Name</label><input id="bName" type="text" autocomplete="name" required></div>
+            <div class="beta-field"><label for="bEmail">Email</label><input id="bEmail" type="email" autocomplete="email" required></div>
+            <div class="beta-field">
+              <label for="bPersona">Which best describes you?</label>
+              <select id="bPersona" required>
+                <option value="" disabled selected>Select one…</option>
+                <option>I have type 2 diabetes</option>
+                <option>I have prediabetes</option>
+                <option>I have another type of diabetes</option>
+                <option>I shop for someone with diabetes/prediabetes</option>
+                <option>Just interested in the app</option>
+              </select>
+            </div>
+            <div class="beta-field">
+              <span class="beta-qlabel">What phone do you use?</span>
+              <div class="seg" id="segPhone">
+                <button type="button" class="seg-opt" data-val="iPhone">iPhone</button>
+                <button type="button" class="seg-opt" data-val="Android">Android</button>
+                <button type="button" class="seg-opt" data-val="Other">Other</button>
+              </div>
+            </div>
+            <div class="beta-field">
+              <span class="beta-qlabel">Are you open to sharing quick feedback?</span>
+              <div class="seg" id="segFeedback">
+                <button type="button" class="seg-opt" data-val="Yes, I'm in">Yes, I&rsquo;m in</button>
+                <button type="button" class="seg-opt" data-val="Maybe — tell me more first">Maybe, tell me more</button>
+              </div>
+            </div>
+            <div class="beta-error" id="betaError"></div>
+            <button class="beta-submit" type="submit">Become a beta tester</button>
+            <div class="beta-note">We&rsquo;ll only use this to contact you about the Helthy beta.</div>
+          </form>
+        </div>
+        <div class="beta-success" id="betaSuccess">
+          <div class="tick">&#10003;</div>
+          <h3>You&rsquo;re in!</h3>
+          <p>Thanks for joining the Helthy beta — watch your inbox for your invite.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-note">© 2026 Helthy. All rights reserved. · <a href="https://www.shophelthy.com">shophelthy.com</a></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* Same Apps Script endpoint as the main site forms. */
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycby8HccZtLiljAf8HfF-4yr1kD08CntTjbMhBhu5aFNGMXk-t2om5hIQcOIrq3n4S6q7/exec';
+
+  var form     = document.getElementById('betaForm');
+  var formWrap = document.getElementById('betaFormWrap');
+  var success  = document.getElementById('betaSuccess');
+  var errEl    = document.getElementById('betaError');
+  var nameEl=document.getElementById('bName'), emailEl=document.getElementById('bEmail'), personaEl=document.getElementById('bPersona');
+
+  /* Pre-fill name + email from the invite link (?name=…&email=…). */
+  try{
+    var q = new URLSearchParams(location.search);
+    if(q.get('name'))  nameEl.value  = q.get('name');
+    if(q.get('email')) emailEl.value = q.get('email');
+  }catch(e){}
+
+  /* Segmented single-select controls */
+  function segVal(id){ var a=document.querySelector('#'+id+' .seg-opt.active'); return a ? a.getAttribute('data-val') : ''; }
+  [].forEach.call(document.querySelectorAll('.seg'), function(seg){
+    seg.addEventListener('click', function(e){
+      var b=e.target.closest('.seg-opt'); if(!b) return;
+      [].forEach.call(seg.querySelectorAll('.seg-opt'), function(o){ o.classList.remove('active'); });
+      b.classList.add('active');
+    });
+  });
+
+  function showErr(m){ errEl.textContent=m; errEl.style.display='block'; }
+  function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    errEl.style.display='none';
+    var name=nameEl.value.trim(), email=emailEl.value.trim();
+    var persona=personaEl.value, phoneType=segVal('segPhone'), feedback=segVal('segFeedback');
+    if(!name)             return showErr('Please enter your name.');
+    if(!isEmail(email))   return showErr('Please enter a valid email address.');
+    if(!persona)          return showErr('Please tell us which best describes you.');
+    if(!phoneType)        return showErr('Please select what phone you use.');
+    if(!feedback)         return showErr('Please let us know if you’re open to feedback.');
+
+    var btn=form.querySelector('.beta-submit'); btn.disabled=true; btn.textContent='Submitting…';
+    var payload={ name:name, email:email, persona:persona, phoneType:phoneType, feedback:feedback, source:'email-invite', page:location.pathname, ts:new Date().toISOString() };
+
+    fetch(ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) })
+      .then(function(){ formWrap.style.display='none'; success.style.display='block'; })
+      .catch(function(){ btn.disabled=false; btn.textContent='Become a beta tester'; showErr('Something went wrong — please try again.'); });
+  });
+})();
+</script>
+
+</body>
+</html>
