@@ -227,24 +227,6 @@ footer{ padding:56px 0 40px; }
 .foot-note{ margin-top:26px; padding-top:22px; border-top:1px solid var(--hairline);
   font-size:13px; color:var(--ink-faint); }
 
-/* ---------- Responsive ---------- */
-@media (max-width:860px){
-  .wrap{ padding-left:0; padding-right:0; }
-  .cards{ grid-template-columns:1fr; }
-  .team-grid{ grid-template-columns:repeat(2,1fr); }
-  .menu{ display:none; }
-  .hamburger{ display:block; }
-  .band{ padding:48px 26px; }
-  .hero-grid{ grid-template-columns:1fr; gap:36px; }
-  .hero-media{ order:-1; }
-  .hero-media img{ max-width:300px; }
-  h1{ max-width:none; }
-  .hero p.lede{ max-width:none; }
-  .hiw{ grid-template-columns:1fr; gap:40px; }
-  .hiw-phone-wrap{ order:-1; }
-  .contact-card{ grid-template-columns:1fr; gap:28px; padding:36px 24px; }
-}
-
 /* ---------- Interactive Scan / Understand / Swap ---------- */
 .hiw{
   display:grid; grid-template-columns:1fr 340px; gap:72px; align-items:center;
@@ -399,6 +381,25 @@ footer{ padding:56px 0 40px; }
 .contact-success .tick{ width:58px; height:58px; border-radius:50%; background:var(--leaf); border:1px solid var(--leaf-line); color:var(--green); display:grid; place-items:center; font-size:28px; margin:0 auto 16px; }
 .contact-success h3{ font-family:var(--serif); font-weight:600; font-size:24px; color:var(--green-deep); margin-bottom:8px; }
 .contact-success p{ color:var(--ink-soft); font-size:15px; }
+
+/* ---------- Responsive (must stay LAST in this stylesheet: these overrides
+   lose to any equal-specificity rule written after them) ---------- */
+@media (max-width:860px){
+  .wrap{ padding-left:0; padding-right:0; }
+  .cards{ grid-template-columns:1fr; }
+  .team-grid{ grid-template-columns:repeat(2,1fr); }
+  .menu a:not(.cta){ display:none; }
+  .band{ padding:48px 26px; }
+  .hero-grid{ grid-template-columns:1fr; gap:36px; }
+  .hero-media{ order:-1; }
+  .hero-media img{ max-width:300px; }
+  h1{ max-width:none; }
+  .hero p.lede{ max-width:none; }
+  .hiw{ grid-template-columns:1fr; gap:40px; }
+  .hiw-phone-wrap{ order:-1; }
+  .contact-card{ grid-template-columns:1fr; gap:28px; padding:36px 24px; }
+  .beta-field input, .beta-field select, .contact-form .beta-field textarea{ font-size:16px; }
+}
 </style>
 </head>
 <body>
@@ -411,7 +412,6 @@ footer{ padding:56px 0 40px; }
       <a href="index.html" class="active">About Helthy</a>
       <a href="#" class="cta" data-beta="nav">Get beta access</a>
     </nav>
-    <button class="hamburger" aria-label="Menu">☰</button>
   </div>
 </header>
 
