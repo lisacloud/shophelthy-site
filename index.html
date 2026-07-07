@@ -422,7 +422,7 @@ footer{ padding:56px 0 40px; }
       <h1>Using science and clinical research,<br class="hero-br"> to help you <span class="hl">grocery shop smarter.</span></h1>
       <p class="lede">At Helthy, we believe nutritional labels shouldn't be a barrier to living a smarter and healthier life with diabetes. We've made it our mission to bring you the relevant, healthier facts you need to know.</p>
       <div class="hero-actions">
-        <a href="mailto:lisa@shophelthy.com?subject=Helthy%20beta%20access" class="btn-solid" data-beta="hero">Get beta access</a>
+        <a href="mailto:hello.lisazhu@gmail.com?subject=Helthy%20beta%20access" class="btn-solid" data-beta="hero">Get beta access</a>
       </div>
     </div>
     <div class="hero-media">
@@ -766,7 +766,7 @@ footer{ padding:56px 0 40px; }
         .catch(function(){ btn.disabled=false; btn.textContent='Request access'; showErr('Something went wrong — please try again.'); });
     } else {
       /* Interim fallback until the Google Sheet endpoint is connected: open a pre-filled email. */
-      window.location.href='mailto:lisa@shophelthy.com?subject='+encodeURIComponent('Helthy beta signup')
+      window.location.href='mailto:hello.lisazhu@gmail.com?subject='+encodeURIComponent('Helthy beta signup')
         +'&body='+encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nDescribes: '+persona+'\nPhone: '+phoneType+'\nFeedback: '+feedback+'\nSource: '+source);
       formWrap.style.display='none'; success.style.display='block';
     }
@@ -811,7 +811,7 @@ footer{ padding:56px 0 40px; }
         .then(function(){ wrap.style.display='none'; success.style.display='block'; })
         .catch(function(){ btn.disabled=false; btn.textContent='Send message'; showErr('Something went wrong — please try again.'); });
     } else {
-      window.location.href='mailto:lisa@shophelthy.com?subject='+encodeURIComponent('Helthy — website question')
+      window.location.href='mailto:hello.lisazhu@gmail.com?subject='+encodeURIComponent('Helthy — website question')
         +'&body='+encodeURIComponent('Name: '+name+'\nEmail: '+email+'\n\n'+message);
       wrap.style.display='none'; success.style.display='block';
     }
