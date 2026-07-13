@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Helthy beta — pre-test survey</title>
+<meta name="description" content="Help us build Helthy for you — 12 quick questions." />
+<meta name="robots" content="noindex" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --green:      #386840;
+  --green-deep: #2a5232;
+  --green-soft: #5a9a6f;
+  --leaf:       #F2FCE2;
+  --leaf-line:  #dcedc8;
+  --paper:      #fbfaf7;
+  --card:       #ffffff;
+  --ink:        #25291f;
+  --ink-soft:   #6b7263;
+  --ink-faint:  #9aa191;
+  --hairline:   #e6e4dc;
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Instrument Sans", -apple-system, "Helvetica Neue", sans-serif;
+  --maxw: 1440px;
+  --site-margin: clamp(1.25rem, 0.28rem + 4.14vw, 4rem);
+  --wrap-pad:    clamp(2.5rem, 1.97rem + 2.26vw, 4rem);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{ color:inherit; text-decoration:none; }
+.wrap{ width:calc(100% - var(--site-margin)*2); max-width:var(--maxw); margin:0 auto; padding:0 var(--wrap-pad); }
+
+/* ---------- Header ---------- */
+header{
+  position:sticky; top:0; z-index:50;
+  background:rgba(251,250,247,.85);
+  backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--hairline);
+}
+.nav{ display:flex; align-items:center; justify-content:space-between; height:72px; }
+.brand{
+  display:flex; align-items:center; gap:11px;
+  font-family:var(--serif); font-weight:600; font-size:23px; letter-spacing:-.01em;
+  color:var(--green-deep);
+}
+.brand .mark{
+  width:34px; height:34px; border-radius:9px;
+  background:var(--green); color:#fff;
+  display:grid; place-items:center;
+  font-family:var(--serif); font-weight:600; font-size:20px;
+  box-shadow:0 2px 8px rgba(56,104,64,.28);
+}
+
+/* ---------- Survey ---------- */
+.survey{
+  padding:56px 0 88px;
+  background:
+    radial-gradient(1100px 600px at 88% 6%, var(--leaf) 0%, transparent 55%),
+    var(--paper);
+}
+.survey-card{
+  background:var(--card); border:1px solid var(--hairline); border-radius:26px;
+  padding:48px 48px 40px; box-shadow:0 1px 2px rgba(37,41,31,.04);
+  max-width:720px; margin:0 auto;
+}
+.eyebrow{
+  display:inline-block;
+  font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--green-soft);
+  background:var(--leaf); border:1px solid var(--leaf-line);
+  padding:6px 14px; border-radius:999px;
+  margin-bottom:20px;
+}
+.survey-card h1{
+  font-family:var(--serif); font-weight:600;
+  font-size:clamp(26px, 3.4vw, 36px); line-height:1.14; letter-spacing:-.02em;
+}
+.survey-card p.lede{ margin-top:14px; font-size:16px; color:var(--ink-soft); }
+
+.sec{ margin-top:38px; }
+.sec-title{
+  font-family:var(--serif); font-weight:600; font-size:20px; color:var(--green-deep);
+  padding-bottom:10px; border-bottom:1px solid var(--hairline); margin-bottom:22px;
+}
+.sec-note{ font-size:13px; color:var(--ink-faint); margin:-14px 0 20px; }
+
+.q{ margin-bottom:26px; }
+.q-label{ display:block; font-size:15px; font-weight:600; color:var(--ink); margin-bottom:10px; }
+.q-label em{ font-style:normal; font-weight:500; font-size:13px; color:var(--ink-faint); }
+
+.opts{ display:flex; flex-direction:column; gap:8px; }
+.opts.grid2{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.opt{
+  display:flex; align-items:center; gap:10px;
+  padding:11px 14px; border:1px solid var(--hairline); border-radius:10px;
+  background:var(--paper); cursor:pointer;
+  font-size:14.5px; font-weight:500; color:var(--ink);
+  transition:background .15s, border-color .15s;
+}
+.opt:hover{ border-color:var(--green-soft); }
+.opt input{ accent-color:var(--green); width:17px; height:17px; margin:0; flex-shrink:0; cursor:pointer; }
+.opt:has(input:checked){ background:var(--leaf); border-color:var(--green); color:var(--green-deep); }
+
+.beta-field label{ display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px; }
+.beta-field input, .beta-field textarea{
+  width:100%; padding:12px 14px; border:1px solid var(--hairline); border-radius:11px;
+  font-family:inherit; font-size:15px; background:var(--paper); color:var(--ink);
+}
+.beta-field textarea{ resize:vertical; min-height:88px; }
+.beta-field input:focus, .beta-field textarea:focus{ outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(56,104,64,.13); }
+.idrow{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:26px; }
+.other-input{ display:none; margin-top:8px; }
+.other-input.show{ display:block; }
+#qDiagnosed, #qDiagnosedLoved, #qDiabetesHardest{ display:none; }
+#qDiagnosed.show, #qDiagnosedLoved.show, #qDiabetesHardest.show{ display:block; }
+
+.beta-error{ color:#c0392b; font-size:13.5px; display:none; margin-bottom:12px; }
+.beta-submit{
+  width:100%; background:var(--green); color:#fff; border:0; border-radius:999px;
+  padding:15px; font-family:inherit; font-weight:600; font-size:15.5px; cursor:pointer;
+  transition:transform .15s;
+}
+.beta-submit:hover{ transform:translateY(-1px); }
+.beta-submit:disabled{ opacity:.6; cursor:default; transform:none; }
+.beta-note{ font-size:12px; color:var(--ink-faint); text-align:center; margin-top:10px; }
+
+/* ---------- Confirmation pop-up ---------- */
+.confirm-overlay{ position:fixed; inset:0; background:rgba(20,23,15,.55); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; z-index:100; padding:20px; }
+.confirm-overlay.open{ display:flex; }
+.confirm-modal{
+  background:var(--card); border-radius:22px; max-width:420px; width:100%;
+  padding:38px 32px 30px; box-shadow:0 30px 70px rgba(0,0,0,.3);
+  text-align:center; animation:confirmIn .22s ease;
+}
+@keyframes confirmIn{ from{ opacity:0; transform:translateY(12px) scale(.98); } to{ opacity:1; transform:none; } }
+.confirm-modal .tick{
+  width:58px; height:58px; border-radius:50%;
+  background:var(--leaf); border:1px solid var(--leaf-line); color:var(--green);
+  display:grid; place-items:center; font-size:28px; margin:0 auto 16px;
+}
+.confirm-modal h2{ font-family:var(--serif); font-weight:600; font-size:24px; color:var(--green-deep); margin-bottom:10px; }
+.confirm-modal p{ color:var(--ink-soft); font-size:15px; }
+.confirm-btn{ margin-top:22px; background:var(--green); color:#fff; border:0; border-radius:999px; padding:12px 34px; font-family:inherit; font-weight:600; font-size:15px; cursor:pointer; transition:transform .15s; }
+.confirm-btn:hover{ transform:translateY(-1px); }
+
+.survey-success{ display:none; text-align:center; padding:48px 0; }
+.survey-success .tick{
+  width:58px; height:58px; border-radius:50%;
+  background:var(--leaf); border:1px solid var(--leaf-line); color:var(--green);
+  display:grid; place-items:center; font-size:28px; margin:0 auto 16px;
+}
+.survey-success h2{ font-family:var(--serif); font-weight:600; font-size:26px; color:var(--green-deep); margin-bottom:8px; }
+.survey-success p{ color:var(--ink-soft); font-size:15px; }
+
+footer{ padding:40px 0; }
+.foot-note{ text-align:center; font-size:13px; color:var(--ink-faint); }
+
+/* ---------- Responsive (must stay LAST in this stylesheet: these overrides
+   lose to any equal-specificity rule written after them) ---------- */
+@media (max-width:860px){
+  .wrap{ padding-left:0; padding-right:0; }
+  .survey{ padding:32px 0 64px; }
+  .survey-card{ padding:32px 22px 30px; }
+  .opts.grid2{ grid-template-columns:1fr; }
+  .idrow{ grid-template-columns:1fr; }
+  .beta-field input, .beta-field textarea{ font-size:16px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand"><span class="mark">H</span>Helthy</a>
+  </div>
+</header>
+
+<section class="survey">
+  <div class="wrap">
+    <div class="survey-card">
+
+      <div id="surveyFormWrap">
+        <span class="eyebrow">Pre-test survey</span>
+        <h1>Help us get to know you as a beta tester.</h1>
+        <p class="lede">Thanks for joining the beta! These quick questions (less than 5 minutes) help us understand you as a tester and tailor the beta experience to you. Your answers are private and only used for beta research. Once we receive your responses, we&rsquo;ll email your beta access as soon as the beta opens — we&rsquo;re putting the finishing touches on the app now.</p>
+
+        <form id="surveyForm" novalidate>
+
+          <div class="idrow">
+            <div class="beta-field"><label for="sName">Name</label><input id="sName" type="text" autocomplete="name" required></div>
+            <div class="beta-field"><label for="sEmail">Email</label><input id="sEmail" type="email" autocomplete="email" required></div>
+          </div>
+
+          <!-- ============ SECTION 1 ============ -->
+          <div class="sec">
+            <div class="sec-title">How you shop</div>
+
+            <div class="q" data-q="shopModes">
+              <span class="q-label">1. Do you shop for groceries? <em>(select all that apply)</em></span>
+              <div class="opts">
+                <label class="opt"><input type="checkbox" name="shopModes" value="In-store"> Yes, in stores</label>
+                <label class="opt"><input type="checkbox" name="shopModes" value="Online delivery"> Yes, online for delivery</label>
+                <label class="opt"><input type="checkbox" name="shopModes" value="Online pickup"> Yes, online then pick up in-store</label>
+                <label class="opt"><input type="checkbox" name="shopModes" value="No"> No, I don&rsquo;t shop for groceries</label>
+              </div>
+            </div>
+
+            <div class="q" data-q="frequency">
+              <span class="q-label">2. How often do you shop for groceries?</span>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="frequency" value="Less than once a month"> Less than once a month</label>
+                <label class="opt"><input type="radio" name="frequency" value="Once a month"> Once a month</label>
+                <label class="opt"><input type="radio" name="frequency" value="A few times a month"> A few times a month</label>
+                <label class="opt"><input type="radio" name="frequency" value="Once a week"> Once a week</label>
+                <label class="opt"><input type="radio" name="frequency" value="A few times a week"> A few times a week</label>
+                <label class="opt"><input type="radio" name="frequency" value="Every day"> Every day</label>
+              </div>
+            </div>
+
+            <div class="q" data-q="stores">
+              <span class="q-label">3. Where do you shop for groceries? <em>(select all that apply)</em></span>
+              <div class="opts grid2">
+                <label class="opt"><input type="checkbox" name="stores" value="Walmart"> Walmart</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Kroger"> Kroger</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Costco"> Costco</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Target"> Target</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Aldi"> Aldi</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Publix"> Publix</label>
+                <label class="opt"><input type="checkbox" name="stores" value="H-E-B"> H-E-B</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Albertsons / Safeway"> Albertsons / Safeway</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Sam's Club"> Sam&rsquo;s Club</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Whole Foods"> Whole Foods</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Trader Joe's"> Trader Joe&rsquo;s</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Sprouts"> Sprouts</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Stop & Shop / Giant / Food Lion"> Stop &amp; Shop / Giant / Food Lion</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Amazon / Amazon Fresh"> Amazon / Amazon Fresh</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Instacart"> Instacart</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Local/regional store"> A local or regional store</label>
+                <label class="opt"><input type="checkbox" name="stores" value="Other" data-other="storesOther"> Other</label>
+              </div>
+              <div class="beta-field other-input" id="storesOther"><input type="text" placeholder="Where else do you shop?"></div>
+            </div>
+
+            <div class="q" data-q="shopFor">
+              <span class="q-label">4. Who do you shop for? <em>(select all that apply)</em></span>
+              <div class="opts">
+                <label class="opt"><input type="checkbox" name="shopFor" value="Myself"> Myself</label>
+                <label class="opt"><input type="checkbox" name="shopFor" value="My partner"> My partner</label>
+                <label class="opt"><input type="checkbox" name="shopFor" value="My kids/family"> My kids / family</label>
+                <label class="opt"><input type="checkbox" name="shopFor" value="Someone else I care for"> Someone else I care for (a parent, relative, or friend)</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ SECTION 2 ============ -->
+          <div class="sec">
+            <div class="sec-title">Your health</div>
+            <div class="sec-note">Optional and private — this only helps us understand who we&rsquo;re building for.</div>
+
+            <div class="q" data-q="conditions">
+              <span class="q-label">5. Are you managing any of these conditions <b>yourself</b>? <em>(select all that apply)</em></span>
+              <div class="opts grid2">
+                <label class="opt"><input type="checkbox" name="conditions" value="None"> None</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="Prediabetes"> Prediabetes</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="Type 1 diabetes"> Type 1 diabetes</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="Type 2 diabetes"> Type 2 diabetes</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="Gestational diabetes"> Gestational diabetes</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="High blood pressure"> High blood pressure</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="Cardiovascular disease"> Cardiovascular disease</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="Kidney disease"> Kidney disease</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="GI condition"> GI condition</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="Obesity"> Obesity</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="Cancer"> Cancer</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="Other" data-other="conditionsOther"> Other</label>
+                <label class="opt"><input type="checkbox" name="conditions" value="Prefer not to say"> Prefer not to say</label>
+              </div>
+              <div class="beta-field other-input" id="conditionsOther"><input type="text" placeholder="Tell us more (optional)"></div>
+            </div>
+
+            <div class="q" id="qDiagnosed" data-q="diagnosedWhen">
+              <span class="q-label">6. When were <b>you</b> diagnosed?</span>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="diagnosedWhen" value="Within the last year"> Within the last year</label>
+                <label class="opt"><input type="radio" name="diagnosedWhen" value="1-3 years ago"> 1&ndash;3 years ago</label>
+                <label class="opt"><input type="radio" name="diagnosedWhen" value="3-10 years ago"> 3&ndash;10 years ago</label>
+                <label class="opt"><input type="radio" name="diagnosedWhen" value="More than 10 years ago"> More than 10 years ago</label>
+              </div>
+            </div>
+
+            <div class="q" data-q="conditionsLoved">
+              <span class="q-label">7. Does someone you care for or shop for have any of these conditions? <em>(select all that apply)</em></span>
+              <div class="opts grid2">
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="No — not applicable"> No — not applicable</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="Prediabetes"> Prediabetes</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="Type 1 diabetes"> Type 1 diabetes</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="Type 2 diabetes"> Type 2 diabetes</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="Gestational diabetes"> Gestational diabetes</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="High blood pressure"> High blood pressure</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="Cardiovascular disease"> Cardiovascular disease</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="Kidney disease"> Kidney disease</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="GI condition"> GI condition</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="Obesity"> Obesity</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="Cancer"> Cancer</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="Other" data-other="conditionsLovedOther"> Other</label>
+                <label class="opt"><input type="checkbox" name="conditionsLoved" value="Prefer not to say"> Prefer not to say</label>
+              </div>
+              <div class="beta-field other-input" id="conditionsLovedOther"><input type="text" placeholder="Tell us more (optional)"></div>
+            </div>
+
+            <div class="q" id="qDiagnosedLoved" data-q="diagnosedWhenLoved">
+              <span class="q-label">8. When were <b>they</b> diagnosed?</span>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="diagnosedWhenLoved" value="Within the last year"> Within the last year</label>
+                <label class="opt"><input type="radio" name="diagnosedWhenLoved" value="1-3 years ago"> 1&ndash;3 years ago</label>
+                <label class="opt"><input type="radio" name="diagnosedWhenLoved" value="3-10 years ago"> 3&ndash;10 years ago</label>
+                <label class="opt"><input type="radio" name="diagnosedWhenLoved" value="More than 10 years ago"> More than 10 years ago</label>
+                <label class="opt"><input type="radio" name="diagnosedWhenLoved" value="I'm not sure"> I&rsquo;m not sure</label>
+              </div>
+            </div>
+
+            <div class="q" id="qDiabetesHardest" data-q="diabetesHardest">
+              <span class="q-label">9. What&rsquo;s the hardest part of managing diabetes day to day — for you or your loved one — and why?</span>
+              <div class="beta-field"><textarea id="diabetesHardest" rows="3"></textarea></div>
+            </div>
+          </div>
+
+          <!-- ============ SECTION 4 · SUPPORT SYSTEM ============ -->
+          <div class="sec">
+            <div class="sec-title">Your support system</div>
+
+            <div class="q" data-q="careTeam">
+              <span class="q-label">10. Who&rsquo;s part of managing your (or your loved one&rsquo;s) health today? <em>(select all that apply)</em></span>
+              <div class="opts grid2">
+                <label class="opt"><input type="checkbox" name="careTeam" value="Primary care doctor"> Primary care doctor</label>
+                <label class="opt"><input type="checkbox" name="careTeam" value="Endocrinologist"> Endocrinologist</label>
+                <label class="opt"><input type="checkbox" name="careTeam" value="Dietitian or nutritionist"> Dietitian or nutritionist</label>
+                <label class="opt"><input type="checkbox" name="careTeam" value="Diabetes educator"> Diabetes educator</label>
+                <label class="opt"><input type="checkbox" name="careTeam" value="Online communities"> Online communities (Facebook groups, Reddit)</label>
+                <label class="opt"><input type="checkbox" name="careTeam" value="In-person support groups"> In-person support groups</label>
+                <label class="opt"><input type="checkbox" name="careTeam" value="Nonprofits"> Nonprofits (ADA, JDRF, &hellip;)</label>
+                <label class="opt"><input type="checkbox" name="careTeam" value="Family and friends"> Family and friends</label>
+                <label class="opt"><input type="checkbox" name="careTeam" value="Mostly on my own"> Mostly on my own</label>
+                <label class="opt"><input type="checkbox" name="careTeam" value="Other" data-other="careTeamOther"> Other</label>
+              </div>
+              <div class="beta-field other-input" id="careTeamOther"><input type="text" placeholder="Who else?"></div>
+            </div>
+
+            <div class="q" data-q="adviceSource">
+              <span class="q-label">11. Where do you get most of your food and nutrition advice? <em>(select all that apply)</em></span>
+              <div class="opts">
+                <label class="opt"><input type="checkbox" name="adviceSource" value="My doctor or care team"> My doctor or care team</label>
+                <label class="opt"><input type="checkbox" name="adviceSource" value="A dietitian or nutritionist"> A dietitian or nutritionist</label>
+                <label class="opt"><input type="checkbox" name="adviceSource" value="A diabetes educator"> A diabetes educator</label>
+                <label class="opt"><input type="checkbox" name="adviceSource" value="Online communities"> Online communities (Facebook, Reddit)</label>
+                <label class="opt"><input type="checkbox" name="adviceSource" value="Family and friends"> Family and friends</label>
+                <label class="opt"><input type="checkbox" name="adviceSource" value="My own research"> My own research (articles, social media)</label>
+                <label class="opt"><input type="checkbox" name="adviceSource" value="Other" data-other="adviceSourceOther"> Other</label>
+              </div>
+              <div class="beta-field other-input" id="adviceSourceOther"><input type="text" placeholder="Where else?"></div>
+            </div>
+          </div>
+
+          <!-- ============ SECTION 4 ============ -->
+          <div class="sec">
+            <div class="sec-title">Nutrition, tools, and pain points</div>
+
+            <div class="q" data-q="nutritionWhy">
+              <span class="q-label">12. How important is nutrition to your health, and why?</span>
+              <div class="beta-field"><textarea id="nutritionWhy" rows="3"></textarea></div>
+            </div>
+
+            <div class="q" data-q="apps">
+              <span class="q-label">13. Do you currently use any apps for nutrition or healthy shopping? <em>(select all that apply)</em></span>
+              <div class="opts grid2">
+                <label class="opt"><input type="checkbox" name="apps" value="Yuka"> Yuka</label>
+                <label class="opt"><input type="checkbox" name="apps" value="GoCoCo"> GoCoCo</label>
+                <label class="opt"><input type="checkbox" name="apps" value="SnaQ"> SnaQ</label>
+                <label class="opt"><input type="checkbox" name="apps" value="MyFitnessPal"> MyFitnessPal</label>
+                <label class="opt"><input type="checkbox" name="apps" value="Fooducate"> Fooducate</label>
+                <label class="opt"><input type="checkbox" name="apps" value="Other" data-other="appsOther"> Other</label>
+                <label class="opt"><input type="checkbox" name="apps" value="No apps"> I don&rsquo;t use any apps</label>
+              </div>
+              <div class="beta-field other-input" id="appsOther"><input type="text" placeholder="Which apps?"></div>
+            </div>
+
+            <div class="q" data-q="hardestPart">
+              <span class="q-label">14. What&rsquo;s the hardest part of grocery shopping for your health?</span>
+              <div class="beta-field"><textarea id="hardestPart" rows="3"></textarea></div>
+            </div>
+          </div>
+
+          <div class="beta-error" id="surveyError"></div>
+          <button class="beta-submit" type="submit">Submit my answers</button>
+          <div class="beta-note">Private — used only for Helthy beta research.</div>
+        </form>
+      </div>
+
+      <div class="survey-success" id="surveySuccess">
+        <div class="tick">&#10003;</div>
+        <h2>Thank you!</h2>
+        <p>Your answers are in — they genuinely help shape what we build.<br>We&rsquo;ll email your beta access as soon as the beta opens.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-note">© 2026 Helthy. All rights reserved. · <a href="https://www.shophelthy.com">shophelthy.com</a></div>
+  </div>
+</footer>
+
+<!-- ============ SUBMIT CONFIRMATION POP-UP ============ -->
+<div class="confirm-overlay" id="confirmOverlay" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="confirm-modal">
+    <div class="tick">&#10003;</div>
+    <h2 id="confirmTitle">Thank you — you&rsquo;re all set!</h2>
+    <p>We&rsquo;ve received your responses. We&rsquo;ll email your <b>beta access as soon as the beta opens</b> — we&rsquo;re putting the finishing touches on the app now.</p>
+    <button class="confirm-btn" type="button" id="confirmClose">Got it</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* Same Apps Script endpoint as the other site forms. */
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxkKsSdPonzXq7yF3Q8sOk6h6hPR1R21rW4A46LaNhwM-kuLqd2_VOsoMyjeoqwuC8M/exec';
+
+  var form = document.getElementById('surveyForm');
+  var wrap = document.getElementById('surveyFormWrap');
+  var success = document.getElementById('surveySuccess');
+  var errEl = document.getElementById('surveyError');
+  var nameEl = document.getElementById('sName'), emailEl = document.getElementById('sEmail');
+
+  /* Pre-fill identity from the invite link (?name=…&email=…). */
+  try{
+    var q = new URLSearchParams(location.search);
+    if(q.get('name'))  nameEl.value  = q.get('name');
+    if(q.get('email')) emailEl.value = q.get('email');
+  }catch(e){}
+
+  function checked(name){
+    return [].map.call(document.querySelectorAll('input[name="'+name+'"]:checked'), function(i){ return i.value; });
+  }
+  function radio(name){
+    var r = document.querySelector('input[name="'+name+'"]:checked');
+    return r ? r.value : '';
+  }
+  function otherText(id){
+    var v = document.querySelector('#'+id+' input').value.trim();
+    return v;
+  }
+
+  /* "Other" checkboxes reveal a text input. */
+  [].forEach.call(document.querySelectorAll('input[data-other]'), function(cb){
+    cb.addEventListener('change', function(){
+      document.getElementById(cb.getAttribute('data-other')).classList.toggle('show', cb.checked);
+    });
+  });
+
+  /* Show the diagnosis follow-ups only when a diabetes condition is picked —
+     separately for the tester's own conditions and their loved one's. */
+  var DIABETES = ['Prediabetes','Type 1 diabetes','Type 2 diabetes','Gestational diabetes'];
+  function hasDiabetes(group){
+    return checked(group).some(function(v){ return DIABETES.indexOf(v) !== -1; });
+  }
+  function syncConditionals(){
+    var self = hasDiabetes('conditions'), loved = hasDiabetes('conditionsLoved');
+    document.getElementById('qDiagnosed').classList.toggle('show', self);
+    document.getElementById('qDiagnosedLoved').classList.toggle('show', loved);
+    document.getElementById('qDiabetesHardest').classList.toggle('show', self || loved);
+  }
+  [].forEach.call(document.querySelectorAll('input[name="conditions"], input[name="conditionsLoved"]'), function(cb){
+    cb.addEventListener('change', syncConditionals);
+  });
+
+  function showErr(m, qKey){
+    errEl.textContent = m; errEl.style.display = 'block';
+    var el = qKey ? document.querySelector('[data-q="'+qKey+'"]') : null;
+    (el || errEl).scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    errEl.style.display = 'none';
+
+    var name = nameEl.value.trim(), email = emailEl.value.trim();
+    if(!name)           return showErr('Please enter your name.');
+    if(!isEmail(email)) return showErr('Please enter a valid email address.');
+
+    var d = {
+      formType: 'survey',
+      name: name, email: email,
+      shopModes: checked('shopModes'),
+      frequency: radio('frequency'),
+      stores: checked('stores'),
+      storesOther: otherText('storesOther'),
+      shopFor: checked('shopFor'),
+      conditions: checked('conditions'),
+      conditionsOther: otherText('conditionsOther'),
+      diagnosedWhen: document.getElementById('qDiagnosed').classList.contains('show') ? radio('diagnosedWhen') : '',
+      conditionsLoved: checked('conditionsLoved'),
+      conditionsLovedOther: otherText('conditionsLovedOther'),
+      diagnosedWhenLoved: document.getElementById('qDiagnosedLoved').classList.contains('show') ? radio('diagnosedWhenLoved') : '',
+      diabetesHardest: document.getElementById('qDiabetesHardest').classList.contains('show') ? document.getElementById('diabetesHardest').value.trim() : '',
+      careTeam: checked('careTeam'),
+      careTeamOther: otherText('careTeamOther'),
+      adviceSource: checked('adviceSource'),
+      adviceSourceOther: otherText('adviceSourceOther'),
+      nutritionWhy: document.getElementById('nutritionWhy').value.trim(),
+      apps: checked('apps'),
+      appsOther: otherText('appsOther'),
+      hardestPart: document.getElementById('hardestPart').value.trim(),
+      page: location.pathname, ts: new Date().toISOString()
+    };
+
+    if(!d.shopModes.length)  return showErr('Q1: please tell us if you shop for groceries.', 'shopModes');
+    if(!d.frequency)         return showErr('Q2: please tell us how often you shop.', 'frequency');
+    if(!d.stores.length)     return showErr('Q3: please pick at least one store.', 'stores');
+    if(!d.shopFor.length)    return showErr('Q4: please tell us who you shop for.', 'shopFor');
+    if(!d.conditions.length) return showErr('Q5: please answer — "None" and "Prefer not to say" are absolutely fine.', 'conditions');
+    if(document.getElementById('qDiagnosed').classList.contains('show') && !d.diagnosedWhen)
+                             return showErr('Q6: please tell us roughly when you were diagnosed.', 'diagnosedWhen');
+    if(!d.conditionsLoved.length) return showErr('Q7: please answer — "No — not applicable" is fine.', 'conditionsLoved');
+    if(document.getElementById('qDiagnosedLoved').classList.contains('show') && !d.diagnosedWhenLoved)
+                             return showErr('Q8: please tell us roughly when they were diagnosed — "I\'m not sure" is fine.', 'diagnosedWhenLoved');
+    if(document.getElementById('qDiabetesHardest').classList.contains('show') && !d.diabetesHardest)
+                             return showErr('Q9: please share the hardest part of managing diabetes — a sentence is plenty.', 'diabetesHardest');
+    if(!d.careTeam.length)   return showErr('Q10: please tell us who helps — "Mostly on my own" counts.', 'careTeam');
+    if(!d.adviceSource.length) return showErr('Q11: please pick where your nutrition advice comes from.', 'adviceSource');
+    if(!d.nutritionWhy)      return showErr('Q12: please tell us how important nutrition is to you — a sentence is plenty.', 'nutritionWhy');
+    if(!d.apps.length)       return showErr('Q13: please answer — "I don’t use any apps" counts.', 'apps');
+    if(!d.hardestPart)       return showErr('Q14: please share the hardest part — this is the answer that helps us most.', 'hardestPart');
+
+    var btn = form.querySelector('.beta-submit'); btn.disabled = true; btn.textContent = 'Submitting…';
+    fetch(ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(d) })
+      .then(function(){
+        wrap.style.display='none'; success.style.display='block'; window.scrollTo(0,0);
+        document.getElementById('confirmOverlay').classList.add('open');
+      })
+      .catch(function(){ btn.disabled=false; btn.textContent='Submit my answers'; showErr('Something went wrong — please try again.'); });
+  });
+
+  /* Confirmation pop-up dismissal (the success message stays on the page behind it). */
+  var overlay = document.getElementById('confirmOverlay');
+  document.getElementById('confirmClose').addEventListener('click', function(){ overlay.classList.remove('open'); });
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) overlay.classList.remove('open'); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') overlay.classList.remove('open'); });
+})();
+</script>
+
+</body>
+</html>
