@@ -404,7 +404,7 @@
     try {
       return await window.modernScreenshot.domToPng(target, {
         backgroundColor: readVar('--pg-bg') || '#ffffff',
-        scale: Math.min(2, window.devicePixelRatio || 1),
+        scale: Math.min(1, window.devicePixelRatio || 1),
       });
     } catch (e) {
       console.warn('screenshot capture failed', e);
