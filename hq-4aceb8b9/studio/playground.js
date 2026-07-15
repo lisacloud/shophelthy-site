@@ -439,7 +439,7 @@
     btn.disabled = true;
     const label = (labelInput.value || '').trim() || `${activeLang} look`;
     closeSaveModal();
-    toast('Capturing screenshot…', 'ok', 1400);
+    const busy = toastBusy('Capturing screenshot…');
 
     const png = await captureStage();
     const record = {
@@ -449,15 +449,16 @@
       tokens: collectTokens(), png, synced: false,
     };
 
+    busy.update('Saving to your portfolio…');
     try {
       const row = await saveToSupabase(record);
       record.synced = true;
       if (row && row.id) record.id = row.id;
       if (row && row.created_at) record.created_at = row.created_at;
-      toast('Saved to your portfolio', 'ok');
+      busy.done('Saved to your portfolio', 'ok');
     } catch (e) {
       console.warn('Supabase save failed, kept locally:', e.message);
-      toast('Saved locally (offline) — it’s in your portfolio', 'warn', 3200);
+      busy.done('Saved locally (offline) — it’s in your portfolio', 'warn', 3200);
     }
     addLocal(record);
     btn.disabled = false;
@@ -601,6 +602,29 @@
       el.style.opacity = '0'; el.style.transform = 'translateY(6px)';
       setTimeout(() => el.remove(), 260);
     }, ms);
+  }
+  // A toast that stays up (pulsing dot) across a multi-step async op instead of
+  // auto-dismissing, so a slow save never leaves a silent gap. update() changes
+  // the message in place; done() settles it into a normal toast and lets it fade.
+  function toastBusy(msg) {
+    const el = document.createElement('div');
+    el.className = 'pg-toast';
+    el.dataset.kind = 'busy';
+    el.innerHTML = `<span class="pg-toast-dot"></span><span></span>`;
+    el.lastElementChild.textContent = msg;
+    toastHost.appendChild(el);
+    return {
+      update(newMsg) { el.lastElementChild.textContent = newMsg; },
+      done(newMsg, kind = 'ok', ms = 2200) {
+        el.dataset.kind = kind;
+        el.lastElementChild.textContent = newMsg;
+        setTimeout(() => {
+          el.style.transition = 'opacity .25s, transform .25s';
+          el.style.opacity = '0'; el.style.transform = 'translateY(6px)';
+          setTimeout(() => el.remove(), 260);
+        }, ms);
+      },
+    };
   }
 
   /* ----------------------------------------------------------------------
