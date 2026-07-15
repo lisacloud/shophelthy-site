@@ -1,0 +1,490 @@
+/* ============================================================================
+   Helthy Design Playground — TILE: claymorphic
+   Puffy, rounded modelling-clay UI. Soft DUAL inner+outer shadows, pastel
+   sage-mint palette, rounded Fredoka/Nunito type. Encouraging, not punitive.
+
+   Every selector is scoped under .pg-tile[data-lang="claymorphic"] so all six
+   tiles coexist in one document. Tunable color/font/shape come from --pg-*;
+   the clay shadow recipe is this tile's own static identity.
+   ============================================================================ */
+
+.pg-tile[data-lang="claymorphic"]{
+  /* ---- palette defaults (the shell can override these live) ---- */
+  --pg-bg:        #e3eee9;
+  --pg-surface:   #f7fbf8;
+  --pg-ink:       #1e3a2d;
+  --pg-ink-soft:  #56715f;
+  --pg-primary:   #2f9e72;
+  --pg-accent:    #f4a07a;
+  --pg-good:      #34a279;
+  --pg-ok:        #e0a445;
+  --pg-avoid:     #df6f63;
+
+  /* ---- type: rounded display + rounded humanist body ---- */
+  --pg-font-head: "Fredoka", "Trebuchet MS", system-ui, sans-serif;
+  --pg-font-body: "Nunito", system-ui, -apple-system, sans-serif;
+
+  /* ---- shape / feel knobs ---- */
+  --pg-radius:    24px;
+  --pg-elevation: 1;
+  --pg-density:   1;
+
+  /* ---- clay shadow tones (mint-gray, not neutral grey) ---- *
+     channels held separately so dark mode can swap them cleanly */
+  --clay-sh-rgb: 116 146 128;   /* the colored shadow — deep enough sage to read on a pale surface */
+  --clay-hi-rgb: 255 255 255;   /* the top highlight */
+  --clay-hi-a:   .82;           /* highlight strength */
+  --clay-sh-a:   .50;           /* shadow strength */
+
+  /* ---- derived radii & spacing ---- */
+  --clay-r-lg: calc(var(--pg-radius) + 12px);
+  --clay-r-md: var(--pg-radius);
+  --clay-r-sm: calc(var(--pg-radius) * 0.72);
+  --clay-u:    calc(8px * var(--pg-density));   /* spacing unit */
+
+  /* ---- THE clay recipes — ONE light source, top-left (~145deg).
+     Volume needs three things at once: (1) each surface carries a light-ramp
+     gradient (--clay-fill: lighter top-left -> shaded bottom-right), (2) a
+     TWO-layer outer drop — a broad soft ambient float PLUS a tight contact
+     shadow that grounds it, (3) inner modelling — a top-left rim light and a
+     bottom-right core bevel. Concave is the same light, inverted (pressed in). */
+  --clay-fill:
+     linear-gradient(145deg,
+        color-mix(in srgb, #fff 32%, var(--pg-surface)) 0%,
+        var(--pg-surface) 52%,
+        color-mix(in srgb, rgb(var(--clay-sh-rgb)) 26%, var(--pg-surface)) 100%);
+  --clay-fill-bg:
+     linear-gradient(145deg,
+        color-mix(in srgb, #fff 22%, var(--pg-bg)) 0%,
+        var(--pg-bg) 54%,
+        color-mix(in srgb, rgb(var(--clay-sh-rgb)) 24%, var(--pg-bg)) 100%);
+
+  --clay-convex:
+     0 calc(20px * var(--pg-elevation)) calc(38px * var(--pg-elevation)) -12px
+        rgb(var(--clay-sh-rgb) / calc(var(--clay-sh-a) - .06)),
+     0 calc(6px * var(--pg-elevation)) calc(12px * var(--pg-elevation)) -3px
+        rgb(var(--clay-sh-rgb) / var(--clay-sh-a)),
+     inset 3px 4px 7px rgb(var(--clay-hi-rgb) / var(--clay-hi-a)),
+     inset -5px -7px 13px rgb(var(--clay-sh-rgb) / calc(var(--clay-sh-a) - .02));
+
+  --clay-convex-sm:
+     0 calc(12px * var(--pg-elevation)) calc(22px * var(--pg-elevation)) -10px
+        rgb(var(--clay-sh-rgb) / calc(var(--clay-sh-a) - .08)),
+     0 calc(4px * var(--pg-elevation)) calc(7px * var(--pg-elevation)) -2px
+        rgb(var(--clay-sh-rgb) / calc(var(--clay-sh-a) - .02)),
+     inset 2px 3px 5px rgb(var(--clay-hi-rgb) / calc(var(--clay-hi-a) - .06)),
+     inset -3px -5px 9px rgb(var(--clay-sh-rgb) / calc(var(--clay-sh-a) - .06));
+
+  /* concave = pressed in (the score well, hover-pressed buttons) */
+  --clay-concave:
+     inset 5px 7px 14px rgb(var(--clay-sh-rgb) / calc(var(--clay-sh-a) + .10)),
+     inset -4px -6px 12px rgb(var(--clay-hi-rgb) / calc(var(--clay-hi-a) - .14));
+
+  /* ink-on-tinted-plate colours — these FLIP per theme (dark ink on pale plate
+     in light; light ink on deep plate in dark) so the value chips stay >=4.5:1 */
+  --clay-ink-good:    color-mix(in srgb, var(--pg-good)  52%, #06281c);
+  --clay-ink-ok:      color-mix(in srgb, var(--pg-ok)    46%, #2e1d04);
+  --clay-ink-avoid:   color-mix(in srgb, var(--pg-avoid) 58%, #380c08);
+  --clay-ink-primary: color-mix(in srgb, var(--pg-primary), #042a1c 28%);
+
+  color: var(--pg-ink);
+  font-family: var(--pg-font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* dark mode: re-tune the clay light model rather than just darken */
+:root[data-theme="dark"] .pg-tile[data-lang="claymorphic"]{
+  --pg-bg:       #101a16;
+  --pg-surface:  #1b2a24;
+  --pg-ink:      #eaf3ee;
+  --pg-ink-soft: #9fb6aa;
+  --clay-sh-rgb: 0 0 0;          /* deep shadow */
+  --clay-hi-rgb: 168 204 186;    /* faint green-tinted top light */
+  --clay-hi-a:   .14;
+  --clay-sh-a:   .50;
+  /* flip the plate inks light for the deep dark plates */
+  --clay-ink-good:    color-mix(in srgb, var(--pg-good)   60%, #ffffff);
+  --clay-ink-ok:      color-mix(in srgb, var(--pg-ok)     78%, #ffffff);
+  --clay-ink-avoid:   color-mix(in srgb, var(--pg-avoid)  74%, #ffffff);
+  --clay-ink-primary: color-mix(in srgb, var(--pg-primary) 64%, #ffffff);
+}
+
+/* ---------------------------------------------------------------- shared --- */
+.pg-tile[data-lang="claymorphic"] *{ box-sizing: border-box; }
+
+.pg-tile[data-lang="claymorphic"] .clay-wordmark{
+  font-family: var(--pg-font-head);
+  font-weight: 600;
+  letter-spacing: .2px;
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="claymorphic"] .clay-wordmark::first-letter{ color: var(--pg-primary); }
+
+/* a soft puffy chip used for icon buttons / dots */
+.pg-tile[data-lang="claymorphic"] .clay-knob{
+  display: grid; place-items: center;
+  width: calc(38px); height: calc(38px);
+  border: 0; border-radius: 50%;
+  background: var(--clay-fill);
+  box-shadow: var(--clay-convex-sm);
+  color: var(--pg-ink-soft);
+  font-size: 20px; line-height: 1; cursor: pointer;
+  font-family: var(--pg-font-body);
+}
+
+/* ===========================================================================
+   SURFACE A — app: scan -> score
+   =========================================================================== */
+.pg-tile[data-lang="claymorphic"] .pg-surface-app{
+  display: flex; justify-content: center;
+  padding: calc(3 * var(--clay-u));
+  background:
+     radial-gradient(120% 80% at 20% 0%,
+        color-mix(in srgb, var(--pg-accent) 14%, var(--pg-bg)) 0%, transparent 55%),
+     radial-gradient(120% 90% at 90% 100%,
+        color-mix(in srgb, var(--pg-primary) 12%, var(--pg-bg)) 0%, transparent 50%),
+     var(--pg-bg);
+}
+
+.pg-tile[data-lang="claymorphic"] .clay-phone{
+  width: 390px; max-width: 100%;
+  border-radius: 46px;
+  padding: 14px;
+  background: var(--clay-fill-bg);
+  box-shadow: var(--clay-convex);
+}
+.pg-tile[data-lang="claymorphic"] .clay-screen{
+  border-radius: 36px;
+  padding: calc(2.5 * var(--clay-u)) calc(2.5 * var(--clay-u)) calc(3 * var(--clay-u));
+  background:
+     linear-gradient(180deg,
+        color-mix(in srgb, var(--pg-surface) 92%, var(--pg-bg)) 0%,
+        var(--pg-surface) 38%);
+  box-shadow: var(--clay-concave);
+  display: flex; flex-direction: column; gap: calc(2.5 * var(--clay-u));
+}
+
+/* top bar */
+.pg-tile[data-lang="claymorphic"] .clay-topbar{
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pg-tile[data-lang="claymorphic"] .clay-topbar .clay-wordmark{ font-size: 21px; }
+
+/* -- score disc: THE signature (convex disc + concave pressed well) -- */
+.pg-tile[data-lang="claymorphic"] .clay-score{
+  display: flex; flex-direction: column; align-items: center;
+  gap: calc(1.4 * var(--clay-u));
+  padding-top: var(--clay-u);
+}
+.pg-tile[data-lang="claymorphic"] .clay-disc{
+  position: relative;
+  width: 196px; height: 196px;
+  border-radius: 50%;
+  /* a saturated DOMED green sphere: bright top-left specular -> full green ->
+     deep bottom-right shade, so the medallion reads as a real 3D object */
+  background:
+     radial-gradient(132% 132% at 30% 24%,
+        color-mix(in srgb, #fff 60%, var(--pg-good)) 0%,
+        var(--pg-good) 42%,
+        color-mix(in srgb, var(--pg-good), #04231a 46%) 100%);
+  box-shadow: var(--clay-convex);
+  display: grid; place-items: center;
+}
+/* soft top-left clay sheen */
+.pg-tile[data-lang="claymorphic"] .clay-disc::before{
+  content:""; position:absolute; inset:0; border-radius:50%;
+  background: radial-gradient(46% 40% at 33% 26%,
+     rgb(255 255 255 / .55) 0%, transparent 70%);
+  pointer-events:none;
+}
+.pg-tile[data-lang="claymorphic"] .clay-well{
+  position: relative;
+  width: 140px; height: 140px; border-radius: 50%;
+  background: var(--pg-surface);
+  box-shadow: var(--clay-concave);
+  display: grid; place-items: center;
+}
+.pg-tile[data-lang="claymorphic"] .clay-score-num{
+  font-family: var(--pg-font-head);
+  font-weight: 600;
+  font-size: 66px; line-height: 1;
+  color: color-mix(in srgb, var(--pg-good) 62%, var(--pg-ink));
+  letter-spacing: -1px;
+}
+/* "GOOD" clay pebble badge nested on the disc rim */
+.pg-tile[data-lang="claymorphic"] .clay-badge{
+  font-family: var(--pg-font-head);
+  font-weight: 600;
+  font-size: 13px; letter-spacing: 1.5px;
+  padding: 7px 18px; border-radius: 999px;
+  box-shadow: var(--clay-convex-sm);
+  position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+}
+.pg-tile[data-lang="claymorphic"] .clay-badge.clay-good{
+  background: color-mix(in srgb, var(--pg-good), #04231a 28%);
+  color: #fff;
+}
+
+/* product title */
+.pg-tile[data-lang="claymorphic"] .clay-product{ text-align: center; }
+.pg-tile[data-lang="claymorphic"] .clay-product-name{
+  font-family: var(--pg-font-head);
+  font-weight: 500; font-size: 20px; line-height: 1.25;
+  margin: 0; color: var(--pg-ink);
+}
+.pg-tile[data-lang="claymorphic"] .clay-product-meta{
+  margin: 6px 0 0; font-size: 13.5px; font-weight: 600;
+  color: var(--pg-ink-soft); letter-spacing: .2px;
+}
+
+/* -- why rows: individual clay capsules -- */
+.pg-tile[data-lang="claymorphic"] .clay-why{
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: calc(1.4 * var(--clay-u));
+}
+.pg-tile[data-lang="claymorphic"] .clay-cap{
+  display: flex; align-items: center; gap: calc(1.6 * var(--clay-u));
+  padding: calc(1.4 * var(--clay-u)) calc(2 * var(--clay-u));
+  border-radius: var(--clay-r-sm);
+  background: var(--clay-fill);
+  box-shadow: var(--clay-convex-sm);
+}
+.pg-tile[data-lang="claymorphic"] .clay-ic{
+  flex: 0 0 auto;
+  width: 42px; height: 42px; border-radius: 14px;
+  display: grid; place-items: center;
+  box-shadow: var(--clay-concave);
+}
+.pg-tile[data-lang="claymorphic"] .clay-ic svg{ width: 22px; height: 22px; display:block; }
+.pg-tile[data-lang="claymorphic"] .clay-why-label{
+  flex: 1; font-weight: 700; font-size: 15.5px; color: var(--pg-ink);
+}
+.pg-tile[data-lang="claymorphic"] .clay-why-value{
+  font-family: var(--pg-font-head); font-weight: 500; font-size: 16px;
+  padding: 4px 13px; border-radius: 999px;
+}
+/* trio tints — plate + ink derived from the trio vars, contrast-safe defaults */
+.pg-tile[data-lang="claymorphic"] .clay-cap--good .clay-ic{ color: var(--pg-good);
+   background: color-mix(in srgb, var(--pg-good) 16%, var(--pg-surface)); }
+.pg-tile[data-lang="claymorphic"] .clay-cap--good .clay-why-value{
+   color: var(--clay-ink-good);
+   background: color-mix(in srgb, var(--pg-good) 15%, var(--pg-surface)); }
+.pg-tile[data-lang="claymorphic"] .clay-cap--ok .clay-ic{ color: var(--pg-ok);
+   background: color-mix(in srgb, var(--pg-ok) 18%, var(--pg-surface)); }
+.pg-tile[data-lang="claymorphic"] .clay-cap--ok .clay-why-value{
+   color: var(--clay-ink-ok);
+   background: color-mix(in srgb, var(--pg-ok) 17%, var(--pg-surface)); }
+.pg-tile[data-lang="claymorphic"] .clay-cap--avoid .clay-ic{ color: var(--pg-avoid);
+   background: color-mix(in srgb, var(--pg-avoid) 16%, var(--pg-surface)); }
+.pg-tile[data-lang="claymorphic"] .clay-cap--avoid .clay-why-value{
+   color: var(--clay-ink-avoid);
+   background: color-mix(in srgb, var(--pg-avoid) 15%, var(--pg-surface)); }
+
+/* -- better-scoring picks: little clay chips -- */
+.pg-tile[data-lang="claymorphic"] .clay-picks-title{
+  font-family: var(--pg-font-head); font-weight: 500;
+  font-size: 15px; margin: 0 0 calc(1.4 * var(--clay-u)); color: var(--pg-ink);
+}
+.pg-tile[data-lang="claymorphic"] .clay-chips{
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: calc(1.4 * var(--clay-u));
+}
+.pg-tile[data-lang="claymorphic"] .clay-chip{
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: calc(1.6 * var(--clay-u)) 8px calc(1.2 * var(--clay-u));
+  border-radius: var(--clay-r-sm);
+  background: var(--clay-fill);
+  box-shadow: var(--clay-convex-sm);
+  text-align: center;
+}
+.pg-tile[data-lang="claymorphic"] .clay-chip-score{
+  width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--pg-font-head); font-weight: 600; font-size: 19px;
+  color: var(--clay-ink-good);
+  background: color-mix(in srgb, var(--pg-good) 15%, var(--pg-surface));
+  box-shadow: var(--clay-concave);
+}
+.pg-tile[data-lang="claymorphic"] .clay-chip-name{
+  font-size: 12px; font-weight: 700; color: var(--pg-ink-soft); line-height: 1.2;
+}
+
+/* -- primary button: big puffy clay pill -- */
+.pg-tile[data-lang="claymorphic"] .clay-cta{
+  margin-top: calc(0.6 * var(--clay-u));
+  border: 0; cursor: pointer;
+  font-family: var(--pg-font-head); font-weight: 500; font-size: 18px;
+  padding: calc(1.7 * var(--clay-u)) calc(3 * var(--clay-u));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--pg-primary), #042a1c 26%);
+  color: #fff;
+  box-shadow: var(--clay-convex);
+  transition: box-shadow .18s ease, transform .18s ease, filter .18s ease;
+}
+.pg-tile[data-lang="claymorphic"] .clay-cta:hover{ filter: brightness(1.04); }
+.pg-tile[data-lang="claymorphic"] .clay-cta:active{
+  box-shadow: var(--clay-concave);
+  transform: translateY(1px);
+  color: color-mix(in srgb, #fff 90%, var(--pg-primary));
+}
+.pg-tile[data-lang="claymorphic"] .clay-cta--ghost{
+  background: var(--pg-surface);
+  color: var(--clay-ink-primary);
+}
+.pg-tile[data-lang="claymorphic"] .clay-cta--ghost:active{
+  color: var(--clay-ink-primary);
+}
+
+/* ===========================================================================
+   SURFACE B — website hero
+   =========================================================================== */
+.pg-tile[data-lang="claymorphic"] .pg-surface-web{
+  position: relative; overflow: hidden;
+  padding: calc(4 * var(--clay-u)) calc(5 * var(--clay-u)) calc(5 * var(--clay-u));
+  background:
+     radial-gradient(90% 70% at 85% -5%,
+        color-mix(in srgb, var(--pg-accent) 16%, var(--pg-bg)) 0%, transparent 55%),
+     var(--pg-bg);
+}
+/* two soft background clay pods (atmosphere — capped at two) */
+.pg-tile[data-lang="claymorphic"] .clay-blob{
+  position: absolute; border-radius: 50%; filter: blur(8px);
+  box-shadow: var(--clay-convex); pointer-events: none; z-index: 0;
+}
+.pg-tile[data-lang="claymorphic"] .clay-blob--a{
+  width: 230px; height: 230px; left: -70px; bottom: -90px;
+  background: color-mix(in srgb, var(--pg-primary) 22%, var(--pg-bg));
+}
+.pg-tile[data-lang="claymorphic"] .clay-blob--b{
+  width: 150px; height: 150px; right: 16%; top: 8%;
+  background: color-mix(in srgb, var(--pg-accent) 30%, var(--pg-bg));
+}
+
+.pg-tile[data-lang="claymorphic"] .clay-nav{
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: calc(4 * var(--clay-u));
+}
+.pg-tile[data-lang="claymorphic"] .clay-wordmark--lg{ font-size: 28px; }
+.pg-tile[data-lang="claymorphic"] .clay-navlinks{
+  display: flex; gap: 8px;
+  padding: 7px; border-radius: 999px;
+  background: var(--pg-bg);
+  box-shadow: var(--clay-concave);
+}
+.pg-tile[data-lang="claymorphic"] .clay-navlinks a{
+  font-weight: 700; font-size: 14.5px; text-decoration: none;
+  color: var(--pg-ink-soft);
+  padding: 9px 18px; border-radius: 999px; cursor: pointer;
+  transition: box-shadow .16s ease, color .16s ease;
+}
+.pg-tile[data-lang="claymorphic"] .clay-navlinks a:hover{
+  color: var(--pg-ink);
+  background: var(--pg-surface);
+  box-shadow: var(--clay-convex-sm);
+}
+
+.pg-tile[data-lang="claymorphic"] .clay-hero-grid{
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center; gap: calc(5 * var(--clay-u));
+}
+.pg-tile[data-lang="claymorphic"] .clay-kicker{
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--pg-font-head); font-weight: 500;
+  font-size: 13px; letter-spacing: .6px; text-transform: uppercase;
+  color: var(--clay-ink-primary);
+  padding: 8px 16px 8px 14px; border-radius: 999px;
+  background: var(--pg-surface); box-shadow: var(--clay-convex-sm);
+}
+.pg-tile[data-lang="claymorphic"] .clay-kicker::before{
+  content:""; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--pg-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--pg-primary) 22%, transparent);
+}
+.pg-tile[data-lang="claymorphic"] .clay-headline{
+  font-family: var(--pg-font-head); font-weight: 600;
+  font-size: clamp(34px, 4vw, 52px); line-height: 1.08;
+  letter-spacing: -.5px; margin: calc(2 * var(--clay-u)) 0 0;
+  color: var(--pg-ink); max-width: 13ch;
+}
+.pg-tile[data-lang="claymorphic"] .clay-headline em{
+  font-style: normal;
+  color: color-mix(in srgb, var(--pg-primary) 82%, var(--pg-ink));
+}
+.pg-tile[data-lang="claymorphic"] .clay-subhead{
+  font-size: 17px; line-height: 1.55; font-weight: 600;
+  color: var(--pg-ink-soft);
+  margin: calc(2 * var(--clay-u)) 0 0; max-width: 46ch;
+}
+.pg-tile[data-lang="claymorphic"] .clay-cta-row{
+  display: flex; flex-wrap: wrap; gap: calc(1.6 * var(--clay-u));
+  margin-top: calc(3 * var(--clay-u));
+}
+.pg-tile[data-lang="claymorphic"] .clay-trust{
+  display: flex; align-items: center; gap: 10px;
+  margin: calc(3 * var(--clay-u)) 0 0;
+  font-size: 13.5px; font-weight: 700; color: var(--pg-ink-soft);
+}
+.pg-tile[data-lang="claymorphic"] .clay-trust-dot{
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--pg-accent); box-shadow: var(--clay-convex-sm);
+}
+
+/* floating clay phone mock (reuses the score disc) */
+.pg-tile[data-lang="claymorphic"] .clay-hero-mock{ display: grid; place-items: center; }
+.pg-tile[data-lang="claymorphic"] .clay-mock{
+  width: 268px; border-radius: 40px; padding: 12px;
+  background: var(--clay-fill-bg); box-shadow: var(--clay-convex);
+  transform: rotate(2.5deg);
+}
+.pg-tile[data-lang="claymorphic"] .clay-mock-screen{
+  border-radius: 30px; padding: calc(2.4 * var(--clay-u)) calc(2 * var(--clay-u));
+  background: var(--pg-surface); box-shadow: var(--clay-concave);
+  display: flex; flex-direction: column; align-items: center; gap: calc(1.8 * var(--clay-u));
+}
+.pg-tile[data-lang="claymorphic"] .clay-mock .clay-disc{ width: 138px; height: 138px; }
+.pg-tile[data-lang="claymorphic"] .clay-mock .clay-well{ width: 98px; height: 98px; }
+.pg-tile[data-lang="claymorphic"] .clay-mock .clay-score-num{ font-size: 46px; }
+.pg-tile[data-lang="claymorphic"] .clay-mock .clay-badge{ font-size: 11px; padding: 5px 13px; bottom: -9px; }
+.pg-tile[data-lang="claymorphic"] .clay-mock-name{
+  font-family: var(--pg-font-head); font-weight: 500; font-size: 14.5px;
+  text-align: center; line-height: 1.25; margin: 6px 0 0; color: var(--pg-ink);
+}
+.pg-tile[data-lang="claymorphic"] .clay-mock-bars{
+  display: flex; flex-direction: column; gap: 9px; width: 100%; margin-top: 2px;
+}
+.pg-tile[data-lang="claymorphic"] .clay-mock-bar{
+  height: 16px; border-radius: 999px; background: var(--pg-bg);
+  box-shadow: var(--clay-concave); position: relative; overflow: hidden;
+}
+.pg-tile[data-lang="claymorphic"] .clay-mock-bar::before{
+  content:""; position:absolute; inset: 3px auto 3px 3px; border-radius: 999px;
+  box-shadow: var(--clay-convex-sm);
+}
+.pg-tile[data-lang="claymorphic"] .clay-mock-bar.b1::before{ width: 78%; background: var(--pg-good); }
+.pg-tile[data-lang="claymorphic"] .clay-mock-bar.b2::before{ width: 92%; background: var(--pg-good); }
+.pg-tile[data-lang="claymorphic"] .clay-mock-bar.b3::before{ width: 40%; background: var(--pg-ok); }
+
+/* ----------------------------------------------------------- responsive --- */
+@media (max-width: 820px){
+  .pg-tile[data-lang="claymorphic"] .clay-hero-grid{ grid-template-columns: 1fr; }
+  .pg-tile[data-lang="claymorphic"] .clay-hero-mock{ order: -1; }
+  .pg-tile[data-lang="claymorphic"] .clay-mock{ transform: rotate(0deg); }
+  .pg-tile[data-lang="claymorphic"] .pg-surface-web{ padding: calc(3*var(--clay-u)) calc(2.5*var(--clay-u)) calc(4*var(--clay-u)); }
+}
+@media (max-width: 520px){
+  .pg-tile[data-lang="claymorphic"] .clay-navlinks{ display: none; }
+  .pg-tile[data-lang="claymorphic"] .clay-headline{ font-size: clamp(28px, 8vw, 40px); }
+}
+
+/* --------------------------------------------------------- a11y / motion --- */
+.pg-tile[data-lang="claymorphic"] a:focus-visible,
+.pg-tile[data-lang="claymorphic"] button:focus-visible{
+  outline: 3px solid color-mix(in srgb, var(--pg-primary) 70%, #fff);
+  outline-offset: 3px; border-radius: 999px;
+}
+@media (prefers-reduced-motion: reduce){
+  .pg-tile[data-lang="claymorphic"] *{ transition: none !important; }
+}

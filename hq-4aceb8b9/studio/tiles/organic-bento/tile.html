@@ -1,0 +1,195 @@
+<!-- organic-bento tile — markup only (the shell injects this into the stage).
+     Two surfaces, identical Helthy content, every visible string/number in a data-pg-slot. -->
+<div class="pg-tile" data-lang="organic-bento">
+
+  <!-- ============================================================= -->
+  <!-- SURFACE A — app: scan -> score                                -->
+  <!-- ============================================================= -->
+  <section class="pg-surface-app">
+    <div class="ob-phone">
+      <div class="ob-phone-screen">
+
+        <header class="ob-appbar">
+          <button class="ob-back" type="button" aria-label="Back">&#8249;</button>
+          <span class="ob-wordmark" data-pg-slot="brand">Helthy</span>
+          <span class="ob-appbar-spacer"></span>
+          <span class="ob-appbar-dot" aria-hidden="true">&#8943;</span>
+        </header>
+
+        <div class="ob-app-stack">
+
+          <!-- hero score tile (signature: blob-ring gauge) -->
+          <div class="ob-tile ob-tile--score ob-wash-sage">
+            <div class="ob-gauge">
+              <svg viewBox="0 0 120 120" role="img" aria-label="Helthy score 88 out of 100, rated good">
+                <path class="ob-blob" d="M60 8 C84 6 113 22 112 52 C111 80 92 112 62 113 C32 114 7 92 8 60 C9 30 36 10 60 8 Z"/>
+                <circle class="ob-ring-track" cx="60" cy="60" r="50"/>
+                <circle class="ob-ring-fill"  cx="60" cy="60" r="50"/>
+              </svg>
+              <div class="ob-gauge-num"><span data-pg-slot="scoreValue">88</span></div>
+            </div>
+            <div class="ob-score-meta">
+              <span class="ob-score-label" data-pg-slot="scoreLabel">GOOD</span>
+              <span class="ob-score-sub">A solid fit for your blood-sugar goals.</span>
+            </div>
+          </div>
+
+          <!-- product tile -->
+          <div class="ob-tile ob-tile--product">
+            <span class="ob-thumb" aria-hidden="true">&#129371;</span>
+            <div>
+              <h3 class="ob-product-name" data-pg-slot="productName">Siggi's Plain Whole-Milk Yogurt</h3>
+              <p class="ob-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+            </div>
+          </div>
+
+          <!-- why tile -->
+          <div class="ob-tile ob-tile--why ob-wash-butter">
+            <p class="ob-eyebrow">Why this score</p>
+            <ul class="ob-why-list">
+              <li class="ob-why ob-why--good">
+                <span class="ob-why-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+                </span>
+                <span class="ob-why-label" data-pg-slot="whyLabel">High protein</span>
+                <span class="ob-why-val" data-pg-slot="whyValue">11 g</span>
+              </li>
+              <li class="ob-why ob-why--good">
+                <span class="ob-why-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c3 4 6 7 6 10a6 6 0 0 1-12 0c0-3 3-6 6-10Z"/></svg>
+                </span>
+                <span class="ob-why-label" data-pg-slot="whyLabel">No added sugar</span>
+                <span class="ob-why-val" data-pg-slot="whyValue">0 g</span>
+              </li>
+              <li class="ob-why ob-why--ok">
+                <span class="ob-why-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+                </span>
+                <span class="ob-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+                <span class="ob-why-val" data-pg-slot="whyValue">65 mg</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- better-scoring picks strip -->
+          <div class="ob-picks">
+            <p class="ob-eyebrow">Better-scoring picks</p>
+            <div class="ob-picks-row">
+              <div class="ob-pick ob-wash-mint">
+                <span class="ob-pick-score" data-pg-slot="pickScore">91</span>
+                <span class="ob-pick-name">Plain Greek</span>
+              </div>
+              <div class="ob-pick ob-wash-sage">
+                <span class="ob-pick-score" data-pg-slot="pickScore">90</span>
+                <span class="ob-pick-name">Skyr 0%</span>
+              </div>
+              <div class="ob-pick ob-wash-butter">
+                <span class="ob-pick-score" data-pg-slot="pickScore">86</span>
+                <span class="ob-pick-name">Cottage 2%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- primary CTA -->
+          <button class="ob-cta" type="button">
+            <span class="ob-cta-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M4 12h16"/></svg>
+            </span>
+            <span data-pg-slot="appCta">Scan another</span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- SURFACE B — website hero (bento mosaic)                        -->
+  <!-- ============================================================= -->
+  <section class="pg-surface-web">
+
+    <svg class="ob-web-blob" viewBox="0 0 200 200" aria-hidden="true">
+      <path d="M44 -64 C70 -50 92 -28 96 0 C100 30 86 62 60 80 C32 98 -4 100 -34 84 C-62 68 -82 38 -80 6 C-78 -28 -56 -58 -28 -72 C-2 -86 18 -78 44 -64 Z" transform="translate(100 100)"/>
+    </svg>
+
+    <header class="ob-web-nav">
+      <span class="ob-web-brand" data-pg-slot="brand">Helthy</span>
+      <nav class="ob-web-links" aria-label="Primary">
+        <a href="#" data-pg-slot="navItem">How it works</a>
+        <a href="#" data-pg-slot="navItem">Science</a>
+        <a href="#" data-pg-slot="navItem">Beta</a>
+      </nav>
+    </header>
+
+    <div class="ob-hero">
+
+      <!-- copy tile -->
+      <div class="ob-tile ob-hero-copy ob-wash-sage">
+        <span class="ob-kicker" data-pg-slot="heroKicker">Diabetes-friendly food scanning</span>
+        <h1 class="ob-headline" data-pg-slot="heroHeadline">Know if it's right for your <em>blood sugar</em> &mdash; before you buy.</h1>
+        <p class="ob-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+        <div class="ob-cta-row">
+          <button class="ob-cta ob-cta--primary" type="button" data-pg-slot="heroPrimaryCta">Join the beta</button>
+          <button class="ob-cta ob-cta--ghost" type="button" data-pg-slot="heroSecondaryCta">See how it works</button>
+        </div>
+        <p class="ob-trust" data-pg-slot="trustLine">Built with dietitians &middot; Open Food Facts + USDA nutrition</p>
+      </div>
+
+      <!-- right-side bento cluster -->
+      <div class="ob-hero-bento">
+
+        <!-- phone-glimpse tile -->
+        <div class="ob-tile ob-mock ob-wash-mint">
+          <div class="ob-mock-head">
+            <div class="ob-mgauge">
+              <svg viewBox="0 0 100 100" role="img" aria-label="Score 88, rated good">
+                <path class="ob-mblob" d="M50 7 C70 5 94 19 93 44 C92 67 77 94 52 95 C27 96 6 77 7 50 C8 25 30 9 50 7 Z"/>
+                <circle class="ob-mgauge-track" cx="50" cy="50" r="34"/>
+                <circle class="ob-mgauge-fill"  cx="50" cy="50" r="34"/>
+              </svg>
+              <div class="ob-mgauge-num"><span data-pg-slot="scoreValue">88</span></div>
+            </div>
+            <div>
+              <span class="ob-score-label" data-pg-slot="scoreLabel">GOOD</span>
+              <p class="ob-mock-name" data-pg-slot="productName">Siggi's Plain Whole-Milk Yogurt</p>
+              <p class="ob-mock-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+            </div>
+          </div>
+          <div class="ob-mock-row">
+            <span class="ob-dot" aria-hidden="true"></span>
+            <span class="ob-mr-label" data-pg-slot="whyLabel">High protein</span>
+            <span class="ob-mr-val" data-pg-slot="whyValue">11 g</span>
+          </div>
+          <div class="ob-mock-row">
+            <span class="ob-dot" aria-hidden="true"></span>
+            <span class="ob-mr-label" data-pg-slot="whyLabel">No added sugar</span>
+            <span class="ob-mr-val" data-pg-slot="whyValue">0 g</span>
+          </div>
+          <div class="ob-mock-row ob-ok">
+            <span class="ob-dot" aria-hidden="true"></span>
+            <span class="ob-mr-label" data-pg-slot="whyLabel">Watch sodium</span>
+            <span class="ob-mr-val" data-pg-slot="whyValue">65 mg</span>
+          </div>
+          <div class="ob-mock-cta" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M4 12h16"/></svg>
+            <span data-pg-slot="appCta">Scan another</span>
+          </div>
+        </div>
+
+        <!-- satellite stat tile: protein -->
+        <div class="ob-tile ob-stat ob-stat--protein ob-wash-sage">
+          <span class="ob-stat-num" data-pg-slot="whyValue">11 g</span>
+          <span class="ob-stat-label" data-pg-slot="whyLabel">Protein per cup</span>
+        </div>
+
+        <!-- satellite stat tile: sugar -->
+        <div class="ob-tile ob-stat ob-stat--sugar ob-wash-butter">
+          <span class="ob-stat-num" data-pg-slot="whyValue">0 g</span>
+          <span class="ob-stat-label" data-pg-slot="whyLabel">Added sugar</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>

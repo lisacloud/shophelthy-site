@@ -1,0 +1,526 @@
+/* ============================================================================
+   NEUMORPHIC tile — soft monochrome clay extrusion for Helthy
+   Everything scoped under .pg-tile[data-lang="neumorphic"] so 6 tiles coexist.
+
+   The language: a single-tone clay surface sculpted only by light. Depth is dual
+   shadow — a light source top-left, dark bottom-right — never a border or a fill.
+   The craft (per SPEC §1) is CONTRAST: ink stays genuinely dark, tinted text is
+   deepened to clear 4.5:1, and body sits in subtly-debossed wells. The one place
+   colour escapes the monochrome is the score dial's arc — the signature.
+   ============================================================================ */
+
+.pg-tile[data-lang="neumorphic"]{
+  /* ---- language palette defaults (single tone: bg === surface) ------------- */
+  --pg-bg:       #e7ece8;   /* sage-mineral clay, not the cold #e0e5ec cliché   */
+  --pg-surface:  #e7ece8;   /* same plane — elements RISE from the ground       */
+  --pg-ink:      #15251e;   /* deep pine, high-contrast primary text            */
+  --pg-ink-soft: #4d5f56;   /* deepened secondary (clears 4.5:1 on the clay)    */
+  --pg-primary:  #2f9e72;
+  --pg-accent:   #e0982f;
+  --pg-good:     #2f9e72;
+  --pg-ok:       #d98a23;
+  --pg-avoid:    #d8584f;
+
+  /* type — rounded geometrics whose circular bowls echo the soft extrusion */
+  --pg-font-head: "Quicksand", "Nunito", system-ui, sans-serif;
+  --pg-font-body: "Nunito", system-ui, sans-serif;
+
+  /* ---- sculpt system — derives from --pg-surface so the shell's surface
+          picker re-derives the entire extrusion live ------------------------- */
+  --neu-light: color-mix(in srgb, var(--pg-surface), #ffffff 64%);
+  --neu-dark:  color-mix(in srgb, var(--pg-surface), #0c1a13 28%);
+
+  /* convex / concave face sheen (sells the extrusion at the surface) */
+  --neu-face-raise: linear-gradient(145deg,
+                      color-mix(in srgb, var(--pg-surface), #ffffff 7%),
+                      color-mix(in srgb, var(--pg-surface), #0c1a13 6%));
+  --neu-face-press: linear-gradient(145deg,
+                      color-mix(in srgb, var(--pg-surface), #0c1a13 6%),
+                      color-mix(in srgb, var(--pg-surface), #ffffff 7%));
+
+  /* shadow geometry derived from --pg-elevation (SPEC §1) */
+  --neu-d-sm: calc(5px  * var(--pg-elevation));
+  --neu-b-sm: calc(11px * var(--pg-elevation));
+  --neu-d-md: calc(7px  * var(--pg-elevation));
+  --neu-b-md: calc(16px * var(--pg-elevation));
+  --neu-d-lg: calc(13px * var(--pg-elevation));
+  --neu-b-lg: calc(30px * var(--pg-elevation));
+
+  /* deepened inks for any TINTED text — keeps brand hue, clears contrast */
+  --neu-good-ink: color-mix(in srgb, var(--pg-good),  #05291c 36%);
+  --neu-ok-ink:   color-mix(in srgb, var(--pg-ok),    #3a2402 42%);
+  --neu-avoid-ink:color-mix(in srgb, var(--pg-avoid), #3a0f0c 30%);
+
+  /* spacing scale from --pg-density (SPEC §1) */
+  --neu-gap: calc(14px * var(--pg-density));
+  --neu-pad: calc(22px * var(--pg-density));
+
+  font-family: var(--pg-font-body);
+  color: var(--pg-ink);
+  background: var(--pg-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* dark mode — re-tune the light model: light shadow is a faint lift, dark is
+   near-black; tinted inks LIGHTEN instead of deepen. */
+:root[data-theme="dark"] .pg-tile[data-lang="neumorphic"]{
+  --pg-bg:       #161f1b;
+  --pg-surface:  #161f1b;
+  --pg-ink:      #e9f2ed;
+  --pg-ink-soft: #a4b8ae;
+  --neu-light: color-mix(in srgb, var(--pg-surface), #ffffff 9%);
+  --neu-dark:  color-mix(in srgb, var(--pg-surface), #000000 46%);
+  --neu-face-raise: linear-gradient(145deg,
+                      color-mix(in srgb, var(--pg-surface), #ffffff 6%),
+                      color-mix(in srgb, var(--pg-surface), #000000 10%));
+  --neu-face-press: linear-gradient(145deg,
+                      color-mix(in srgb, var(--pg-surface), #000000 10%),
+                      color-mix(in srgb, var(--pg-surface), #ffffff 6%));
+  --neu-good-ink: color-mix(in srgb, var(--pg-good),  #ffffff 30%);
+  --neu-ok-ink:   color-mix(in srgb, var(--pg-ok),    #ffffff 34%);
+  --neu-avoid-ink:color-mix(in srgb, var(--pg-avoid), #ffffff 24%);
+}
+
+/* ---- reusable extrusion primitives ---------------------------------------- */
+.pg-tile[data-lang="neumorphic"] .neu-raised-sm{
+  background: var(--neu-face-raise);
+  box-shadow:
+    calc(var(--neu-d-sm) * -1) calc(var(--neu-d-sm) * -1) var(--neu-b-sm) var(--neu-light),
+    var(--neu-d-sm) var(--neu-d-sm) var(--neu-b-sm) var(--neu-dark);
+}
+.pg-tile[data-lang="neumorphic"] .neu-raised-md{
+  background: var(--neu-face-raise);
+  box-shadow:
+    calc(var(--neu-d-md) * -1) calc(var(--neu-d-md) * -1) var(--neu-b-md) var(--neu-light),
+    var(--neu-d-md) var(--neu-d-md) var(--neu-b-md) var(--neu-dark);
+}
+.pg-tile[data-lang="neumorphic"] .neu-raised-lg{
+  background: var(--neu-face-raise);
+  box-shadow:
+    calc(var(--neu-d-lg) * -1) calc(var(--neu-d-lg) * -1) var(--neu-b-lg) var(--neu-light),
+    var(--neu-d-lg) var(--neu-d-lg) var(--neu-b-lg) var(--neu-dark);
+}
+.pg-tile[data-lang="neumorphic"] .neu-pressed-sm{
+  background: var(--neu-face-press);
+  box-shadow:
+    inset calc(var(--neu-d-sm) * -1) calc(var(--neu-d-sm) * -1) var(--neu-b-sm) var(--neu-light),
+    inset var(--neu-d-sm) var(--neu-d-sm) var(--neu-b-sm) var(--neu-dark);
+}
+.pg-tile[data-lang="neumorphic"] .neu-pressed-lg{
+  background: var(--neu-face-press);
+  box-shadow:
+    inset calc(var(--neu-d-lg) * -1) calc(var(--neu-d-lg) * -1) var(--neu-b-lg) var(--neu-light),
+    inset var(--neu-d-lg) var(--neu-d-lg) var(--neu-b-lg) var(--neu-dark);
+}
+
+/* ---- stages --------------------------------------------------------------- */
+.pg-tile[data-lang="neumorphic"] .neu-stage{
+  background: var(--pg-bg);
+  padding: clamp(20px, 4vw, 44px);
+  box-sizing: border-box;
+}
+.pg-tile[data-lang="neumorphic"] .neu-stage--app{
+  display: flex;
+  justify-content: center;
+}
+.pg-tile[data-lang="neumorphic"] *,
+.pg-tile[data-lang="neumorphic"] *::before,
+.pg-tile[data-lang="neumorphic"] *::after{ box-sizing: border-box; }
+
+/* ============================ PHONE (Surface A) ============================ */
+.pg-tile[data-lang="neumorphic"] .neu-phone{
+  position: relative;
+  width: 390px;
+  max-width: 100%;
+  border-radius: calc(var(--pg-radius) * 2.2);
+  padding: calc(var(--neu-pad) * 0.55);
+}
+.pg-tile[data-lang="neumorphic"] .neu-notch{
+  position: absolute;
+  top: calc(var(--neu-pad) * 0.55 + 9px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 88px; height: 7px;
+  border-radius: 99px;
+  background: var(--neu-face-press);
+  box-shadow:
+    inset 2px 2px 4px var(--neu-dark),
+    inset -2px -2px 4px var(--neu-light);
+}
+.pg-tile[data-lang="neumorphic"] .neu-phone-inner{
+  border-radius: calc(var(--pg-radius) * 1.8);
+  padding: calc(var(--neu-pad) * 1.05) var(--neu-pad) var(--neu-pad);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--neu-gap) * 1.25);
+}
+
+/* top bar */
+.pg-tile[data-lang="neumorphic"] .neu-topbar{
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  margin-top: 4px;
+}
+.pg-tile[data-lang="neumorphic"] .neu-icon-btn{
+  width: 40px; height: 40px;
+  border: 0; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--pg-ink);
+  cursor: pointer;
+}
+.pg-tile[data-lang="neumorphic"] .neu-icon-btn svg{
+  width: 19px; height: 19px;
+  fill: none; stroke: currentColor; stroke-width: 2.4;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.pg-tile[data-lang="neumorphic"] .neu-wordmark{
+  display: inline-flex; align-items: center; gap: 9px;
+  justify-self: center;
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: .2px;
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="neumorphic"] .neu-logo{
+  width: 22px; height: 22px; border-radius: 50%;
+  position: relative;
+  background: var(--neu-face-raise);
+}
+.pg-tile[data-lang="neumorphic"] .neu-logo::after{
+  content: ""; position: absolute; inset: 6px;
+  border-radius: 50%;
+  background: var(--pg-primary);
+  box-shadow: inset 1px 1px 1.5px rgba(255,255,255,.45),
+              inset -1px -1px 1.5px rgba(0,0,0,.25);
+}
+
+/* ---- SIGNATURE: debossed score dial -------------------------------------- */
+.pg-tile[data-lang="neumorphic"] .neu-dial-wrap{
+  display: flex; justify-content: center;
+  padding: calc(var(--neu-gap) * 0.5) 0 calc(var(--neu-gap) * 0.25);
+}
+.pg-tile[data-lang="neumorphic"] .neu-dial{
+  position: relative;
+  width: 218px; height: 218px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+}
+.pg-tile[data-lang="neumorphic"] .neu-dial-arc{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  transform: rotate(-90deg);          /* start the arc at 12 o'clock */
+}
+.pg-tile[data-lang="neumorphic"] .neu-arc-track{
+  fill: none;
+  stroke: color-mix(in srgb, var(--pg-surface), #0c1a13 13%);
+  stroke-width: 5.5;
+}
+.pg-tile[data-lang="neumorphic"] .neu-arc-fill{
+  fill: none;
+  stroke: var(--pg-good);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 263.9;            /* 2·π·42 */
+  stroke-dashoffset: 31.67;           /* 12% remaining → reads 88 */
+  filter: drop-shadow(0 1.4px 1.4px rgba(0,0,0,.20));
+}
+.pg-tile[data-lang="neumorphic"] .neu-dial-face{
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 4px;
+  z-index: 1;
+}
+.pg-tile[data-lang="neumorphic"] .neu-score{
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: 62px;
+  line-height: .92;
+  color: var(--pg-ink);
+  text-shadow: 0 1px 0 var(--neu-light);   /* embossed — highlight only, ink stays dark */
+}
+.pg-tile[data-lang="neumorphic"] .neu-score-chip{
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 11px 4px 8px;
+  border-radius: 99px;
+  font-family: var(--pg-font-body);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  color: var(--neu-good-ink);
+}
+.pg-tile[data-lang="neumorphic"] .neu-dot{
+  width: 8px; height: 8px; border-radius: 50%;
+  box-shadow: inset 1px 1px 1.5px rgba(255,255,255,.4),
+              inset -1px -1px 1.5px rgba(0,0,0,.25);
+}
+.pg-tile[data-lang="neumorphic"] .neu-dot--good{ background: var(--pg-good); }
+.pg-tile[data-lang="neumorphic"] .neu-dot--ok{   background: var(--pg-ok); }
+
+/* product */
+.pg-tile[data-lang="neumorphic"] .neu-product{ text-align: center; padding: 0 6px; }
+.pg-tile[data-lang="neumorphic"] .neu-product-name{
+  margin: 0;
+  font-family: var(--pg-font-head);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.22;
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="neumorphic"] .neu-product-meta{
+  margin: 5px 0 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  color: var(--pg-ink-soft);
+}
+
+/* why rows — debossed wells, ink stays high-contrast */
+.pg-tile[data-lang="neumorphic"] .neu-why{
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: calc(var(--neu-gap) * 0.8);
+}
+.pg-tile[data-lang="neumorphic"] .neu-why-row{
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  align-items: center;
+  gap: 13px;
+  padding: 11px 16px;
+  border-radius: calc(var(--pg-radius) * 0.8);
+}
+.pg-tile[data-lang="neumorphic"] .neu-why-icon{
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  box-shadow: 2px 2px 5px rgba(0,0,0,.16),
+              -1px -1px 3px rgba(255,255,255,.30),
+              inset 1px 1px 2px rgba(255,255,255,.35);
+}
+.pg-tile[data-lang="neumorphic"] .neu-why-icon svg{
+  width: 19px; height: 19px;
+  fill: none; stroke: #fff; stroke-width: 2.8;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.pg-tile[data-lang="neumorphic"] .neu-fill--good{ background: var(--pg-good); }
+.pg-tile[data-lang="neumorphic"] .neu-fill--ok{   background: var(--pg-ok); }
+.pg-tile[data-lang="neumorphic"] .neu-why-label{
+  font-size: 15px; font-weight: 700; color: var(--pg-ink);
+}
+.pg-tile[data-lang="neumorphic"] .neu-why-value{
+  font-family: var(--pg-font-head);
+  font-size: 15px; font-weight: 700;
+  color: var(--pg-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* better-scoring picks */
+.pg-tile[data-lang="neumorphic"] .neu-picks{ margin-top: 2px; }
+.pg-tile[data-lang="neumorphic"] .neu-picks-title{
+  margin: 0 0 calc(var(--neu-gap) * 0.7);
+  font-family: var(--pg-font-head);
+  font-size: 13px; font-weight: 700;
+  letter-spacing: .3px;
+  color: var(--pg-ink-soft);
+  text-align: center;
+}
+.pg-tile[data-lang="neumorphic"] .neu-picks-row{
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: calc(var(--neu-gap) * 0.85);
+}
+.pg-tile[data-lang="neumorphic"] .neu-pick{
+  border-radius: calc(var(--pg-radius) * 0.8);
+  padding: 14px 8px 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.pg-tile[data-lang="neumorphic"] .neu-pick-badge{
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px 5px 9px;
+  border-radius: 99px;
+  font-family: var(--pg-font-head);
+  font-weight: 700; font-size: 16px;
+  color: var(--pg-ink);
+  font-variant-numeric: tabular-nums;
+}
+.pg-tile[data-lang="neumorphic"] .neu-pick-label{
+  font-size: 11.5px; font-weight: 700;
+  color: var(--pg-ink-soft);
+  letter-spacing: .1px;
+}
+
+/* call to action — a raised key, the green one is the action */
+.pg-tile[data-lang="neumorphic"] .neu-cta{
+  appearance: none; border: 0; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  padding: 16px 26px;
+  border-radius: 99px;
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: .2px;
+  color: var(--pg-ink);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.pg-tile[data-lang="neumorphic"] .neu-cta-glyph{
+  width: 18px; height: 18px;
+  fill: none; stroke: currentColor; stroke-width: 2.2;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.pg-tile[data-lang="neumorphic"] .neu-cta--primary{
+  /* SOLID deep green derived from --pg-primary — white label clears 4.5:1 (~5.1)
+     at any size; the extruded sheen comes from inset shadows, not a gradient,
+     so the green stays dark enough behind the text. */
+  background-color: color-mix(in srgb, var(--pg-primary), #062a1c 30%);
+  background-image: none;   /* override the clay face gradient from .neu-raised-md */
+  color: #ffffff;
+  font-size: 18px; font-weight: 700;
+  text-shadow: 0 1px 1px rgba(0,0,0,.30);
+}
+.pg-tile[data-lang="neumorphic"] .neu-cta--primary.neu-raised-md{
+  box-shadow:
+    calc(var(--neu-d-md) * -1) calc(var(--neu-d-md) * -1) var(--neu-b-md) var(--neu-light),
+    var(--neu-d-md) var(--neu-d-md) var(--neu-b-md) var(--neu-dark),
+    inset 0 1px 1px rgba(255,255,255,.30),
+    inset 0 -2px 4px rgba(4,40,27,.30);
+}
+.pg-tile[data-lang="neumorphic"] .neu-cta--ghost{ color: var(--pg-ink); }
+.pg-tile[data-lang="neumorphic"] .neu-cta:hover{ transform: translateY(-1px); }
+.pg-tile[data-lang="neumorphic"] .neu-cta:active{
+  transform: translateY(0);
+  box-shadow:
+    inset calc(var(--neu-d-sm) * -1) calc(var(--neu-d-sm) * -1) var(--neu-b-sm) var(--neu-light),
+    inset var(--neu-d-sm) var(--neu-d-sm) var(--neu-b-sm) var(--neu-dark);
+}
+.pg-tile[data-lang="neumorphic"] .neu-cta--primary:active{
+  box-shadow:
+    inset 2px 2px 6px rgba(4,40,27,.45),
+    inset -2px -2px 6px rgba(255,255,255,.15);
+}
+
+/* ============================ WEB HERO (Surface B) ============================ */
+.pg-tile[data-lang="neumorphic"] .neu-stage--web{ padding: clamp(22px, 3.5vw, 52px); }
+.pg-tile[data-lang="neumorphic"] .neu-hero{
+  border-radius: calc(var(--pg-radius) * 1.6);
+  padding: clamp(24px, 3vw, 44px);
+  background: var(--neu-face-raise);
+  box-shadow:
+    calc(var(--neu-d-lg) * -1) calc(var(--neu-d-lg) * -1) var(--neu-b-lg) var(--neu-light),
+    var(--neu-d-lg) var(--neu-d-lg) var(--neu-b-lg) var(--neu-dark);
+}
+.pg-tile[data-lang="neumorphic"] .neu-web-nav{
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
+  padding-bottom: clamp(20px, 3vw, 38px);
+}
+.pg-tile[data-lang="neumorphic"] .neu-wordmark--lg{ font-size: 23px; }
+.pg-tile[data-lang="neumorphic"] .neu-wordmark--lg .neu-logo{ width: 26px; height: 26px; }
+.pg-tile[data-lang="neumorphic"] .neu-nav-links{
+  display: flex; align-items: center; gap: 6px;
+}
+.pg-tile[data-lang="neumorphic"] .neu-nav-link{
+  text-decoration: none;
+  padding: 9px 16px;
+  border-radius: 99px;
+  font-size: 14.5px; font-weight: 700;
+  color: var(--pg-ink-soft);
+  transition: box-shadow .14s ease, color .14s ease;
+}
+.pg-tile[data-lang="neumorphic"] .neu-nav-link:hover{
+  color: var(--pg-ink);
+  box-shadow:
+    inset 2px 2px 5px var(--neu-dark),
+    inset -2px -2px 5px var(--neu-light);
+}
+
+.pg-tile[data-lang="neumorphic"] .neu-hero-body{
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  align-items: center;
+  gap: clamp(28px, 4vw, 56px);
+}
+.pg-tile[data-lang="neumorphic"] .neu-hero-copy{ min-width: 0; }
+.pg-tile[data-lang="neumorphic"] .neu-kicker{
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: .4px;
+  color: var(--neu-good-ink);
+  margin-bottom: 22px;
+}
+.pg-tile[data-lang="neumorphic"] .neu-headline{
+  margin: 0;
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: clamp(32px, 4.4vw, 52px);
+  line-height: 1.06;
+  letter-spacing: -.5px;
+  color: var(--pg-ink);
+  /* engraved: a hair of highlight below the dark ink reads as pressed-in */
+  text-shadow: 0 1.5px 0 var(--neu-light);
+}
+.pg-tile[data-lang="neumorphic"] .neu-subhead{
+  margin: 22px 0 0;
+  max-width: 30em;
+  font-size: 16.5px;
+  line-height: 1.6;
+  font-weight: 600;
+  color: var(--pg-ink-soft);
+}
+.pg-tile[data-lang="neumorphic"] .neu-hero-ctas{
+  display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+  margin-top: 30px;
+}
+.pg-tile[data-lang="neumorphic"] .neu-trust{
+  margin: 26px 0 0;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: .2px;
+  color: var(--pg-ink-soft);
+}
+
+.pg-tile[data-lang="neumorphic"] .neu-hero-mock{
+  display: flex; justify-content: center;
+}
+.pg-tile[data-lang="neumorphic"] .neu-phone--mini{
+  width: 300px;
+  transform: rotate(2.2deg);
+}
+.pg-tile[data-lang="neumorphic"] .neu-phone--mini .neu-phone-inner{ gap: calc(var(--neu-gap) * 0.9); }
+.pg-tile[data-lang="neumorphic"] .neu-topbar--mini{ grid-template-columns: 1fr; justify-items: center; }
+.pg-tile[data-lang="neumorphic"] .neu-dial--mini{ width: 150px; height: 150px; }
+.pg-tile[data-lang="neumorphic"] .neu-dial--mini .neu-dial-face{ width: 102px; height: 102px; }
+.pg-tile[data-lang="neumorphic"] .neu-dial--mini .neu-score{ font-size: 42px; }
+.pg-tile[data-lang="neumorphic"] .neu-dial--mini .neu-score-chip{ font-size: 9px; padding: 3px 9px 3px 6px; }
+.pg-tile[data-lang="neumorphic"] .neu-product--mini .neu-product-name{ font-size: 15.5px; }
+.pg-tile[data-lang="neumorphic"] .neu-product--mini .neu-product-meta{ font-size: 11.5px; }
+.pg-tile[data-lang="neumorphic"] .neu-why--mini .neu-why-row{ padding: 8px 12px; grid-template-columns: 30px 1fr auto; gap: 10px; }
+.pg-tile[data-lang="neumorphic"] .neu-why--mini .neu-why-icon{ width: 30px; height: 30px; border-radius: 9px; }
+.pg-tile[data-lang="neumorphic"] .neu-why--mini .neu-why-icon svg{ width: 15px; height: 15px; }
+.pg-tile[data-lang="neumorphic"] .neu-why--mini .neu-why-label{ font-size: 12.5px; }
+.pg-tile[data-lang="neumorphic"] .neu-why--mini .neu-why-value{ font-size: 12.5px; }
+
+/* ---- accessibility: visible focus, reduced motion ------------------------- */
+.pg-tile[data-lang="neumorphic"] a:focus-visible,
+.pg-tile[data-lang="neumorphic"] button:focus-visible{
+  outline: 3px solid var(--neu-good-ink);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce){
+  .pg-tile[data-lang="neumorphic"] *{ transition: none !important; }
+}
+
+/* ---- responsive ----------------------------------------------------------- */
+@media (max-width: 760px){
+  .pg-tile[data-lang="neumorphic"] .neu-hero-body{
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .pg-tile[data-lang="neumorphic"] .neu-hero-mock{ order: -1; }
+  .pg-tile[data-lang="neumorphic"] .neu-phone--mini{ transform: none; }
+  .pg-tile[data-lang="neumorphic"] .neu-web-nav .neu-nav-links{ display: none; }
+}

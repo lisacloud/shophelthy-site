@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Helthy Playground — glassmorphic tile</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="tile.css">
+
+  <style>
+    :root{
+      --pg-bg:#eef3f0; --pg-surface:#ffffff; --pg-ink:#14241d; --pg-ink-soft:#5c6f67;
+      --pg-primary:#2f9e72; --pg-accent:#f4b740;
+      --pg-good:#2f9e72; --pg-ok:#e8a13a; --pg-avoid:#d8584f;
+      --pg-font-head:"Fraunces", Georgia, serif; --pg-font-body:"Inter", system-ui, sans-serif;
+      --pg-radius:20px; --pg-elevation:1; --pg-blur:14px; --pg-density:1;
+    }
+    :root[data-theme="dark"]{ --pg-bg:#0f1714; --pg-surface:#172420; --pg-ink:#eaf3ee; --pg-ink-soft:#9fb3aa; }
+    html,body{ margin:0; }
+    body{
+      background:
+        radial-gradient(1200px 700px at 20% -10%, #cfe9df, transparent 60%),
+        radial-gradient(1000px 700px at 95% 0%, #d6ecf4, transparent 55%),
+        #e7eef0;
+      font-family:"Hanken Grotesk", system-ui, sans-serif;
+      min-height:100vh; color:#14241d;
+    }
+    :root[data-theme="dark"] body{ background:#0a120f; color:#eaf3ee; }
+    .pv-head{ display:flex; align-items:center; gap:14px; padding:22px 28px 4px; }
+    .pv-head h1{ font-family:"Space Grotesk", sans-serif; font-size:16px; font-weight:700; letter-spacing:-.01em; margin:0; }
+    .pv-head .pv-tag{ font-size:12px; color:#5c6f67; }
+    .pv-toggle{ margin-left:auto; cursor:pointer; font:inherit; font-size:13px; padding:8px 14px; border-radius:999px;
+      border:1px solid rgba(0,0,0,.12); background:rgba(255,255,255,.6); }
+    :root[data-theme="dark"] .pv-toggle{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.16); color:#eaf3ee; }
+    .pv-section-label{ font-family:"Space Grotesk",sans-serif; font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+      color:#5c6f67; padding:26px 28px 0; }
+    :root[data-theme="dark"] .pv-section-label{ color:#9fb3aa; }
+    #host .pg-surface-web{ margin:14px 28px 40px; }
+  </style>
+</head>
+<body>
+  <div class="pv-head">
+    <h1>glassmorphic</h1>
+    <span class="pv-tag">Apple Liquid Glass · Helthy playground tile</span>
+    <button class="pv-toggle" id="themeBtn" type="button">Toggle dark</button>
+  </div>
+
+  <div class="pv-section-label">Surface A — app</div>
+  <div class="pv-section-label" style="display:none">Surface B — web</div>
+
+  <div id="host"><p style="padding:28px;color:#5c6f67">Loading tile…</p></div>
+
+  <script>
+    if (/(\?|&)theme=dark/.test(location.search)) document.documentElement.setAttribute("data-theme","dark");
+    document.getElementById("themeBtn").addEventListener("click", function(){
+      var r = document.documentElement;
+      r.setAttribute("data-theme", r.getAttribute("data-theme") === "dark" ? "light" : "dark");
+      if (window.HelthyGlass) window.HelthyGlass.run();
+    });
+
+    // pull in tile.html, inject markup, then re-create <script> nodes so they run
+    fetch("tile.html").then(function(r){ return r.text(); }).then(function(html){
+      var host = document.getElementById("host");
+      host.innerHTML = html;
+      host.querySelectorAll("script").forEach(function(old){
+        var s = document.createElement("script");
+        if (old.src) s.src = old.src; else s.textContent = old.textContent;
+        old.replaceWith(s);
+      });
+    }).catch(function(err){
+      document.getElementById("host").innerHTML =
+        '<p style="padding:28px;color:#d8584f">Could not load tile.html — serve this folder over http (python3 -m http.server). ' + err + '</p>';
+    });
+  </script>
+</body>
+</html>

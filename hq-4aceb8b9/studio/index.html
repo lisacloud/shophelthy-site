@@ -1,0 +1,1367 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Helthy Design Studio</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="A live design sandbox for Helthy: compare design languages, tune the tokens, save the looks you love.">
+
+  <!-- Chassis + tile-default fonts. Per-language display faces are lazy-loaded by playground.js. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link id="pg-fontlink-base" rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600&display=swap">
+
+  <link rel="stylesheet" href="playground.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap">
+  <link rel="stylesheet" href="tiles/claymorphic/tile.css">
+  <link rel="stylesheet" href="tiles/glassmorphic/tile.css">
+  <link rel="stylesheet" href="tiles/neumorphic/tile.css">
+  <link rel="stylesheet" href="tiles/material-expressive/tile.css">
+  <link rel="stylesheet" href="tiles/editorial/tile.css">
+  <link rel="stylesheet" href="tiles/organic-bento/tile.css">
+</head>
+<body>
+  <div class="pg-shell" data-view="studio" data-welcome="on">
+
+    <!-- ============================ TOP BAR ============================ -->
+    <header class="pg-topbar">
+      <div class="pg-brand">
+        <span class="pg-brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.6-7-10.2A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7 3.8C19 16.4 12 21 12 21Z" fill="currentColor"/><path d="M9.4 12.2h2.1l1-2 1.2 3 1-1.4h1.2" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/></svg>
+        </span>
+        <span class="pg-brand-name">Helthy</span>
+        <span class="pg-brand-sub">Design Studio</span>
+      </div>
+
+      <div class="pg-topbar-spacer"></div>
+
+      <div class="pg-viewtabs" role="group" aria-label="Switch view">
+        <button class="pg-viewtab" data-view="studio" aria-pressed="true">Studio</button>
+        <button class="pg-viewtab" data-view="portfolio" aria-pressed="false">Portfolio</button>
+      </div>
+
+      <button class="pg-iconbtn" id="pg-theme-toggle" type="button" aria-label="Toggle light / dark" title="Toggle light / dark">
+        <svg class="pg-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5 5l1.4 1.4M17.6 17.6 19 19M19 5l-1.4 1.4M6.4 17.6 5 19"/></svg>
+      </button>
+
+      <button class="pg-save" id="pg-save-btn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h7M8 21v-7h8v7"/></svg>
+        <span>Save this look</span>
+      </button>
+    </header>
+
+    <!-- =========================== WELCOME ============================ -->
+    <div class="pg-welcome">
+      <span class="pg-welcome-dot" aria-hidden="true"></span>
+      <p class="pg-welcome-text">
+        <b>Our design sandbox for Helthy.</b> These are mockups for exploring a design language, not
+        finished screens. Try each one, tune the color, type, and shape until a look feels right, then
+        save the ones you love to the Portfolio.
+      </p>
+      <button class="pg-welcome-dismiss" id="pg-welcome-dismiss" type="button" aria-label="Dismiss welcome">&times;</button>
+    </div>
+
+    <!-- ============================ WORK AREA ========================= -->
+    <div class="pg-work">
+
+      <!-- ------------------------ CONTROL PANEL --------------------- -->
+      <aside class="pg-panel" aria-label="Design controls">
+
+        <!-- History toolbar (sticky) -->
+        <div class="pg-panel-tools">
+          <span class="pg-panel-tools-label">Tune the look</span>
+          <div class="pg-history" role="group" aria-label="Undo / redo">
+            <button class="pg-histbtn" id="pg-undo" type="button" disabled aria-label="Undo" title="Undo (⌘Z)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>
+              <span>Undo</span>
+            </button>
+            <button class="pg-histbtn" id="pg-redo" type="button" disabled aria-label="Redo" title="Redo (⇧⌘Z)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg>
+              <span>Redo</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Palette -->
+        <section class="pg-group">
+          <div class="pg-group-head">
+            <h2 class="pg-group-title">Palette</h2>
+            <button class="pg-group-reset" type="button" data-section="palette" aria-label="Reset palette to defaults" title="Reset palette to defaults">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/></svg>
+            </button>
+          </div>
+          <div class="pg-colors" id="pg-palette"><!-- color rows injected by JS --></div>
+        </section>
+
+        <!-- Score trio -->
+        <section class="pg-group">
+          <div class="pg-group-head">
+            <h2 class="pg-group-title">Score colors</h2>
+            <button class="pg-group-reset" type="button" data-section="trio" aria-label="Reset score colors to defaults" title="Reset score colors to defaults">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/></svg>
+            </button>
+          </div>
+          <div class="pg-colors" id="pg-trio"><!-- color rows injected by JS --></div>
+        </section>
+
+        <!-- Type -->
+        <section class="pg-group">
+          <div class="pg-group-head">
+            <h2 class="pg-group-title">Type</h2>
+            <button class="pg-group-reset" type="button" data-section="type" aria-label="Reset type to defaults" title="Reset type to defaults">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/></svg>
+            </button>
+          </div>
+          <div class="pg-field">
+            <label for="pg-font-head">Display / headings</label>
+            <select class="pg-select" id="pg-font-head" data-var="--pg-font-head"></select>
+            <div class="pg-fontpreview" id="pg-font-head-preview">Know if it's right for you</div>
+          </div>
+          <div class="pg-field">
+            <label for="pg-font-body">Body / text</label>
+            <select class="pg-select" id="pg-font-body" data-var="--pg-font-body"></select>
+            <div class="pg-fontpreview" id="pg-font-body-preview">Scan any food and see better picks in seconds.</div>
+          </div>
+        </section>
+
+        <!-- Shape & feel -->
+        <section class="pg-group">
+          <div class="pg-group-head">
+            <h2 class="pg-group-title">Shape &amp; feel</h2>
+            <button class="pg-group-reset" type="button" data-section="shape" aria-label="Reset shape and feel to defaults" title="Reset shape &amp; feel to defaults">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/></svg>
+            </button>
+          </div>
+          <div id="pg-sliders"><!-- sliders injected by JS --></div>
+        </section>
+
+        <div class="pg-panel-actions">
+          <button class="pg-ghostbtn" id="pg-reset" type="button">Reset everything to defaults</button>
+        </div>
+      </aside>
+
+      <!-- ------------------------- STAGE AREA ----------------------- -->
+      <section class="pg-stagearea" aria-label="Live preview">
+        <div class="pg-stagebar">
+          <div class="pg-langtabs" role="tablist" aria-label="Design language">
+            <button class="pg-langtab" role="tab" data-lang="claymorphic"         aria-selected="true"  aria-controls="pg-stage">Claymorphic</button>
+            <button class="pg-langtab" role="tab" data-lang="glassmorphic"        aria-selected="false" aria-controls="pg-stage">Glassmorphic</button>
+            <button class="pg-langtab" role="tab" data-lang="neumorphic"          aria-selected="false" aria-controls="pg-stage">Neumorphic</button>
+            <button class="pg-langtab" role="tab" data-lang="material-expressive" aria-selected="false" aria-controls="pg-stage">Material Expressive</button>
+            <button class="pg-langtab" role="tab" data-lang="editorial"           aria-selected="false" aria-controls="pg-stage">Editorial</button>
+            <button class="pg-langtab" role="tab" data-lang="organic-bento"       aria-selected="false" aria-controls="pg-stage">Organic Bento</button>
+          </div>
+
+          <span class="pg-mockup-badge" title="These screens are mockups for exploring a design language — not final, production UI.">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7a2.8 2.8 0 0 0-4-4l-7 7-3 7z"/><path d="M14.5 5.5l4 4"/></svg>
+            Mockup · design direction
+          </span>
+
+          <div class="pg-surfswitch" role="group" aria-label="Surface">
+            <button class="pg-surfbtn" data-surface="app" aria-pressed="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M10.5 18.5h3" stroke-linecap="round"/></svg>
+              App
+            </button>
+            <button class="pg-surfbtn" data-surface="web" aria-pressed="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 20.5h8M12 17.5v3" stroke-linecap="round"/></svg>
+              Website
+            </button>
+          </div>
+        </div>
+
+        <div class="pg-stagewell">
+          <!-- Tiles get spliced into these placeholders at assembly. Show/hide by data-lang. -->
+          <main id="pg-stage" data-surface="app">
+            <div class="pg-tile is-active" data-lang="claymorphic">
+
+  <!-- ================= SURFACE A — app: scan -> score ================= -->
+  <section class="pg-surface-app" aria-label="Helthy app — scan result">
+    <div class="clay-phone">
+      <div class="clay-screen">
+
+        <header class="clay-topbar">
+          <button class="clay-knob" aria-label="Back">&#8249;</button>
+          <span class="clay-wordmark" data-pg-slot="brand">Helthy</span>
+          <button class="clay-knob" aria-label="More options">&#8943;</button>
+        </header>
+
+        <!-- signature: puffy clay score disc with a pressed inner well -->
+        <div class="clay-score">
+          <div class="clay-disc">
+            <div class="clay-well">
+              <span class="clay-score-num" data-pg-slot="scoreValue">88</span>
+            </div>
+            <span class="clay-badge clay-good" data-pg-slot="scoreLabel">GOOD</span>
+          </div>
+        </div>
+
+        <div class="clay-product">
+          <h2 class="clay-product-name" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</h2>
+          <p class="clay-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+        </div>
+
+        <ul class="clay-why">
+          <li class="clay-cap clay-cap--good">
+            <span class="clay-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 19c0-6 4-11 14-12-1 10-6 13-12 12.5"/>
+                <path d="M5 19c2-4 4.5-6.5 8-8"/>
+              </svg>
+            </span>
+            <span class="clay-why-label" data-pg-slot="whyLabel">High protein</span>
+            <span class="clay-why-value" data-pg-slot="whyValue">11 g</span>
+          </li>
+          <li class="clay-cap clay-cap--good">
+            <span class="clay-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-1.4.6-2.9 1.4-4.3"/>
+                <path d="M5 5l14 14"/>
+              </svg>
+            </span>
+            <span class="clay-why-label" data-pg-slot="whyLabel">No added sugar</span>
+            <span class="clay-why-value" data-pg-slot="whyValue">0 g</span>
+          </li>
+          <li class="clay-cap clay-cap--ok">
+            <span class="clay-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 4a8 8 0 1 0 8 8"/>
+                <path d="M12 12l4.5-4.5"/>
+                <circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/>
+              </svg>
+            </span>
+            <span class="clay-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+            <span class="clay-why-value" data-pg-slot="whyValue">65 mg</span>
+          </li>
+        </ul>
+
+        <div class="clay-picks">
+          <h3 class="clay-picks-title">Better-scoring picks</h3>
+          <div class="clay-chips">
+            <div class="clay-chip">
+              <span class="clay-chip-score" data-pg-slot="pickScore">91</span>
+              <span class="clay-chip-name" data-pg-slot="pickName">Greek yogurt</span>
+            </div>
+            <div class="clay-chip">
+              <span class="clay-chip-score" data-pg-slot="pickScore">90</span>
+              <span class="clay-chip-name" data-pg-slot="pickName">Cottage cheese</span>
+            </div>
+            <div class="clay-chip">
+              <span class="clay-chip-score" data-pg-slot="pickScore">86</span>
+              <span class="clay-chip-name" data-pg-slot="pickName">Plain kefir</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="clay-cta" data-pg-slot="appCta">Scan another</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SURFACE B — website hero ================= -->
+  <section class="pg-surface-web" aria-label="Helthy marketing hero">
+    <span class="clay-blob clay-blob--a" aria-hidden="true"></span>
+    <span class="clay-blob clay-blob--b" aria-hidden="true"></span>
+
+    <nav class="clay-nav">
+      <span class="clay-wordmark clay-wordmark--lg" data-pg-slot="brand">Helthy</span>
+      <div class="clay-navlinks">
+        <a href="#" data-pg-slot="navItem">How it works</a>
+        <a href="#" data-pg-slot="navItem">Science</a>
+        <a href="#" data-pg-slot="navItem">Beta</a>
+      </div>
+    </nav>
+
+    <div class="clay-hero-grid">
+      <div class="clay-hero-copy">
+        <span class="clay-kicker" data-pg-slot="heroKicker">Now in beta</span>
+        <h1 class="clay-headline" data-pg-slot="heroHeadline">Know if it&rsquo;s right for your <em>blood sugar</em> &mdash; before you buy.</h1>
+        <p class="clay-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+        <div class="clay-cta-row">
+          <button class="clay-cta" data-pg-slot="heroPrimaryCta">Join the beta</button>
+          <button class="clay-cta clay-cta--ghost" data-pg-slot="heroSecondaryCta">See how it works</button>
+        </div>
+        <p class="clay-trust">
+          <span class="clay-trust-dot" aria-hidden="true"></span>
+          <span data-pg-slot="trustLine">Built with dietitians &middot; Open Food Facts + USDA nutrition</span>
+        </p>
+      </div>
+
+      <div class="clay-hero-mock">
+        <div class="clay-mock">
+          <div class="clay-mock-screen">
+            <div class="clay-disc">
+              <div class="clay-well">
+                <span class="clay-score-num" data-pg-slot="scoreValue">88</span>
+              </div>
+              <span class="clay-badge clay-good" data-pg-slot="scoreLabel">GOOD</span>
+            </div>
+            <p class="clay-mock-name" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</p>
+            <div class="clay-mock-bars" aria-hidden="true">
+              <span class="clay-mock-bar b1"></span>
+              <span class="clay-mock-bar b2"></span>
+              <span class="clay-mock-bar b3"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+            <div class="pg-tile" data-lang="glassmorphic">
+
+  <!-- off-screen defs: the JS bakes one <filter> per glass element in here -->
+  <svg class="gl-defs" aria-hidden="true" focusable="false"><defs></defs></svg>
+
+  <!-- ===================== SURFACE A — app: scan -> score ===================== -->
+  <section class="pg-surface-app" aria-label="Helthy app scan result">
+    <div class="gl-phone">
+      <div class="gl-screen">
+
+        <!-- The app's own content is the wallpaper the glass refracts: bold colour
+             fields + a faint subject glyph + bold type. Glass lives ONLY on the
+             interactive chrome floating over it — the top bar, the score lens, the
+             pick chips, and the bottom scan dock (à la the iOS "Ask" bar). -->
+        <div class="gl-bg" aria-hidden="true"></div>
+
+        <div class="gl-app">
+
+          <header class="gl-topbar gl-glass">
+            <span class="gl-iconbtn" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </span>
+            <span class="gl-wordmark" data-pg-slot="brand">Helthy</span>
+            <span class="gl-dot" aria-hidden="true"></span>
+          </header>
+
+          <!-- THE SIGNATURE: a big liquid-glass score lens floating over the colour wallpaper -->
+          <div class="gl-hero">
+            <div class="gl-gauge gl-glass" role="img" aria-label="Score 88 out of 100, rated good">
+              <svg class="gl-gauge-ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="gl-gauge-track" cx="50" cy="50" r="44"/>
+                <circle class="gl-gauge-arc" cx="50" cy="50" r="44"
+                        stroke-dasharray="276.46" stroke-dashoffset="33.18"/>
+              </svg>
+              <div class="gl-gauge-core">
+                <span class="gl-score" data-pg-slot="scoreValue">88</span>
+                <span class="gl-score-label" data-pg-slot="scoreLabel">GOOD</span>
+              </div>
+            </div>
+            <div class="gl-product">
+              <h2 class="gl-product-name" data-pg-slot="productName">Siggi's Plain Whole-Milk Yogurt</h2>
+              <p class="gl-product-meta" data-pg-slot="productMeta">Skyr · 4.4 oz cup</p>
+            </div>
+          </div>
+
+          <ul class="gl-why">
+            <li class="gl-why-row" data-tone="good">
+              <span class="gl-why-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="gl-why-label" data-pg-slot="whyLabel">High protein</span>
+              <span class="gl-why-val" data-pg-slot="whyValue">11 g</span>
+            </li>
+            <li class="gl-why-row" data-tone="good">
+              <span class="gl-why-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="gl-why-label" data-pg-slot="whyLabel">No added sugar</span>
+              <span class="gl-why-val" data-pg-slot="whyValue">0 g</span>
+            </li>
+            <li class="gl-why-row" data-tone="ok">
+              <span class="gl-why-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 4.3L2.6 18a1.6 1.6 0 001.4 2.4h16a1.6 1.6 0 001.4-2.4L13.7 4.3a1.6 1.6 0 00-2.8 0z"/></svg></span>
+              <span class="gl-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+              <span class="gl-why-val" data-pg-slot="whyValue">65 mg</span>
+            </li>
+          </ul>
+
+          <div class="gl-picks">
+            <p class="gl-picks-label" data-pg-slot="picksLabel">Better-scoring picks</p>
+            <div class="gl-chips">
+              <div class="gl-chip gl-glass">
+                <span class="gl-chip-score" data-pg-slot="pickScore">91</span>
+                <span class="gl-chip-name" data-pg-slot="pickName">Fage Total 0%</span>
+              </div>
+              <div class="gl-chip gl-glass">
+                <span class="gl-chip-score" data-pg-slot="pickScore">90</span>
+                <span class="gl-chip-name" data-pg-slot="pickName">Chobani Plain</span>
+              </div>
+              <div class="gl-chip gl-glass">
+                <span class="gl-chip-score" data-pg-slot="pickScore">86</span>
+                <span class="gl-chip-name" data-pg-slot="pickName">Oikos Triple Zero</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- bottom floating glass dock — the iOS "Ask" bar analogue: glass over content -->
+          <div class="gl-dock gl-glass">
+            <span class="gl-dock-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2M3 12h18"/></svg>
+            </span>
+            <span class="gl-dock-label" data-pg-slot="appCta">Scan another food</span>
+            <span class="gl-dock-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SURFACE B — website hero ===================== -->
+  <section class="pg-surface-web" aria-label="Helthy marketing hero">
+    <div class="gl-web">
+
+      <!-- content wallpaper: soft colour fields + a faint leaf glyph + a giant
+           faint word, so the glass chrome refracts real letterforms — the way the
+           iOS panel lets its own text become the shapes behind the glass -->
+      <div class="gl-web-bg" aria-hidden="true">
+        <span class="gl-web-word">scan</span>
+      </div>
+
+      <nav class="gl-nav gl-glass" aria-label="Primary">
+        <span class="gl-nav-brand" data-pg-slot="brand">Helthy</span>
+        <div class="gl-nav-links">
+          <a class="gl-nav-link" href="#" data-pg-slot="navItem">How it works</a>
+          <a class="gl-nav-link" href="#" data-pg-slot="navItem">Science</a>
+          <a class="gl-nav-link" href="#" data-active data-pg-slot="navItem">Beta</a>
+        </div>
+      </nav>
+
+      <div class="gl-hero-web">
+        <div class="gl-hero-copy">
+          <span class="gl-kicker" data-pg-slot="heroKicker">Food scanning for blood-sugar goals</span>
+          <h1 class="gl-headline" data-pg-slot="heroHeadline">Know if it's right for your <em>blood sugar</em>, before you buy.</h1>
+          <p class="gl-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+          <div class="gl-cta-row">
+            <a class="gl-cta gl-cta-primary gl-glass" href="#" data-pg-slot="heroPrimaryCta">Join the beta</a>
+            <a class="gl-cta gl-cta-secondary gl-glass" href="#" data-pg-slot="heroSecondaryCta">See how it works</a>
+          </div>
+          <p class="gl-trust" data-pg-slot="trustLine">Built with dietitians · Open Food Facts + USDA nutrition</p>
+        </div>
+
+        <!-- the mock matches the app: a content-led device, glass only on the lens + chips -->
+        <div class="gl-mock" aria-hidden="true">
+          <div class="gl-mock-screen">
+            <div class="gl-mock-bg" aria-hidden="true"></div>
+            <div class="gl-gauge gl-glass">
+              <svg class="gl-gauge-ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="gl-gauge-track" cx="50" cy="50" r="44"/>
+                <circle class="gl-gauge-arc" cx="50" cy="50" r="44" stroke-dasharray="276.46" stroke-dashoffset="33.18"/>
+              </svg>
+              <div class="gl-gauge-core">
+                <span class="gl-score" data-pg-slot="scoreValue">88</span>
+                <span class="gl-score-label" data-pg-slot="scoreLabel">GOOD</span>
+              </div>
+            </div>
+            <div class="gl-mock-id">
+              <p class="gl-mock-name" data-pg-slot="productName">Siggi's Plain Whole-Milk Yogurt</p>
+              <p class="gl-mock-meta" data-pg-slot="productMeta">Skyr · 4.4 oz cup</p>
+            </div>
+            <div class="gl-mock-chips">
+              <div class="gl-mock-chip gl-glass"><span class="gl-mock-chip-score">91</span><span>Fage 0%</span></div>
+              <div class="gl-mock-chip gl-glass"><span class="gl-mock-chip-score">90</span><span>Chobani</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  /* Liquid-glass refraction — JS port of lib/glassfx-reference.py.
+     Bakes a rounded-rect normal map onto a <canvas> per glass element, injects
+     an SVG <filter> (feImage -> 3x feDisplacementMap R/G/B dispersion ->
+     per-channel feColorMatrix -> screen feBlend -> tiny feGaussianBlur), and
+     wires it into backdrop-filter via the --gl-filter custom property. */
+  (function () {
+    "use strict";
+    if (window.__helthyGlassInit) { window.__helthyGlassInit(); return; }
+    var SVGNS = "http://www.w3.org/2000/svg";
+
+    function smoothstep(t){ return t*t*(3-2*t); }
+    function sdfRoundRect(x,y,w,h,r){
+      var qx = Math.abs(x - w/2) - (w/2 - r);
+      var qy = Math.abs(y - h/2) - (h/2 - r);
+      var ax = Math.max(qx,0), ay = Math.max(qy,0);
+      return Math.hypot(ax,ay) + Math.min(Math.max(qx,qy),0) - r;
+    }
+
+    var mapCache = new Map();
+    function bakeNormalMap(w,h,radius,bevel,depth,resMax){
+      var key = w+"|"+h+"|"+radius+"|"+bevel+"|"+depth;
+      if (mapCache.has(key)) return mapCache.get(key);
+      var sc = resMax / Math.max(w,h);
+      var W = Math.max(8, Math.round(w*sc));
+      var H = Math.max(8, Math.round(h*sc));
+      var r = radius*sc;
+      var bev = Math.max(1, bevel*sc);
+      var heightPx = bev*depth;
+      var hgt = new Float32Array(W*H);
+      for (var j=0;j<H;j++){
+        for (var i=0;i<W;i++){
+          var d = sdfRoundRect(i+0.5, j+0.5, W, H, r);
+          var t = Math.max(0, Math.min(1, (-d)/bev));
+          hgt[j*W+i] = smoothstep(t);
+        }
+      }
+      var cv = document.createElement("canvas");
+      cv.width = W; cv.height = H;
+      var ctx = cv.getContext("2d");
+      var im = ctx.createImageData(W,H);
+      var data = im.data;
+      for (var jj=0; jj<H; jj++){
+        var row = jj*W;
+        var rowm = Math.max(0, jj-1)*W;
+        var rowp = Math.min(H-1, jj+1)*W;
+        for (var ii=0; ii<W; ii++){
+          var gx = (hgt[row + Math.min(W-1,ii+1)] - hgt[row + Math.max(0,ii-1)]) * 0.5;
+          var gy = (hgt[rowp + ii] - hgt[rowm + ii]) * 0.5;
+          var nx = Math.max(-1, Math.min(1, -gx*heightPx));
+          var ny = Math.max(-1, Math.min(1, -gy*heightPx));
+          var o = (row + ii)*4;
+          data[o]   = (128 + 127*nx) | 0;
+          data[o+1] = (128 + 127*ny) | 0;
+          data[o+2] = 255;
+          data[o+3] = 255;
+        }
+      }
+      ctx.putImageData(im, 0, 0);
+      var uri = cv.toDataURL("image/png");
+      mapCache.set(key, uri);
+      return uri;
+    }
+
+    function filterMarkup(fid, uri, w, h, scale, ca, blur){
+      var sR = (scale*(1+ca)).toFixed(2), sG = scale.toFixed(2), sB = (scale*(1-ca)).toFixed(2);
+      function disp(s, res){
+        return '<feDisplacementMap in="SourceGraphic" in2="map" scale="'+s+'" '+
+               'xChannelSelector="R" yChannelSelector="G" result="'+res+'"/>';
+      }
+      var cmR = "1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0";
+      var cmG = "0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0";
+      var cmB = "0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0";
+      return '<filter id="'+fid+'" x="-18%" y="-18%" width="136%" height="136%" '+
+             'filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" '+
+             'color-interpolation-filters="sRGB">'+
+        '<feImage href="'+uri+'" xlink:href="'+uri+'" x="0" y="0" width="'+w+'" height="'+h+'" '+
+          'preserveAspectRatio="none" result="map"/>'+
+        disp(sR,"dR") + disp(sG,"dG") + disp(sB,"dB") +
+        '<feColorMatrix in="dR" type="matrix" values="'+cmR+'" result="cR"/>'+
+        '<feColorMatrix in="dG" type="matrix" values="'+cmG+'" result="cG"/>'+
+        '<feColorMatrix in="dB" type="matrix" values="'+cmB+'" result="cB"/>'+
+        '<feBlend in="cR" in2="cG" mode="screen" result="rg"/>'+
+        '<feBlend in="rg" in2="cB" mode="screen" result="rgb"/>'+
+        '<feGaussianBlur in="rgb" stdDeviation="'+blur+'"/>'+
+      '</filter>';
+    }
+
+    function processTile(tile){
+      var defs = tile.querySelector(".gl-defs defs");
+      if (!defs) return;
+      var uid = tile.getAttribute("data-gl-uid");
+      if (!uid){ uid = "glx" + Math.random().toString(36).slice(2,7); tile.setAttribute("data-gl-uid", uid); }
+      var els = tile.querySelectorAll(".gl-glass");
+      els.forEach(function(el, k){
+        var rect = el.getBoundingClientRect();
+        var w = Math.round(rect.width), h = Math.round(rect.height);
+        if (w < 8 || h < 8) return;
+        var cs = getComputedStyle(el);
+        var radius = parseFloat(cs.borderTopLeftRadius) || 0;
+        radius = Math.min(radius, Math.min(w,h)/2);
+        if (radius < 2) return;
+        var bevel = Math.max(5, Math.min(44, radius * 0.55));
+        var scale = Math.max(10, Math.min(62, radius * 0.82));
+        var resMax = Math.max(w,h) > 240 ? 300 : 200;
+        var uri = bakeNormalMap(w, h, Math.round(radius), Math.round(bevel), 3, resMax);
+        var fid = uid + "-f" + k;
+        var existing = defs.querySelector("#" + (window.CSS && CSS.escape ? CSS.escape(fid) : fid));
+        var wrap = document.createElementNS(SVGNS, "svg");
+        wrap.innerHTML = filterMarkup(fid, uri, w, h, scale, 0.17, 0.5);
+        var filt = wrap.firstElementChild;
+        if (existing) existing.replaceWith(filt); else defs.appendChild(filt);
+        el.style.setProperty("--gl-filter", "url(#" + fid + ")");
+      });
+    }
+
+    function run(){
+      var tiles = document.querySelectorAll('.pg-tile[data-lang="glassmorphic"]');
+      tiles.forEach(function(t){
+        if (t.offsetParent !== null || t.getClientRects().length) processTile(t);
+      });
+    }
+
+    var rafId = 0;
+    function schedule(){
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(function(){
+        rafId = requestAnimationFrame(run);
+      });
+    }
+    window.__helthyGlassInit = schedule;
+    window.HelthyGlass = { run: schedule };
+
+    if (document.readyState === "loading"){
+      document.addEventListener("DOMContentLoaded", schedule);
+    } else {
+      schedule();
+    }
+    if (document.fonts && document.fonts.ready){ document.fonts.ready.then(schedule); }
+
+    var rTimer = 0;
+    window.addEventListener("resize", function(){
+      clearTimeout(rTimer); rTimer = setTimeout(schedule, 160);
+    });
+
+    // re-bake when the shell mutates :root vars (radius/blur) or toggles theme
+    try {
+      var mo = new MutationObserver(schedule);
+      mo.observe(document.documentElement, { attributes:true, attributeFilter:["style","data-theme"] });
+    } catch(e){}
+
+    if (window.ResizeObserver){
+      var ro = new ResizeObserver(function(){ schedule(); });
+      document.querySelectorAll('.pg-tile[data-lang="glassmorphic"]').forEach(function(t){ ro.observe(t); });
+      window.__helthyGlassRO = ro;
+    }
+  })();
+  </script>
+</div>
+            <!-- neumorphic tile — soft monochrome clay extrusion. Scoped under .pg-tile[data-lang="neumorphic"]. -->
+<div class="pg-tile" data-lang="neumorphic">
+
+  <!-- ============================ SURFACE A — App screen ============================ -->
+  <section class="pg-surface-app">
+    <div class="neu-stage neu-stage--app">
+      <div class="neu-phone neu-raised-lg">
+        <span class="neu-notch" aria-hidden="true"></span>
+        <div class="neu-phone-inner">
+
+          <header class="neu-topbar">
+            <button class="neu-icon-btn neu-pressed-sm" type="button" aria-label="Back">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <span class="neu-wordmark">
+              <span class="neu-logo neu-raised-sm" aria-hidden="true"></span>
+              <span data-pg-slot="brand">Helthy</span>
+            </span>
+            <span class="neu-topbar-pad" aria-hidden="true"></span>
+          </header>
+
+          <!-- SIGNATURE: debossed score dial -->
+          <div class="neu-dial-wrap">
+            <div class="neu-dial neu-pressed-lg">
+              <svg class="neu-dial-arc" viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="neu-arc-track" cx="50" cy="50" r="42"></circle>
+                <circle class="neu-arc-fill"  cx="50" cy="50" r="42"></circle>
+              </svg>
+              <div class="neu-dial-face neu-raised-md">
+                <span class="neu-score" data-pg-slot="scoreValue">88</span>
+                <span class="neu-score-chip neu-pressed-sm">
+                  <i class="neu-dot neu-dot--good" aria-hidden="true"></i>
+                  <span data-pg-slot="scoreLabel">GOOD</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="neu-product">
+            <h2 class="neu-product-name" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</h2>
+            <p class="neu-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+          </div>
+
+          <ul class="neu-why">
+            <li class="neu-why-row neu-pressed-sm">
+              <span class="neu-why-icon neu-fill--good" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 13l4 4 10-11"/></svg>
+              </span>
+              <span class="neu-why-label" data-pg-slot="whyLabel">High protein</span>
+              <span class="neu-why-value" data-pg-slot="whyValue">11 g</span>
+            </li>
+            <li class="neu-why-row neu-pressed-sm">
+              <span class="neu-why-icon neu-fill--good" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 13l4 4 10-11"/></svg>
+              </span>
+              <span class="neu-why-label" data-pg-slot="whyLabel">No added sugar</span>
+              <span class="neu-why-value" data-pg-slot="whyValue">0 g</span>
+            </li>
+            <li class="neu-why-row neu-pressed-sm">
+              <span class="neu-why-icon neu-fill--ok" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 7v7"/><path d="M12 17.5h.02"/></svg>
+              </span>
+              <span class="neu-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+              <span class="neu-why-value" data-pg-slot="whyValue">65 mg</span>
+            </li>
+          </ul>
+
+          <div class="neu-picks">
+            <h3 class="neu-picks-title">Better-scoring picks</h3>
+            <div class="neu-picks-row">
+              <div class="neu-pick neu-raised-sm">
+                <span class="neu-pick-badge neu-pressed-sm">
+                  <i class="neu-dot neu-dot--good" aria-hidden="true"></i>
+                  <span data-pg-slot="pickScore">91</span>
+                </span>
+                <span class="neu-pick-label">Plain skyr</span>
+              </div>
+              <div class="neu-pick neu-raised-sm">
+                <span class="neu-pick-badge neu-pressed-sm">
+                  <i class="neu-dot neu-dot--good" aria-hidden="true"></i>
+                  <span data-pg-slot="pickScore">90</span>
+                </span>
+                <span class="neu-pick-label">Greek 2%</span>
+              </div>
+              <div class="neu-pick neu-raised-sm">
+                <span class="neu-pick-badge neu-pressed-sm">
+                  <i class="neu-dot neu-dot--good" aria-hidden="true"></i>
+                  <span data-pg-slot="pickScore">86</span>
+                </span>
+                <span class="neu-pick-label">Low-fat kefir</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="neu-cta neu-cta--primary neu-raised-md" type="button" data-pg-slot="appCta">
+            <svg class="neu-cta-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M4 12h16"/></svg>
+            <span>Scan another</span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ SURFACE B — Website hero ============================ -->
+  <section class="pg-surface-web">
+    <div class="neu-stage neu-stage--web">
+      <div class="neu-hero">
+
+        <header class="neu-web-nav">
+          <span class="neu-wordmark neu-wordmark--lg">
+            <span class="neu-logo neu-raised-sm" aria-hidden="true"></span>
+            <span data-pg-slot="brand">Helthy</span>
+          </span>
+          <nav class="neu-nav-links" aria-label="Primary">
+            <a href="#" class="neu-nav-link" data-pg-slot="navItem">How it works</a>
+            <a href="#" class="neu-nav-link" data-pg-slot="navItem">Science</a>
+            <a href="#" class="neu-nav-link" data-pg-slot="navItem">Beta</a>
+          </nav>
+        </header>
+
+        <div class="neu-hero-body">
+          <div class="neu-hero-copy">
+            <span class="neu-kicker neu-pressed-sm" data-pg-slot="heroKicker">The food scanner for blood sugar</span>
+            <h1 class="neu-headline" data-pg-slot="heroHeadline">Know if it&rsquo;s right for your blood sugar &mdash; before you buy.</h1>
+            <p class="neu-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+            <div class="neu-hero-ctas">
+              <button class="neu-cta neu-cta--primary neu-raised-md" type="button" data-pg-slot="heroPrimaryCta">Join the beta</button>
+              <button class="neu-cta neu-cta--ghost neu-raised-md" type="button" data-pg-slot="heroSecondaryCta">
+                <span>See how it works</span>
+                <svg class="neu-cta-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+            <p class="neu-trust" data-pg-slot="trustLine">Built with dietitians &middot; Open Food Facts + USDA nutrition</p>
+          </div>
+
+          <div class="neu-hero-mock" aria-hidden="false">
+            <div class="neu-phone neu-phone--mini neu-raised-lg">
+              <span class="neu-notch" aria-hidden="true"></span>
+              <div class="neu-phone-inner">
+                <header class="neu-topbar neu-topbar--mini">
+                  <span class="neu-wordmark">
+                    <span class="neu-logo neu-raised-sm" aria-hidden="true"></span>
+                    <span data-pg-slot="brand">Helthy</span>
+                  </span>
+                </header>
+                <div class="neu-dial-wrap neu-dial-wrap--mini">
+                  <div class="neu-dial neu-dial--mini neu-pressed-lg">
+                    <svg class="neu-dial-arc" viewBox="0 0 100 100" aria-hidden="true">
+                      <circle class="neu-arc-track" cx="50" cy="50" r="42"></circle>
+                      <circle class="neu-arc-fill"  cx="50" cy="50" r="42"></circle>
+                    </svg>
+                    <div class="neu-dial-face neu-raised-md">
+                      <span class="neu-score" data-pg-slot="scoreValue">88</span>
+                      <span class="neu-score-chip neu-pressed-sm">
+                        <i class="neu-dot neu-dot--good" aria-hidden="true"></i>
+                        <span data-pg-slot="scoreLabel">GOOD</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="neu-product neu-product--mini">
+                  <h2 class="neu-product-name" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</h2>
+                  <p class="neu-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+                </div>
+                <ul class="neu-why neu-why--mini">
+                  <li class="neu-why-row neu-pressed-sm">
+                    <span class="neu-why-icon neu-fill--good" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="M5 13l4 4 10-11"/></svg>
+                    </span>
+                    <span class="neu-why-label" data-pg-slot="whyLabel">High protein</span>
+                    <span class="neu-why-value" data-pg-slot="whyValue">11 g</span>
+                  </li>
+                  <li class="neu-why-row neu-pressed-sm">
+                    <span class="neu-why-icon neu-fill--ok" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="M12 7v7"/><path d="M12 17.5h.02"/></svg>
+                    </span>
+                    <span class="neu-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+                    <span class="neu-why-value" data-pg-slot="whyValue">65 mg</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+            <div class="pg-tile" data-lang="material-expressive">
+
+  <!-- shared defs: the scalloped "cookie" signature shape -->
+  <svg class="me-defs" aria-hidden="true" focusable="false">
+    <symbol id="me-cookie" viewBox="0 0 100 100">
+      <path d="M96.00 50.00 C96.00 51.23 94.18 52.68 92.34 53.70 C90.50 54.73 86.87 55.40 84.96 56.16 C83.06 56.93 81.18 57.29 80.91 58.28 C80.64 59.28 82.09 60.53 83.36 62.14 C84.63 63.75 87.44 66.15 88.52 67.96 C89.60 69.77 90.45 71.93 89.84 73.00 C89.22 74.07 86.92 74.41 84.81 74.38 C82.71 74.35 79.23 73.11 77.19 72.82 C75.16 72.53 73.36 71.90 72.63 72.63 C71.90 73.36 72.53 75.16 72.82 77.19 C73.11 79.23 74.35 82.71 74.38 84.81 C74.41 86.92 74.07 89.22 73.00 89.84 C71.93 90.45 69.77 89.60 67.96 88.52 C66.15 87.44 63.75 84.63 62.14 83.36 C60.53 82.09 59.28 80.64 58.28 80.91 C57.29 81.18 56.93 83.06 56.16 84.96 C55.40 86.87 54.73 90.50 53.70 92.34 C52.68 94.18 51.23 96.00 50.00 96.00 C48.77 96.00 47.32 94.18 46.30 92.34 C45.27 90.50 44.60 86.87 43.84 84.96 C43.07 83.06 42.71 81.18 41.72 80.91 C40.72 80.64 39.47 82.09 37.86 83.36 C36.25 84.63 33.85 87.44 32.04 88.52 C30.23 89.60 28.07 90.45 27.00 89.84 C25.93 89.22 25.59 86.92 25.62 84.81 C25.65 82.71 26.89 79.23 27.18 77.19 C27.47 75.16 28.10 73.36 27.37 72.63 C26.64 71.90 24.84 72.53 22.81 72.82 C20.77 73.11 17.29 74.35 15.19 74.38 C13.08 74.41 10.78 74.07 10.16 73.00 C9.55 71.93 10.40 69.77 11.48 67.96 C12.56 66.15 15.37 63.75 16.64 62.14 C17.91 60.53 19.36 59.28 19.09 58.28 C18.82 57.29 16.94 56.93 15.04 56.16 C13.13 55.40 9.50 54.73 7.66 53.70 C5.82 52.68 4.00 51.23 4.00 50.00 C4.00 48.77 5.82 47.32 7.66 46.30 C9.50 45.27 13.13 44.60 15.04 43.84 C16.94 43.07 18.82 42.71 19.09 41.72 C19.36 40.72 17.91 39.47 16.64 37.86 C15.37 36.25 12.56 33.85 11.48 32.04 C10.40 30.23 9.55 28.07 10.16 27.00 C10.78 25.93 13.08 25.59 15.19 25.62 C17.29 25.65 20.77 26.89 22.81 27.18 C24.84 27.47 26.64 28.10 27.37 27.37 C28.10 26.64 27.47 24.84 27.18 22.81 C26.89 20.77 25.65 17.29 25.62 15.19 C25.59 13.08 25.93 10.78 27.00 10.16 C28.07 9.55 30.23 10.40 32.04 11.48 C33.85 12.56 36.25 15.37 37.86 16.64 C39.47 17.91 40.72 19.36 41.72 19.09 C42.71 18.82 43.07 16.94 43.84 15.04 C44.60 13.13 45.27 9.50 46.30 7.66 C47.32 5.82 48.77 4.00 50.00 4.00 C51.23 4.00 52.68 5.82 53.70 7.66 C54.73 9.50 55.40 13.13 56.16 15.04 C56.93 16.94 57.29 18.82 58.28 19.09 C59.28 19.36 60.53 17.91 62.14 16.64 C63.75 15.37 66.15 12.56 67.96 11.48 C69.77 10.40 71.93 9.55 73.00 10.16 C74.07 10.78 74.41 13.08 74.38 15.19 C74.35 17.29 73.11 20.77 72.82 22.81 C72.53 24.84 71.90 26.64 72.63 27.37 C73.36 28.10 75.16 27.47 77.19 27.18 C79.23 26.89 82.71 25.65 84.81 25.62 C86.92 25.59 89.22 25.93 89.84 27.00 C90.45 28.07 89.60 30.23 88.52 32.04 C87.44 33.85 84.63 36.25 83.36 37.86 C82.09 39.47 80.64 40.72 80.91 41.72 C81.18 42.71 83.06 43.07 84.96 43.84 C86.87 44.60 90.50 45.27 92.34 46.30 C94.18 47.32 96.00 48.77 96.00 50.00 Z"/>
+    </symbol>
+  </svg>
+
+  <!-- ======================= SURFACE A — app ======================= -->
+  <section class="pg-surface-app" aria-label="Helthy app — scan result">
+
+    <header class="me-appbar">
+      <button class="me-iconbtn" type="button" aria-label="Back">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <p class="me-brand" data-pg-slot="brand">Helthy</p>
+      <span class="me-spacer"></span>
+      <button class="me-iconbtn" type="button" aria-label="About this score">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+          <path d="M12 11v5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="12" cy="7.6" r="1.3" fill="currentColor"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="me-hero">
+      <div class="me-medallion">
+        <svg class="me-cookie me-cookie--primary" viewBox="0 0 100 100" aria-hidden="true"><use href="#me-cookie"/></svg>
+        <div class="me-gauge" style="--me-score:88" role="img" aria-label="Health score 88 out of 100, good">
+          <div class="me-gauge__face">
+            <span class="me-score" data-pg-slot="scoreValue">88</span>
+            <span class="me-score__max">/ 100</span>
+          </div>
+        </div>
+      </div>
+      <span class="me-scorelabel" data-pg-slot="scoreLabel">Good</span>
+    </div>
+
+    <div class="me-product">
+      <h2 class="me-product__name" data-pg-slot="productName">Siggi's Plain Whole-Milk Yogurt</h2>
+      <p class="me-product__meta" data-pg-slot="productMeta">Skyr · 4.4 oz cup</p>
+    </div>
+
+    <div class="me-whys" role="list" aria-label="Why this score">
+      <div class="me-why" data-tone="good" role="listitem">
+        <span class="me-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="7" cy="12" r="3.2" stroke="currentColor" stroke-width="2"/>
+            <circle cx="17" cy="12" r="3.2" stroke="currentColor" stroke-width="2"/>
+            <path d="M10.2 12h3.6M4 12h-.4M20 12h.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="me-why__label" data-pg-slot="whyLabel">High protein</span>
+        <span class="me-why__value" data-pg-slot="whyValue">11 g</span>
+      </div>
+      <div class="me-why" data-tone="good" role="listitem">
+        <span class="me-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="5.5" y="5.5" width="13" height="13" rx="3" stroke="currentColor" stroke-width="2"/>
+            <path d="M7 7l10 10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="me-why__label" data-pg-slot="whyLabel">No added sugar</span>
+        <span class="me-why__value" data-pg-slot="whyValue">0 g</span>
+      </div>
+      <div class="me-why" data-tone="ok" role="listitem">
+        <span class="me-why__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3.5c3 4 5.5 6.7 5.5 9.8A5.5 5.5 0 0112 18.8a5.5 5.5 0 01-5.5-5.5C6.5 10.2 9 7.5 12 3.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="me-why__label" data-pg-slot="whyLabel">Watch sodium</span>
+        <span class="me-why__value" data-pg-slot="whyValue">65 mg</span>
+      </div>
+    </div>
+
+    <div>
+      <p class="me-picks-h">Better-scoring picks</p>
+      <div class="me-picks">
+        <div class="me-pick">
+          <span class="me-pick__score" data-pg-slot="pickScore">91</span>
+          <span class="me-pick__name" data-pg-slot="pickName">Plain kefir</span>
+        </div>
+        <div class="me-pick">
+          <span class="me-pick__score" data-pg-slot="pickScore">90</span>
+          <span class="me-pick__name" data-pg-slot="pickName">Cottage cheese 2%</span>
+        </div>
+        <div class="me-pick">
+          <span class="me-pick__score" data-pg-slot="pickScore">86</span>
+          <span class="me-pick__name" data-pg-slot="pickName">Low-sugar skyr</span>
+        </div>
+      </div>
+    </div>
+
+    <button class="me-btn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 9V6.5A2.5 2.5 0 016.5 4H9M15 4h2.5A2.5 2.5 0 0120 6.5V9M20 15v2.5a2.5 2.5 0 01-2.5 2.5H15M9 20H6.5A2.5 2.5 0 014 17.5V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span data-pg-slot="appCta">Scan another</span>
+    </button>
+  </section>
+
+  <!-- ======================= SURFACE B — web hero ======================= -->
+  <section class="pg-surface-web" aria-label="Helthy marketing hero">
+
+    <svg class="me-cookie me-cookie--tertiary me-web-blob me-web-blob--a" viewBox="0 0 100 100" aria-hidden="true"><use href="#me-cookie"/></svg>
+    <svg class="me-cookie me-cookie--surface me-web-blob me-web-blob--b" viewBox="0 0 100 100" aria-hidden="true"><use href="#me-cookie"/></svg>
+
+    <nav class="me-webnav" aria-label="Primary">
+      <p class="me-webnav__brand"><span class="me-dot" aria-hidden="true"></span><span data-pg-slot="brand">Helthy</span></p>
+      <div class="me-webnav__links">
+        <a href="#" data-pg-slot="navItem">How it works</a>
+        <a href="#" data-pg-slot="navItem">Science</a>
+        <a href="#" aria-current="page" data-pg-slot="navItem">Beta</a>
+      </div>
+    </nav>
+
+    <div class="me-web-inner">
+      <div class="me-web-copy">
+        <span class="me-kicker" data-pg-slot="heroKicker">Food scanning for blood-sugar goals</span>
+        <h1 class="me-headline" data-pg-slot="heroHeadline">Know if it's right for your <em>blood sugar</em> — before you buy.</h1>
+        <p class="me-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+        <div class="me-cta-row">
+          <button class="me-cta me-cta--primary" type="button">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span data-pg-slot="heroPrimaryCta">Join the beta</span>
+          </button>
+          <button class="me-cta me-cta--secondary" type="button">
+            <span data-pg-slot="heroSecondaryCta">See how it works</span>
+          </button>
+        </div>
+        <p class="me-trust" data-pg-slot="trustLine">Built with dietitians · Open Food Facts + USDA nutrition</p>
+      </div>
+
+      <div class="me-mock" aria-hidden="true">
+        <svg class="me-cookie me-cookie--primary" viewBox="0 0 100 100"><use href="#me-cookie"/></svg>
+        <div class="me-mock__card">
+          <div class="me-mock__gauge"><span>88</span></div>
+          <p class="me-mock__name">Siggi's Plain Whole-Milk Yogurt</p>
+          <span class="me-mock__pill">Good</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+            <!-- Helthy Design Playground — TILE: editorial — markup only (shell injects this).
+     Every user-visible string/number is wrapped in a data-pg-slot per SPEC §7. -->
+<div class="pg-tile" data-lang="editorial">
+
+  <!-- ===================== SURFACE A — App: scan → score ===================== -->
+  <section class="pg-surface-app">
+    <div class="ed-stage ed-stage--app">
+      <article class="ed-phone">
+
+        <header class="ed-mast">
+          <button class="ed-back" type="button" aria-label="Back">&lsaquo;</button>
+          <span class="ed-wordmark" data-pg-slot="brand">Helthy</span>
+          <span class="ed-section">Scan result</span>
+        </header>
+
+        <div class="ed-screen">
+
+          <p class="ed-kicker"><span class="ed-kicker-rule"></span>Nutrition score</p>
+
+          <!-- the signature: oversized numeral · hairline ring · cover-line -->
+          <div class="ed-score">
+            <div class="ed-ring">
+              <svg viewBox="0 0 160 160" aria-hidden="true">
+                <circle class="ed-ring-track" cx="80" cy="80" r="70"></circle>
+                <circle class="ed-ring-arc" cx="80" cy="80" r="70"
+                        stroke-dasharray="387 440" stroke-dashoffset="0"></circle>
+              </svg>
+              <span class="ed-score-num ed-num" data-pg-slot="scoreValue">88</span>
+            </div>
+            <div class="ed-score-meta">
+              <p class="ed-verdict" data-pg-slot="scoreLabel">Good</p>
+              <p class="ed-score-foot">Scores <span class="ed-num">88</span> of 100</p>
+            </div>
+          </div>
+
+          <hr class="ed-hr">
+
+          <h1 class="ed-product" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</h1>
+          <p class="ed-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+
+          <hr class="ed-hr">
+
+          <ul class="ed-why">
+            <li class="ed-why-row ed-why--good">
+              <span class="ed-tick"></span>
+              <span class="ed-why-label" data-pg-slot="whyLabel">High protein</span>
+              <span class="ed-why-value ed-num" data-pg-slot="whyValue">11 g</span>
+            </li>
+            <li class="ed-why-row ed-why--good">
+              <span class="ed-tick"></span>
+              <span class="ed-why-label" data-pg-slot="whyLabel">No added sugar</span>
+              <span class="ed-why-value ed-num" data-pg-slot="whyValue">0 g</span>
+            </li>
+            <li class="ed-why-row ed-why--ok">
+              <span class="ed-tick"></span>
+              <span class="ed-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+              <span class="ed-why-value ed-num" data-pg-slot="whyValue">65 mg</span>
+            </li>
+          </ul>
+
+          <hr class="ed-hr">
+
+          <p class="ed-kicker"><span class="ed-kicker-rule"></span>Better-scoring picks</p>
+          <ol class="ed-picks">
+            <li class="ed-pick">
+              <span class="ed-pick-name">Plain skyr, nonfat</span>
+              <span class="ed-pick-dots" aria-hidden="true"></span>
+              <span class="ed-pick-score ed-num" data-pg-slot="pickScore">91</span>
+            </li>
+            <li class="ed-pick">
+              <span class="ed-pick-name">Greek yogurt, 2%</span>
+              <span class="ed-pick-dots" aria-hidden="true"></span>
+              <span class="ed-pick-score ed-num" data-pg-slot="pickScore">90</span>
+            </li>
+            <li class="ed-pick">
+              <span class="ed-pick-name">Plain kefir, low-fat</span>
+              <span class="ed-pick-dots" aria-hidden="true"></span>
+              <span class="ed-pick-score ed-num" data-pg-slot="pickScore">86</span>
+            </li>
+          </ol>
+
+          <button class="ed-cta" type="button" data-pg-slot="appCta">Scan another</button>
+
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== SURFACE B — Website hero ========================= -->
+  <section class="pg-surface-web">
+    <div class="ed-stage ed-stage--web">
+      <div class="ed-hero">
+
+        <header class="ed-topbar">
+          <span class="ed-wordmark" data-pg-slot="brand">Helthy</span>
+          <nav class="ed-nav" aria-label="Primary">
+            <a href="#" data-pg-slot="navItem">How it works</a>
+            <a href="#" data-pg-slot="navItem">Science</a>
+            <a href="#" data-pg-slot="navItem">Beta</a>
+          </nav>
+        </header>
+
+        <hr class="ed-hr ed-hr--top">
+
+        <div class="ed-hero-grid">
+          <div class="ed-hero-copy">
+            <p class="ed-kicker ed-kicker--hero">
+              <span class="ed-kicker-rule"></span>
+              <span data-pg-slot="heroKicker">Food scoring for blood sugar</span>
+            </p>
+            <h1 class="ed-headline" data-pg-slot="heroHeadline">Know if it&rsquo;s right for your blood sugar &mdash; before you buy.</h1>
+            <p class="ed-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+            <div class="ed-cta-row">
+              <button class="ed-cta ed-cta--primary" type="button" data-pg-slot="heroPrimaryCta">Join the beta</button>
+              <button class="ed-cta ed-cta--ghost" type="button" data-pg-slot="heroSecondaryCta">See how it works</button>
+            </div>
+          </div>
+
+          <aside class="ed-hero-mock" aria-label="App preview">
+            <article class="ed-phone ed-phone--mock">
+              <header class="ed-mast">
+                <button class="ed-back" type="button" aria-label="Back" tabindex="-1">&lsaquo;</button>
+                <span class="ed-wordmark" data-pg-slot="brand">Helthy</span>
+                <span class="ed-section">Scan result</span>
+              </header>
+              <div class="ed-screen">
+                <p class="ed-kicker"><span class="ed-kicker-rule"></span>Nutrition score</p>
+                <div class="ed-score">
+                  <div class="ed-ring">
+                    <svg viewBox="0 0 160 160" aria-hidden="true">
+                      <circle class="ed-ring-track" cx="80" cy="80" r="70"></circle>
+                      <circle class="ed-ring-arc" cx="80" cy="80" r="70"
+                              stroke-dasharray="387 440" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <span class="ed-score-num ed-num" data-pg-slot="scoreValue">88</span>
+                  </div>
+                  <div class="ed-score-meta">
+                    <p class="ed-verdict" data-pg-slot="scoreLabel">Good</p>
+                    <p class="ed-score-foot">Scores <span class="ed-num">88</span> of 100</p>
+                  </div>
+                </div>
+                <hr class="ed-hr">
+                <h2 class="ed-product" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</h2>
+                <p class="ed-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+              </div>
+            </article>
+          </aside>
+        </div>
+
+        <hr class="ed-hr ed-hr--bottom">
+
+        <p class="ed-trust" data-pg-slot="trustLine">Built with dietitians &middot; Open Food Facts + USDA nutrition</p>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+            <!-- organic-bento tile — markup only (the shell injects this into the stage).
+     Two surfaces, identical Helthy content, every visible string/number in a data-pg-slot. -->
+<div class="pg-tile" data-lang="organic-bento">
+
+  <!-- ============================================================= -->
+  <!-- SURFACE A — app: scan -> score                                -->
+  <!-- ============================================================= -->
+  <section class="pg-surface-app">
+    <div class="ob-phone">
+      <div class="ob-phone-screen">
+
+        <header class="ob-appbar">
+          <button class="ob-back" type="button" aria-label="Back">&#8249;</button>
+          <span class="ob-wordmark" data-pg-slot="brand">Helthy</span>
+          <span class="ob-appbar-spacer"></span>
+          <span class="ob-appbar-dot" aria-hidden="true">&#8943;</span>
+        </header>
+
+        <div class="ob-app-stack">
+
+          <!-- hero score tile (signature: blob-ring gauge) -->
+          <div class="ob-tile ob-tile--score ob-wash-sage">
+            <div class="ob-gauge">
+              <svg viewBox="0 0 120 120" role="img" aria-label="Helthy score 88 out of 100, rated good">
+                <path class="ob-blob" d="M60 8 C84 6 113 22 112 52 C111 80 92 112 62 113 C32 114 7 92 8 60 C9 30 36 10 60 8 Z"/>
+                <circle class="ob-ring-track" cx="60" cy="60" r="50"/>
+                <circle class="ob-ring-fill"  cx="60" cy="60" r="50"/>
+              </svg>
+              <div class="ob-gauge-num"><span data-pg-slot="scoreValue">88</span></div>
+            </div>
+            <div class="ob-score-meta">
+              <span class="ob-score-label" data-pg-slot="scoreLabel">GOOD</span>
+              <span class="ob-score-sub">A solid fit for your blood-sugar goals.</span>
+            </div>
+          </div>
+
+          <!-- product tile -->
+          <div class="ob-tile ob-tile--product">
+            <span class="ob-thumb" aria-hidden="true">&#129371;</span>
+            <div>
+              <h3 class="ob-product-name" data-pg-slot="productName">Siggi's Plain Whole-Milk Yogurt</h3>
+              <p class="ob-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+            </div>
+          </div>
+
+          <!-- why tile -->
+          <div class="ob-tile ob-tile--why ob-wash-butter">
+            <p class="ob-eyebrow">Why this score</p>
+            <ul class="ob-why-list">
+              <li class="ob-why ob-why--good">
+                <span class="ob-why-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+                </span>
+                <span class="ob-why-label" data-pg-slot="whyLabel">High protein</span>
+                <span class="ob-why-val" data-pg-slot="whyValue">11 g</span>
+              </li>
+              <li class="ob-why ob-why--good">
+                <span class="ob-why-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5c3 4 6 7 6 10a6 6 0 0 1-12 0c0-3 3-6 6-10Z"/></svg>
+                </span>
+                <span class="ob-why-label" data-pg-slot="whyLabel">No added sugar</span>
+                <span class="ob-why-val" data-pg-slot="whyValue">0 g</span>
+              </li>
+              <li class="ob-why ob-why--ok">
+                <span class="ob-why-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+                </span>
+                <span class="ob-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+                <span class="ob-why-val" data-pg-slot="whyValue">65 mg</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- better-scoring picks strip -->
+          <div class="ob-picks">
+            <p class="ob-eyebrow">Better-scoring picks</p>
+            <div class="ob-picks-row">
+              <div class="ob-pick ob-wash-mint">
+                <span class="ob-pick-score" data-pg-slot="pickScore">91</span>
+                <span class="ob-pick-name">Plain Greek</span>
+              </div>
+              <div class="ob-pick ob-wash-sage">
+                <span class="ob-pick-score" data-pg-slot="pickScore">90</span>
+                <span class="ob-pick-name">Skyr 0%</span>
+              </div>
+              <div class="ob-pick ob-wash-butter">
+                <span class="ob-pick-score" data-pg-slot="pickScore">86</span>
+                <span class="ob-pick-name">Cottage 2%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- primary CTA -->
+          <button class="ob-cta" type="button">
+            <span class="ob-cta-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M4 12h16"/></svg>
+            </span>
+            <span data-pg-slot="appCta">Scan another</span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- SURFACE B — website hero (bento mosaic)                        -->
+  <!-- ============================================================= -->
+  <section class="pg-surface-web">
+
+    <svg class="ob-web-blob" viewBox="0 0 200 200" aria-hidden="true">
+      <path d="M44 -64 C70 -50 92 -28 96 0 C100 30 86 62 60 80 C32 98 -4 100 -34 84 C-62 68 -82 38 -80 6 C-78 -28 -56 -58 -28 -72 C-2 -86 18 -78 44 -64 Z" transform="translate(100 100)"/>
+    </svg>
+
+    <header class="ob-web-nav">
+      <span class="ob-web-brand" data-pg-slot="brand">Helthy</span>
+      <nav class="ob-web-links" aria-label="Primary">
+        <a href="#" data-pg-slot="navItem">How it works</a>
+        <a href="#" data-pg-slot="navItem">Science</a>
+        <a href="#" data-pg-slot="navItem">Beta</a>
+      </nav>
+    </header>
+
+    <div class="ob-hero">
+
+      <!-- copy tile -->
+      <div class="ob-tile ob-hero-copy ob-wash-sage">
+        <span class="ob-kicker" data-pg-slot="heroKicker">Diabetes-friendly food scanning</span>
+        <h1 class="ob-headline" data-pg-slot="heroHeadline">Know if it's right for your <em>blood sugar</em> &mdash; before you buy.</h1>
+        <p class="ob-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+        <div class="ob-cta-row">
+          <button class="ob-cta ob-cta--primary" type="button" data-pg-slot="heroPrimaryCta">Join the beta</button>
+          <button class="ob-cta ob-cta--ghost" type="button" data-pg-slot="heroSecondaryCta">See how it works</button>
+        </div>
+        <p class="ob-trust" data-pg-slot="trustLine">Built with dietitians &middot; Open Food Facts + USDA nutrition</p>
+      </div>
+
+      <!-- right-side bento cluster -->
+      <div class="ob-hero-bento">
+
+        <!-- phone-glimpse tile -->
+        <div class="ob-tile ob-mock ob-wash-mint">
+          <div class="ob-mock-head">
+            <div class="ob-mgauge">
+              <svg viewBox="0 0 100 100" role="img" aria-label="Score 88, rated good">
+                <path class="ob-mblob" d="M50 7 C70 5 94 19 93 44 C92 67 77 94 52 95 C27 96 6 77 7 50 C8 25 30 9 50 7 Z"/>
+                <circle class="ob-mgauge-track" cx="50" cy="50" r="34"/>
+                <circle class="ob-mgauge-fill"  cx="50" cy="50" r="34"/>
+              </svg>
+              <div class="ob-mgauge-num"><span data-pg-slot="scoreValue">88</span></div>
+            </div>
+            <div>
+              <span class="ob-score-label" data-pg-slot="scoreLabel">GOOD</span>
+              <p class="ob-mock-name" data-pg-slot="productName">Siggi's Plain Whole-Milk Yogurt</p>
+              <p class="ob-mock-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+            </div>
+          </div>
+          <div class="ob-mock-row">
+            <span class="ob-dot" aria-hidden="true"></span>
+            <span class="ob-mr-label" data-pg-slot="whyLabel">High protein</span>
+            <span class="ob-mr-val" data-pg-slot="whyValue">11 g</span>
+          </div>
+          <div class="ob-mock-row">
+            <span class="ob-dot" aria-hidden="true"></span>
+            <span class="ob-mr-label" data-pg-slot="whyLabel">No added sugar</span>
+            <span class="ob-mr-val" data-pg-slot="whyValue">0 g</span>
+          </div>
+          <div class="ob-mock-row ob-ok">
+            <span class="ob-dot" aria-hidden="true"></span>
+            <span class="ob-mr-label" data-pg-slot="whyLabel">Watch sodium</span>
+            <span class="ob-mr-val" data-pg-slot="whyValue">65 mg</span>
+          </div>
+          <div class="ob-mock-cta" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M4 12h16"/></svg>
+            <span data-pg-slot="appCta">Scan another</span>
+          </div>
+        </div>
+
+        <!-- satellite stat tile: protein -->
+        <div class="ob-tile ob-stat ob-stat--protein ob-wash-sage">
+          <span class="ob-stat-num" data-pg-slot="whyValue">11 g</span>
+          <span class="ob-stat-label" data-pg-slot="whyLabel">Protein per cup</span>
+        </div>
+
+        <!-- satellite stat tile: sugar -->
+        <div class="ob-tile ob-stat ob-stat--sugar ob-wash-butter">
+          <span class="ob-stat-num" data-pg-slot="whyValue">0 g</span>
+          <span class="ob-stat-label" data-pg-slot="whyLabel">Added sugar</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+          </main>
+        </div>
+      </section>
+
+      <!-- ------------------------- PORTFOLIO ------------------------ -->
+      <section class="pg-portfolio" aria-label="Saved looks">
+        <div class="pg-portfolio-head">
+          <h2>Saved looks</h2>
+          <p>Every look you save lands here with its screenshot, tokens, and fonts. Export any of them as a CSS block, JSON, or PNG.</p>
+        </div>
+        <div class="pg-gallery" id="pg-gallery"><!-- cards injected by JS --></div>
+      </section>
+
+    </div><!-- /.pg-work -->
+
+    <!-- ============================ SAVE MODAL ======================== -->
+    <div class="pg-modal-scrim" id="pg-save-modal" role="dialog" aria-modal="true" aria-labelledby="pg-save-title">
+      <div class="pg-modal">
+        <h3 id="pg-save-title">Name this look</h3>
+        <p>It will be captured with a screenshot and the exact tokens you set.</p>
+        <input type="text" id="pg-save-label" placeholder="e.g. Calm Clay, Morning Editorial…" maxlength="60" autocomplete="off">
+        <div class="pg-modal-meta" id="pg-save-meta">claymorphic · app</div>
+        <div class="pg-modal-actions">
+          <button class="pg-ghostbtn" id="pg-save-cancel" type="button" style="flex:0 0 auto;">Cancel</button>
+          <button class="pg-save" id="pg-save-confirm" type="button"><span>Save look</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pg-toasts" id="pg-toasts" aria-live="polite"></div>
+  </div>
+
+  <!-- html2canvas (SPEC §1) is lazy-loaded by playground.js only on first Save, so the
+       app's own init never blocks on the CDN. -->
+  <script src="playground.js"></script>
+</body>
+</html>

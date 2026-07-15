@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>organic-bento — Helthy tile preview</title>
+
+  <!-- this language's display + body faces (declared here, listed in the manifest) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Nunito:ital,wght@0,400..800;1,400..700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./tile.css" />
+
+  <style>
+    /* page chrome only — the §1 contract page bg lives on :root so it tracks dark mode */
+    :root{
+      --pg-bg: #f7f2e9;
+      color-scheme: light;
+    }
+    :root[data-theme="dark"]{
+      --pg-bg: #0f1714;
+      color-scheme: dark;
+    }
+    html, body{ margin: 0; }
+    body{
+      background: var(--pg-bg);
+      min-height: 100vh;
+      font-family: "Nunito", system-ui, sans-serif;
+      padding: 40px clamp(16px, 4vw, 56px) 64px;
+    }
+    .pv-bar{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      max-width: 1080px;
+      margin: 0 auto 28px;
+    }
+    .pv-bar h1{
+      margin: 0;
+      font-family: "Bricolage Grotesque", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -.01em;
+      color: color-mix(in srgb, CanvasText 70%, transparent);
+    }
+    .pv-toggle{
+      font: 600 13px/1 "Nunito", system-ui, sans-serif;
+      border: 1px solid color-mix(in srgb, CanvasText 22%, transparent);
+      background: Canvas;
+      color: CanvasText;
+      padding: 9px 15px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .pv-stack{
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .pv-frame > .pg-tile{ display: block; }
+    .pv-note{
+      max-width: 1080px;
+      margin: 8px auto 0;
+      font: 500 13px/1.5 "Nunito", system-ui, sans-serif;
+      color: color-mix(in srgb, CanvasText 55%, transparent);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="pv-bar">
+    <h1>organic-bento &middot; Helthy design tile</h1>
+    <button class="pv-toggle" type="button" id="pvToggle">Toggle dark</button>
+  </div>
+
+  <div class="pv-stack" id="pvMount">
+    <p class="pv-note">Loading tile&hellip;</p>
+  </div>
+
+  <script>
+    // pull in the real tile.html so the preview never drifts from the shipped markup
+    (async () => {
+      const mount = document.getElementById('pvMount');
+      try {
+        const html = await (await fetch('./tile.html')).text();
+        mount.innerHTML = html;
+      } catch (e) {
+        mount.innerHTML = '<p class="pv-note">Could not fetch tile.html (serve over http to preview): ' + e.message + '</p>';
+      }
+    })();
+
+    const root = document.documentElement;
+    if (new URLSearchParams(location.search).get('theme') === 'dark') root.dataset.theme = 'dark';
+    document.getElementById('pvToggle').addEventListener('click', () => {
+      root.dataset.theme = root.dataset.theme === 'dark' ? '' : 'dark';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Helthy tile — claymorphic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tile.css">
+  <style>
+    /* preview chrome only — NOT part of the tile */
+    :root{
+      --pg-bg:#eef3f0; --pg-surface:#ffffff; --pg-ink:#14241d; --pg-ink-soft:#5c6f67;
+      --pg-primary:#2f9e72; --pg-accent:#f4b740;
+      --pg-good:#2f9e72; --pg-ok:#e8a13a; --pg-avoid:#d8584f;
+      --pg-radius:20px; --pg-elevation:1; --pg-blur:14px; --pg-density:1;
+    }
+    :root[data-theme="dark"]{ --pg-bg:#0f1714; --pg-surface:#172420; --pg-ink:#eaf3ee; --pg-ink-soft:#9fb3aa; }
+    html,body{ margin:0; background:var(--pg-bg); }
+    .pv-bar{
+      display:flex; align-items:center; gap:14px; padding:14px 22px;
+      font:600 13px/1 "Nunito",system-ui,sans-serif; color:var(--pg-ink-soft);
+      background:var(--pg-surface); border-bottom:1px solid rgba(0,0,0,.06);
+    }
+    .pv-bar b{ color:var(--pg-ink); font-weight:800; }
+    .pv-bar button{
+      margin-left:auto; font:700 13px "Nunito",sans-serif; cursor:pointer;
+      padding:8px 16px; border-radius:999px; border:0;
+      background:var(--pg-primary); color:#fff;
+    }
+    .pv-stack{ display:flex; flex-direction:column; gap:30px; padding:30px; }
+    .pv-label{ font:700 12px "Nunito",sans-serif; letter-spacing:.6px; text-transform:uppercase; color:var(--pg-ink-soft); margin:0 4px; }
+    .pv-card{ border-radius:28px; overflow:hidden; box-shadow:0 10px 40px rgba(20,40,30,.10); }
+  </style>
+</head>
+<body>
+  <div class="pv-bar">
+    <b>Helthy Playground</b> &middot; tile preview &middot; <span>claymorphic</span>
+    <button id="pv-theme" type="button">Toggle dark</button>
+  </div>
+
+  <div class="pv-stack">
+    <!-- tile markup (inlined so the preview also opens over file://) -->
+    <div class="pg-tile" data-lang="claymorphic">
+
+      <p class="pv-label">Surface A &mdash; app</p>
+      <!-- ================= SURFACE A — app: scan -> score ================= -->
+      <section class="pg-surface-app pv-card" aria-label="Helthy app — scan result">
+        <div class="clay-phone">
+          <div class="clay-screen">
+
+            <header class="clay-topbar">
+              <button class="clay-knob" aria-label="Back">&#8249;</button>
+              <span class="clay-wordmark" data-pg-slot="brand">Helthy</span>
+              <button class="clay-knob" aria-label="More options">&#8943;</button>
+            </header>
+
+            <div class="clay-score">
+              <div class="clay-disc">
+                <div class="clay-well">
+                  <span class="clay-score-num" data-pg-slot="scoreValue">88</span>
+                </div>
+                <span class="clay-badge clay-good" data-pg-slot="scoreLabel">GOOD</span>
+              </div>
+            </div>
+
+            <div class="clay-product">
+              <h2 class="clay-product-name" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</h2>
+              <p class="clay-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+            </div>
+
+            <ul class="clay-why">
+              <li class="clay-cap clay-cap--good">
+                <span class="clay-ic" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 19c0-6 4-11 14-12-1 10-6 13-12 12.5"/>
+                    <path d="M5 19c2-4 4.5-6.5 8-8"/>
+                  </svg>
+                </span>
+                <span class="clay-why-label" data-pg-slot="whyLabel">High protein</span>
+                <span class="clay-why-value" data-pg-slot="whyValue">11 g</span>
+              </li>
+              <li class="clay-cap clay-cap--good">
+                <span class="clay-ic" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-1.4.6-2.9 1.4-4.3"/>
+                    <path d="M5 5l14 14"/>
+                  </svg>
+                </span>
+                <span class="clay-why-label" data-pg-slot="whyLabel">No added sugar</span>
+                <span class="clay-why-value" data-pg-slot="whyValue">0 g</span>
+              </li>
+              <li class="clay-cap clay-cap--ok">
+                <span class="clay-ic" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 4a8 8 0 1 0 8 8"/>
+                    <path d="M12 12l4.5-4.5"/>
+                    <circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/>
+                  </svg>
+                </span>
+                <span class="clay-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+                <span class="clay-why-value" data-pg-slot="whyValue">65 mg</span>
+              </li>
+            </ul>
+
+            <div class="clay-picks">
+              <h3 class="clay-picks-title">Better-scoring picks</h3>
+              <div class="clay-chips">
+                <div class="clay-chip">
+                  <span class="clay-chip-score" data-pg-slot="pickScore">91</span>
+                  <span class="clay-chip-name" data-pg-slot="pickName">Greek yogurt</span>
+                </div>
+                <div class="clay-chip">
+                  <span class="clay-chip-score" data-pg-slot="pickScore">90</span>
+                  <span class="clay-chip-name" data-pg-slot="pickName">Cottage cheese</span>
+                </div>
+                <div class="clay-chip">
+                  <span class="clay-chip-score" data-pg-slot="pickScore">86</span>
+                  <span class="clay-chip-name" data-pg-slot="pickName">Plain kefir</span>
+                </div>
+              </div>
+            </div>
+
+            <button class="clay-cta" data-pg-slot="appCta">Scan another</button>
+          </div>
+        </div>
+      </section>
+
+      <p class="pv-label">Surface B &mdash; web hero</p>
+      <!-- ================= SURFACE B — website hero ================= -->
+      <section class="pg-surface-web pv-card" aria-label="Helthy marketing hero">
+        <span class="clay-blob clay-blob--a" aria-hidden="true"></span>
+        <span class="clay-blob clay-blob--b" aria-hidden="true"></span>
+
+        <nav class="clay-nav">
+          <span class="clay-wordmark clay-wordmark--lg" data-pg-slot="brand">Helthy</span>
+          <div class="clay-navlinks">
+            <a href="#" data-pg-slot="navItem">How it works</a>
+            <a href="#" data-pg-slot="navItem">Science</a>
+            <a href="#" data-pg-slot="navItem">Beta</a>
+          </div>
+        </nav>
+
+        <div class="clay-hero-grid">
+          <div class="clay-hero-copy">
+            <span class="clay-kicker" data-pg-slot="heroKicker">Now in beta</span>
+            <h1 class="clay-headline" data-pg-slot="heroHeadline">Know if it&rsquo;s right for your <em>blood sugar</em> &mdash; before you buy.</h1>
+            <p class="clay-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+            <div class="clay-cta-row">
+              <button class="clay-cta" data-pg-slot="heroPrimaryCta">Join the beta</button>
+              <button class="clay-cta clay-cta--ghost" data-pg-slot="heroSecondaryCta">See how it works</button>
+            </div>
+            <p class="clay-trust">
+              <span class="clay-trust-dot" aria-hidden="true"></span>
+              <span data-pg-slot="trustLine">Built with dietitians &middot; Open Food Facts + USDA nutrition</span>
+            </p>
+          </div>
+
+          <div class="clay-hero-mock">
+            <div class="clay-mock">
+              <div class="clay-mock-screen">
+                <div class="clay-disc">
+                  <div class="clay-well">
+                    <span class="clay-score-num" data-pg-slot="scoreValue">88</span>
+                  </div>
+                  <span class="clay-badge clay-good" data-pg-slot="scoreLabel">GOOD</span>
+                </div>
+                <p class="clay-mock-name" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</p>
+                <div class="clay-mock-bars" aria-hidden="true">
+                  <span class="clay-mock-bar b1"></span>
+                  <span class="clay-mock-bar b2"></span>
+                  <span class="clay-mock-bar b3"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    if (location.hash === '#dark') document.documentElement.setAttribute('data-theme','dark');
+    document.getElementById('pv-theme').addEventListener('click', function(){
+      var r = document.documentElement;
+      r.setAttribute('data-theme', r.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  </script>
+</body>
+</html>

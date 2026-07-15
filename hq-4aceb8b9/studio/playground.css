@@ -1,0 +1,566 @@
+/* ============================================================================
+   Helthy Design Playground — SHELL / chassis stylesheet
+   ----------------------------------------------------------------------------
+   The chassis is deliberately quiet: a calm "studio workbench" frame whose only
+   job is to let six wildly different design tiles be the stars. It carries its
+   OWN token namespace (--sh-*) so that Joanna re-tuning a tile's palette
+   (--pg-*) never repaints the toolbar around it. The tile contract (--pg-*)
+   lives below and is mutated live by the control panel.
+   ========================================================================== */
+
+/* ----------------------------------------------------------------------------
+   1. THE TILE TOKEN CONTRACT  (SPEC §1) — the live control surface.
+   The control panel writes inline overrides onto :root for exactly these vars.
+   ---------------------------------------------------------------------------- */
+:root{
+  /* palette */
+  --pg-bg:        #eef3f0;
+  --pg-surface:   #ffffff;
+  --pg-ink:       #14241d;
+  --pg-ink-soft:  #5c6f67;
+  --pg-primary:   #2f9e72;
+  --pg-accent:    #f4b740;
+  /* score semantic trio (Helthy scores food good / ok / avoid) */
+  --pg-good:      #2f9e72;
+  --pg-ok:        #e8a13a;
+  --pg-avoid:     #d8584f;
+  /* type */
+  --pg-font-head: "Fraunces", Georgia, serif;
+  --pg-font-body: "Inter", system-ui, sans-serif;
+  /* shape / feel knobs */
+  --pg-radius:    20px;
+  --pg-elevation: 1;
+  --pg-blur:      14px;
+  --pg-density:   1;
+}
+:root[data-theme="dark"]{
+  --pg-bg:#0f1714; --pg-surface:#172420; --pg-ink:#eaf3ee; --pg-ink-soft:#9fb3aa;
+}
+
+/* ----------------------------------------------------------------------------
+   2. CHASSIS TOKENS  (--sh-*) — independent of the tile palette.
+   ---------------------------------------------------------------------------- */
+:root{
+  --sh-bg:        #e9ece8;   /* studio wall behind everything */
+  --sh-panel:     #f6f8f5;   /* control cards / bars */
+  --sh-panel-2:   #ffffff;   /* raised inputs */
+  --sh-well:      #d4d9d3;   /* matboard the stage is framed on */
+  --sh-line:      #d9ded8;   /* hairlines */
+  --sh-line-2:    #c7cec6;
+  --sh-ink:       #1b2420;   /* graphite text */
+  --sh-ink-soft:  #61706a;   /* secondary text */
+  --sh-ink-faint: #93a097;
+  --sh-accent:    #2f9e72;   /* Helthy green — used sparingly */
+  --sh-accent-2:  #1f7e58;
+  --sh-on-accent: #ffffff;   /* ink ON the green fill (white-on-dark-green) */
+  --sh-warn:      #d8584f;
+
+  --sh-radius:    14px;
+  --sh-radius-sm: 9px;
+  --sh-header-h:  60px;
+  --sh-shadow:    0 1px 2px rgba(20,36,29,.05), 0 8px 24px rgba(20,36,29,.06);
+  --sh-shadow-sm: 0 1px 2px rgba(20,36,29,.06);
+  --sh-focus:     0 0 0 3px rgba(47,158,114,.45);
+
+  --sh-ui:   "Space Grotesk", "Inter", system-ui, sans-serif;
+  --sh-body: "Inter", system-ui, sans-serif;
+  --sh-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+:root[data-theme="dark"]{
+  /* --sh-well is the matboard the mockup floats on. Keep it a NEUTRAL slate that
+     sits clearly LIGHTER than any tile's app background (≈#0f1714) so the phone
+     reads as a distinct object on a desk, not camouflaged into the canvas. */
+  --sh-bg:#0d1310; --sh-panel:#151c18; --sh-panel-2:#1b231e; --sh-well:#2b322e;
+  --sh-line:#27312b; --sh-line-2:#33403a; --sh-ink:#e8efea; --sh-ink-soft:#93a59c;
+  --sh-ink-faint:#65766d; --sh-accent:#41b487; --sh-accent-2:#5cc89c; --sh-on-accent:#08120d;
+  --sh-shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
+  --sh-shadow-sm:0 1px 3px rgba(0,0,0,.4);
+}
+
+/* ----------------------------------------------------------------------------
+   3. RESET / BASE
+   ---------------------------------------------------------------------------- */
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  font-family:var(--sh-body);
+  color:var(--sh-ink);
+  background:var(--sh-bg);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+button{ font:inherit; color:inherit; cursor:pointer; }
+:focus{ outline:none; }
+:focus-visible{ outline:none; box-shadow:var(--sh-focus); border-radius:6px; }
+
+/* ----------------------------------------------------------------------------
+   4. SHELL SCAFFOLD
+   ---------------------------------------------------------------------------- */
+.pg-shell{
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* ---- Top bar -------------------------------------------------------------- */
+.pg-topbar{
+  flex:0 0 auto;
+  height:var(--sh-header-h);
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:0 18px;
+  background:var(--sh-panel);
+  border-bottom:1px solid var(--sh-line);
+  z-index:6;
+}
+.pg-brand{ display:flex; align-items:center; gap:10px; font-family:var(--sh-ui); }
+.pg-brand-mark{
+  width:26px; height:26px; border-radius:8px;
+  background:linear-gradient(150deg,var(--sh-accent),var(--sh-accent-2));
+  display:grid; place-items:center; color:var(--sh-on-accent);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
+  flex:0 0 auto;
+}
+.pg-brand-mark svg{ width:15px; height:15px; }
+.pg-brand-name{ font-weight:600; font-size:15px; letter-spacing:-.01em; }
+.pg-brand-sub{ color:var(--sh-ink-soft); font-size:13px; font-family:var(--sh-ui); letter-spacing:-.005em; }
+.pg-topbar-spacer{ flex:1 1 auto; }
+
+/* view switch (Studio / Portfolio) */
+.pg-viewtabs{
+  display:inline-flex; padding:3px; gap:2px;
+  background:var(--sh-bg); border:1px solid var(--sh-line); border-radius:11px;
+}
+.pg-viewtab{
+  border:0; background:transparent; color:var(--sh-ink-soft);
+  font-family:var(--sh-ui); font-size:13px; font-weight:500;
+  padding:6px 13px; border-radius:8px; transition:background .15s, color .15s;
+}
+.pg-viewtab[aria-pressed="true"]{ background:var(--sh-panel-2); color:var(--sh-ink); box-shadow:var(--sh-shadow-sm); }
+
+/* icon buttons + primary save */
+.pg-iconbtn{
+  width:36px; height:36px; display:grid; place-items:center;
+  background:var(--sh-panel-2); border:1px solid var(--sh-line);
+  border-radius:10px; color:var(--sh-ink-soft); transition:color .15s, border-color .15s;
+}
+.pg-iconbtn:hover{ color:var(--sh-ink); border-color:var(--sh-line-2); }
+.pg-iconbtn svg{ width:18px; height:18px; }
+.pg-save{
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--sh-accent); color:var(--sh-on-accent);
+  border:0; border-radius:10px; padding:9px 16px;
+  font-family:var(--sh-ui); font-weight:600; font-size:13.5px;
+  box-shadow:var(--sh-shadow-sm); transition:filter .15s, transform .05s;
+}
+.pg-save:hover{ filter:brightness(1.05); }
+.pg-save:active{ transform:translateY(1px); }
+.pg-save svg{ width:16px; height:16px; }
+
+/* ---- Welcome ribbon ------------------------------------------------------- */
+.pg-welcome{
+  flex:0 0 auto;
+  display:flex; align-items:center; gap:14px;
+  padding:11px 20px;
+  background:
+    linear-gradient(0deg, color-mix(in srgb, var(--sh-accent) 7%, transparent), transparent),
+    var(--sh-panel);
+  border-bottom:1px solid var(--sh-line);
+}
+.pg-welcome-dot{
+  flex:0 0 auto; width:8px; height:8px; border-radius:50%;
+  background:var(--sh-accent); box-shadow:0 0 0 4px color-mix(in srgb,var(--sh-accent) 22%, transparent);
+}
+.pg-welcome-text{ font-size:13.5px; line-height:1.45; color:var(--sh-ink-soft); }
+.pg-welcome-text b{ color:var(--sh-ink); font-weight:600; font-family:var(--sh-ui); }
+.pg-welcome-dismiss{
+  margin-left:auto; flex:0 0 auto;
+  border:0; background:transparent; color:var(--sh-ink-faint);
+  width:28px; height:28px; border-radius:8px; display:grid; place-items:center;
+  font-size:17px; line-height:1; transition:color .15s, background .15s;
+}
+.pg-welcome-dismiss:hover{ color:var(--sh-ink); background:var(--sh-bg); }
+.pg-shell[data-welcome="off"] .pg-welcome{ display:none; }
+
+/* ---- Work area: controls | stage ----------------------------------------- */
+.pg-work{
+  flex:1 1 auto; min-height:0;
+  display:grid;
+  grid-template-columns:320px 1fr;
+  /* bound the row to the shell so panel + stage scroll INTERNALLY instead of
+     growing the grid past the viewport (which .pg-shell overflow:hidden clips) */
+  grid-template-rows:minmax(0, 1fr);
+}
+.pg-view{ display:contents; }
+.pg-shell[data-view="portfolio"] .pg-work{ grid-template-columns:1fr; }
+.pg-shell[data-view="portfolio"] .pg-panel,
+.pg-shell[data-view="portfolio"] .pg-stagearea{ display:none; }
+.pg-shell[data-view="studio"] .pg-portfolio{ display:none; }
+
+/* ----------------------------------------------------------------------------
+   5. CONTROL PANEL
+   ---------------------------------------------------------------------------- */
+.pg-panel{
+  border-right:1px solid var(--sh-line);
+  background:var(--sh-panel);
+  overflow-y:auto;
+  padding:6px 0 28px;
+}
+.pg-group{ border-bottom:1px solid var(--sh-line); padding:16px 18px; }
+.pg-group:last-child{ border-bottom:0; }
+.pg-group-head{
+  display:flex; align-items:baseline; justify-content:space-between;
+  margin:0 0 13px;
+}
+.pg-group-title{
+  font-family:var(--sh-ui); font-size:11px; font-weight:600;
+  letter-spacing:.09em; text-transform:uppercase; color:var(--sh-ink-faint);
+}
+.pg-group-hint{ font-size:11px; color:var(--sh-ink-faint); font-family:var(--sh-mono); }
+
+/* sticky history toolbar pinned to the top of the scrolling panel */
+.pg-panel-tools{
+  position:sticky; top:0; z-index:3;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:11px 18px;
+  background:var(--sh-panel);
+  border-bottom:1px solid var(--sh-line);
+}
+.pg-panel-tools-label{
+  font-family:var(--sh-ui); font-size:11px; font-weight:600;
+  letter-spacing:.09em; text-transform:uppercase; color:var(--sh-ink-faint);
+}
+.pg-history{ display:inline-flex; gap:6px; }
+.pg-histbtn{
+  display:inline-flex; align-items:center; gap:6px;
+  background:var(--sh-panel-2); border:1px solid var(--sh-line);
+  border-radius:8px; padding:6px 10px;
+  font-family:var(--sh-ui); font-size:12px; font-weight:500; color:var(--sh-ink-soft);
+  transition:color .15s, border-color .15s, opacity .15s;
+}
+.pg-histbtn svg{ width:15px; height:15px; }
+.pg-histbtn:hover:not(:disabled){ color:var(--sh-ink); border-color:var(--sh-line-2); }
+.pg-histbtn:disabled{ opacity:.38; cursor:not-allowed; }
+
+/* per-section reset — small icon button living in each group head */
+.pg-group-reset{
+  align-self:center; flex:0 0 auto;
+  width:24px; height:24px; display:grid; place-items:center;
+  background:transparent; border:1px solid transparent; border-radius:7px;
+  color:var(--sh-ink-faint); transition:color .15s, background .15s, border-color .15s;
+}
+.pg-group-reset svg{ width:14px; height:14px; }
+.pg-group-reset:hover{ color:var(--sh-ink); background:var(--sh-panel-2); border-color:var(--sh-line); }
+
+/* color rows */
+.pg-colors{ display:grid; grid-template-columns:1fr 1fr; gap:9px 10px; }
+.pg-color{
+  display:flex; align-items:center; gap:9px;
+  background:var(--sh-panel-2); border:1px solid var(--sh-line);
+  border-radius:var(--sh-radius-sm); padding:7px 9px;
+}
+.pg-color label{ font-size:11.5px; color:var(--sh-ink-soft); flex:1 1 auto; cursor:pointer; }
+.pg-swatch{
+  position:relative; width:26px; height:26px; flex:0 0 auto;
+  border-radius:7px; overflow:hidden; border:1px solid rgba(0,0,0,.12);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.12);
+}
+.pg-swatch input[type="color"]{
+  position:absolute; inset:-6px; width:calc(100% + 12px); height:calc(100% + 12px);
+  border:0; padding:0; background:none; cursor:pointer;
+}
+.pg-swatch input::-webkit-color-swatch-wrapper{ padding:0; }
+.pg-swatch input::-webkit-color-swatch{ border:0; }
+.pg-hex{ font-family:var(--sh-mono); font-size:10px; color:var(--sh-ink-faint); display:block; }
+
+/* select / font pickers */
+.pg-field{ margin-bottom:11px; }
+.pg-field:last-child{ margin-bottom:0; }
+.pg-field > label{
+  display:block; font-size:11.5px; color:var(--sh-ink-soft); margin:0 0 5px;
+}
+.pg-select{
+  width:100%; appearance:none;
+  background:var(--sh-panel-2)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%2361706a' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat right 11px center;
+  border:1px solid var(--sh-line); border-radius:var(--sh-radius-sm);
+  padding:9px 30px 9px 11px; font-size:13px; color:var(--sh-ink);
+  transition:border-color .15s;
+}
+.pg-select:hover{ border-color:var(--sh-line-2); }
+.pg-fontpreview{ font-size:13px; color:var(--sh-ink-faint); margin-top:5px; min-height:18px; }
+
+/* sliders */
+.pg-slider{ margin-bottom:15px; }
+.pg-slider:last-child{ margin-bottom:0; }
+.pg-slider-top{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:7px; }
+.pg-slider-top label{ font-size:12px; color:var(--sh-ink-soft); }
+.pg-slider-val{ font-family:var(--sh-mono); font-size:11.5px; color:var(--sh-ink); }
+input[type="range"]{
+  -webkit-appearance:none; appearance:none; width:100%; height:4px;
+  background:var(--sh-line-2); border-radius:99px; outline:none;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none; width:17px; height:17px; border-radius:50%;
+  background:var(--sh-panel-2); border:2px solid var(--sh-accent);
+  box-shadow:var(--sh-shadow-sm); cursor:pointer; transition:transform .08s;
+}
+input[type="range"]::-webkit-slider-thumb:active{ transform:scale(1.12); }
+input[type="range"]::-moz-range-thumb{
+  width:15px; height:15px; border-radius:50%;
+  background:var(--sh-panel-2); border:2px solid var(--sh-accent); cursor:pointer;
+}
+
+/* panel footer actions */
+.pg-panel-actions{ padding:16px 18px 0; display:flex; gap:9px; }
+.pg-ghostbtn{
+  flex:1 1 auto;
+  background:var(--sh-panel-2); border:1px solid var(--sh-line);
+  border-radius:var(--sh-radius-sm); padding:9px 12px;
+  font-family:var(--sh-ui); font-size:12.5px; font-weight:500; color:var(--sh-ink-soft);
+  transition:color .15s, border-color .15s;
+}
+.pg-ghostbtn:hover{ color:var(--sh-ink); border-color:var(--sh-line-2); }
+
+/* ----------------------------------------------------------------------------
+   6. STAGE  (the framed canvas the tile renders into)
+   ---------------------------------------------------------------------------- */
+.pg-stagearea{
+  display:flex; flex-direction:column; min-width:0; min-height:0;
+  background:var(--sh-bg);
+}
+.pg-stagebar{
+  flex:0 0 auto;
+  display:flex; align-items:center; gap:14px;
+  padding:12px 18px; flex-wrap:wrap;
+}
+
+/* "this is a mockup" marker — persists even after the welcome ribbon is dismissed */
+.pg-mockup-badge{
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--sh-ui); font-size:11.5px; font-weight:600; letter-spacing:.005em;
+  color:var(--sh-accent-2);
+  background:color-mix(in srgb, var(--sh-accent) 12%, var(--sh-panel-2));
+  border:1px solid color-mix(in srgb, var(--sh-accent) 30%, var(--sh-line));
+  border-radius:99px; padding:5px 11px 5px 9px;
+  cursor:default; white-space:nowrap;
+}
+.pg-mockup-badge svg{ width:14px; height:14px; opacity:.85; }
+
+/* language switcher (segmented) */
+.pg-langtabs{
+  display:inline-flex; gap:3px; padding:4px;
+  background:var(--sh-panel); border:1px solid var(--sh-line);
+  border-radius:13px; overflow-x:auto; max-width:100%;
+}
+.pg-langtab{
+  position:relative; white-space:nowrap;
+  border:0; background:transparent; color:var(--sh-ink-soft);
+  font-family:var(--sh-ui); font-size:12.5px; font-weight:500;
+  padding:7px 14px; border-radius:9px;
+  transition:background .15s, color .15s;
+}
+.pg-langtab:hover{ color:var(--sh-ink); }
+.pg-langtab[aria-selected="true"]{
+  background:var(--sh-panel-2); color:var(--sh-ink);
+  box-shadow:var(--sh-shadow-sm);
+}
+.pg-langtab[aria-selected="true"]::after{
+  content:""; position:absolute; left:50%; bottom:3px; transform:translateX(-50%);
+  width:16px; height:2.5px; border-radius:2px; background:var(--sh-accent);
+}
+
+/* surface switch (App / Website) */
+.pg-surfswitch{ display:inline-flex; padding:3px; gap:2px; background:var(--sh-panel); border:1px solid var(--sh-line); border-radius:11px; margin-left:auto; }
+.pg-surfbtn{
+  border:0; background:transparent; color:var(--sh-ink-soft);
+  font-family:var(--sh-ui); font-size:12px; font-weight:500;
+  padding:6px 12px; border-radius:8px; display:inline-flex; align-items:center; gap:6px;
+  transition:background .15s, color .15s;
+}
+.pg-surfbtn svg{ width:14px; height:14px; }
+.pg-surfbtn[aria-pressed="true"]{ background:var(--sh-panel-2); color:var(--sh-ink); box-shadow:var(--sh-shadow-sm); }
+
+/* the matboard well + stage */
+.pg-stagewell{
+  flex:1 1 auto; min-height:0;
+  overflow:auto;
+  background:var(--sh-well);
+  box-shadow:inset 0 1px 12px rgba(0,0,0,.10);
+  padding:26px;
+  display:flex; justify-content:center; align-items:flex-start;
+}
+#pg-stage{
+  width:100%;
+  display:flex; justify-content:center;
+}
+
+/* one tile shown at a time */
+.pg-tile{ display:none; width:100%; max-width:980px; }
+.pg-tile.is-active{ display:block; }
+/* Each spliced tile carries its own .pg-tile[data-lang=…] rule (loaded AFTER this
+   file) which ties on specificity (0,2,0), so it would otherwise let inactive tiles
+   render. Force inactive tiles hidden with a rule they can't outrank. */
+#pg-stage > .pg-tile:not(.is-active){ display:none !important; }
+
+/* surface visibility within the active tile (real tiles ship both sections) */
+#pg-stage[data-surface="web"] .pg-tile.is-active .pg-surface-app{ display:none; }
+#pg-stage[data-surface="app"] .pg-tile.is-active .pg-surface-web{ display:none; }
+
+/* Placeholder shown only while the ACTIVE tile div is still empty (auto-clears
+   at splice once real markup lands, since :empty stops matching). Scoped to
+   .is-active so the other five empty placeholders stay hidden — without the
+   .is-active qualifier, .pg-tile:empty (0,2,0) would beat .pg-tile{display:none}
+   and every placeholder would show at once. */
+.pg-tile.is-active:empty{
+  min-height:420px; border-radius:var(--pg-radius);
+  border:1.5px dashed var(--sh-line-2);
+  background:
+    repeating-linear-gradient(135deg, transparent 0 16px, color-mix(in srgb,var(--sh-ink-faint) 8%, transparent) 16px 17px),
+    var(--sh-panel);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+  color:var(--sh-ink-faint); text-align:center; padding:32px;
+}
+.pg-tile.is-active:empty::before{
+  content:"“" attr(data-lang) "” tile";
+  font-family:var(--sh-ui); font-weight:600; font-size:16px; color:var(--sh-ink-soft);
+}
+.pg-tile.is-active:empty::after{
+  content:"This surface renders here once the design tiles are assembled.";
+  font-size:12.5px; max-width:280px;
+}
+
+/* ----------------------------------------------------------------------------
+   7. PORTFOLIO
+   ---------------------------------------------------------------------------- */
+.pg-portfolio{ overflow-y:auto; padding:26px 26px 60px; }
+.pg-portfolio-head{ max-width:1200px; margin:0 auto 22px; }
+.pg-portfolio-head h2{ font-family:var(--sh-ui); font-size:21px; font-weight:600; margin:0 0 4px; letter-spacing:-.01em; }
+.pg-portfolio-head p{ margin:0; color:var(--sh-ink-soft); font-size:13.5px; }
+.pg-gallery{
+  max-width:1200px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(290px,1fr)); gap:20px;
+}
+.pg-card{
+  background:var(--sh-panel); border:1px solid var(--sh-line);
+  border-radius:var(--sh-radius); overflow:hidden;
+  box-shadow:var(--sh-shadow); display:flex; flex-direction:column;
+}
+.pg-card-thumb{
+  aspect-ratio:16/11; background:var(--sh-well);
+  background-size:cover; background-position:center top;
+  border-bottom:1px solid var(--sh-line);
+}
+.pg-card-body{ padding:14px 15px 15px; display:flex; flex-direction:column; gap:11px; flex:1 1 auto; }
+.pg-card-titlerow{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
+.pg-card-title{ font-family:var(--sh-ui); font-weight:600; font-size:15px; letter-spacing:-.01em; }
+.pg-card-meta{ font-family:var(--sh-mono); font-size:10.5px; color:var(--sh-ink-faint); white-space:nowrap; }
+.pg-tagrow{ display:flex; flex-wrap:wrap; gap:6px; }
+.pg-tag{
+  font-family:var(--sh-ui); font-size:10.5px; font-weight:500; color:var(--sh-ink-soft);
+  background:var(--sh-bg); border:1px solid var(--sh-line); border-radius:99px; padding:3px 9px;
+}
+.pg-card-swatches{ display:flex; gap:5px; }
+.pg-card-swatches span{ width:22px; height:22px; border-radius:6px; border:1px solid rgba(0,0,0,.12); box-shadow:inset 0 1px 2px rgba(0,0,0,.12); }
+.pg-card-knobs{ font-family:var(--sh-mono); font-size:10.5px; color:var(--sh-ink-faint); line-height:1.6; }
+.pg-card-fonts{ font-size:11.5px; color:var(--sh-ink-soft); }
+.pg-card-fonts b{ color:var(--sh-ink); font-weight:600; }
+.pg-card-actions{ display:flex; gap:6px; margin-top:auto; padding-top:4px; }
+.pg-chipbtn{
+  flex:1 1 auto; background:var(--sh-panel-2); border:1px solid var(--sh-line);
+  border-radius:8px; padding:7px 6px; font-family:var(--sh-ui); font-size:11px; font-weight:500;
+  color:var(--sh-ink-soft); transition:color .15s, border-color .15s;
+}
+.pg-chipbtn:hover{ color:var(--sh-ink); border-color:var(--sh-line-2); }
+.pg-card-del{
+  border:0; background:transparent; color:var(--sh-ink-faint);
+  font-size:12px; padding:0 4px; border-radius:6px; transition:color .15s;
+}
+.pg-card-del:hover{ color:var(--sh-warn); }
+
+.pg-empty{
+  max-width:520px; margin:60px auto; text-align:center; color:var(--sh-ink-soft);
+}
+.pg-empty h3{ font-family:var(--sh-ui); color:var(--sh-ink); margin:0 0 6px; }
+
+/* ----------------------------------------------------------------------------
+   8. SAVE POPOVER (kept INSIDE the themed shell, never body-portaled — see
+   frontend.md: themed --vars don't reach body-mounted dialogs)
+   ---------------------------------------------------------------------------- */
+.pg-modal-scrim{
+  position:fixed; inset:0; background:rgba(10,18,14,.42);
+  display:none; align-items:center; justify-content:center; z-index:40;
+  backdrop-filter:blur(2px);
+}
+.pg-modal-scrim.is-open{ display:flex; }
+.pg-modal{
+  width:min(380px, calc(100vw - 36px));
+  background:var(--sh-panel); border:1px solid var(--sh-line);
+  border-radius:var(--sh-radius); box-shadow:0 24px 60px rgba(0,0,0,.3);
+  padding:20px;
+}
+.pg-modal h3{ font-family:var(--sh-ui); font-size:16px; margin:0 0 4px; }
+.pg-modal p{ margin:0 0 14px; font-size:12.5px; color:var(--sh-ink-soft); }
+.pg-modal input[type="text"]{
+  width:100%; background:var(--sh-panel-2); border:1px solid var(--sh-line);
+  border-radius:var(--sh-radius-sm); padding:10px 12px; font-size:14px; color:var(--sh-ink);
+}
+.pg-modal input[type="text"]:focus-visible{ border-color:var(--sh-accent); box-shadow:var(--sh-focus); }
+.pg-modal-actions{ display:flex; gap:9px; justify-content:flex-end; margin-top:16px; }
+.pg-modal-meta{ font-family:var(--sh-mono); font-size:10.5px; color:var(--sh-ink-faint); margin-top:12px; }
+
+/* ----------------------------------------------------------------------------
+   9. TOASTS
+   ---------------------------------------------------------------------------- */
+.pg-toasts{
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; gap:8px; z-index:60; align-items:center;
+}
+.pg-toast{
+  background:var(--sh-ink); color:var(--sh-bg);
+  font-size:13px; padding:10px 16px; border-radius:11px;
+  box-shadow:0 10px 30px rgba(0,0,0,.28);
+  display:flex; align-items:center; gap:9px;
+  animation:pg-toast-in .22s ease both;
+}
+.pg-toast[data-kind="warn"]{ background:var(--sh-warn); color:#fff; }
+.pg-toast[data-kind="ok"] .pg-toast-dot{ background:var(--sh-accent); }
+.pg-toast-dot{ width:7px; height:7px; border-radius:50%; background:#fff; }
+@keyframes pg-toast-in{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+
+/* ----------------------------------------------------------------------------
+   10. RESPONSIVE
+   ---------------------------------------------------------------------------- */
+@media (max-width:1000px){
+  .pg-shell{ height:auto; min-height:100dvh; overflow:visible; }
+  .pg-topbar{ position:sticky; top:0; }
+  .pg-work{ grid-template-columns:1fr; }
+  .pg-panel{
+    border-right:0; border-bottom:1px solid var(--sh-line);
+    order:2; max-height:none;
+  }
+  .pg-stagearea{ order:1; }
+  .pg-stagewell{ padding:16px; }
+  .pg-brand-sub{ display:none; }
+}
+@media (max-width:560px){
+  .pg-topbar{ gap:10px; padding:0 12px; }
+  .pg-save span{ display:none; }
+  .pg-save{ padding:9px 12px; }
+  .pg-colors{ grid-template-columns:1fr; }
+  .pg-stagebar{ padding:10px 12px; }
+  .pg-surfswitch{ margin-left:0; }
+}
+
+/* ----------------------------------------------------------------------------
+   11. REDUCED MOTION
+   ---------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important; animation-iteration-count:1 !important;
+    transition-duration:.001ms !important; scroll-behavior:auto !important;
+  }
+}

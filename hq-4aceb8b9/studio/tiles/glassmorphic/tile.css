@@ -1,0 +1,604 @@
+/* ==========================================================================
+   Helthy Design Playground — tile: glassmorphic (Apple Liquid Glass)
+   All selectors scoped under .pg-tile[data-lang="glassmorphic"].
+   Refraction is real: a JS-baked rounded-rect normal map drives an SVG
+   feDisplacementMap (per-channel R/G/B dispersion) applied to the backdrop.
+   This stylesheet owns the static identity; --pg-* vars stay live-tunable.
+   ========================================================================== */
+
+.pg-tile[data-lang="glassmorphic"]{
+  /* ---- tunable starting points (shell overrides these live) ---- */
+  --pg-font-head: "Space Grotesk", "Hanken Grotesk", system-ui, sans-serif;
+  --pg-font-body: "Hanken Grotesk", system-ui, sans-serif;
+  --pg-radius: 26px;
+  --pg-blur: 5px;           /* clear-ish interior; low enough that rims still bend crisply */
+  --pg-elevation: 1;
+  --pg-density: 1;
+  --pg-bg: #dff0ea;
+
+  /* ---- the colour-mesh that the glass rims refract ---- */
+  --mesh-1:#7fe7c4;  --mesh-2:#5cc9e8;  --mesh-3:#2f9e72;
+  --mesh-4:#f4b740;  --mesh-5:#9d8cff;
+
+  /* ---- glass material tokens (static identity) ---- */
+  --glass-fill: linear-gradient(180deg, rgba(255,255,255,.26), rgba(255,255,255,.12));
+  --glass-fill-strong: linear-gradient(180deg, rgba(255,255,255,.40), rgba(255,255,255,.22));
+  --glass-rim: rgba(255,255,255,.72);     /* bright top inner border */
+  --glass-edge: rgba(255,255,255,.42);    /* outer hairline */
+  --glass-specular: rgba(255,255,255,.62);
+  --glass-undershadow: rgba(12,40,30,.20);
+  --gl-ink: var(--pg-ink, #14241d);
+  /* darken secondary text toward ink so it clears 4.5:1 on the bright mesh */
+  --gl-ink-soft: color-mix(in srgb, var(--pg-ink-soft, #4d6258) 60%, var(--pg-ink, #14241d));
+  /* a controlled surface + deep score green for the pick chips (contrast-safe) */
+  --chip-fill: linear-gradient(180deg, rgba(255,255,255,.60), rgba(255,255,255,.36));
+  --pick-score: color-mix(in srgb, var(--pg-good, #2f9e72) 64%, var(--gl-ink) 36%);
+
+  position: relative;
+  font-family: var(--pg-font-body);
+  color: var(--gl-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* dark re-tune: deepen the mesh, dim the white tints, lighten ink */
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"]{
+  --pg-bg:#0c1512;
+  --mesh-1:#1f7a5e; --mesh-2:#1b6486; --mesh-3:#13573f;
+  --mesh-4:#8a611c; --mesh-5:#332c63;
+  /* smoky DARK frosted glass — controls contrast for light text + reads as
+     authentic dark liquid glass (mesh still glows around the panels) */
+  --glass-fill: linear-gradient(180deg, rgba(13,23,19,.46), rgba(13,23,19,.28));
+  --glass-fill-strong: linear-gradient(180deg, rgba(9,17,14,.62), rgba(9,17,14,.46));
+  --glass-rim: rgba(255,255,255,.30);
+  --glass-edge: rgba(255,255,255,.14);
+  --glass-specular: rgba(255,255,255,.34);
+  --glass-undershadow: rgba(0,0,0,.5);
+  --gl-ink: var(--pg-ink, #eaf3ee);
+  /* lighten secondary text toward ink so it clears 4.5:1 on the smoky panels */
+  --gl-ink-soft: color-mix(in srgb, var(--pg-ink-soft, #a6bcb2) 48%, var(--pg-ink, #eaf3ee));
+  --chip-fill: linear-gradient(180deg, rgba(16,28,23,.52), rgba(16,28,23,.36));
+  --pick-score: color-mix(in srgb, var(--pg-good, #2f9e72) 42%, #ffffff 58%);
+}
+
+/* off-screen SVG that holds the dynamically-baked <filter> defs */
+.pg-tile[data-lang="glassmorphic"] .gl-defs{
+  position:absolute; width:0; height:0; overflow:hidden; pointer-events:none;
+}
+
+/* =========================================================================
+   THE GLASS MATERIAL
+   ========================================================================= */
+.pg-tile[data-lang="glassmorphic"] .gl-glass{
+  position: relative;
+  border-radius: var(--pg-radius);
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-edge);
+  /* blur frosts the backdrop; --gl-filter (set by JS) bends it at the rims */
+  -webkit-backdrop-filter: blur(var(--pg-blur)) var(--gl-filter, none) saturate(1.3);
+  backdrop-filter: blur(var(--pg-blur)) var(--gl-filter, none) saturate(1.3);
+  box-shadow:
+    0 calc(2px * var(--pg-elevation)) calc(6px * var(--pg-elevation)) rgba(12,40,30,calc(.05 * var(--pg-elevation))),
+    0 calc(20px * var(--pg-elevation)) calc(46px * var(--pg-elevation)) var(--glass-undershadow),
+    inset 0 1px 0 var(--glass-rim),
+    inset 0 0 0 .5px rgba(255,255,255,.12),
+    inset 0 -7px 15px -14px rgba(8,30,22,.26);
+  overflow: hidden;
+  isolation: isolate;
+}
+/* the specular streak — one bright diagonal sweep across the top-left rim */
+.pg-tile[data-lang="glassmorphic"] .gl-glass::after{
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:
+    linear-gradient(133deg,
+      var(--glass-specular) 0%,
+      rgba(255,255,255,.16) 9%,
+      rgba(255,255,255,0) 26%),
+    radial-gradient(120% 80% at 50% 116%, rgba(8,30,22,.10), transparent 60%);
+  mix-blend-mode: screen;
+  opacity:.92;
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-glass::after{ opacity:.7; }
+
+/* =========================================================================
+   THE MESH WALLPAPER + DRIFTING LIGHT ARCS (what the rims bend)
+   ========================================================================= */
+.pg-tile[data-lang="glassmorphic"] .gl-mesh{
+  position:absolute; inset:0; overflow:hidden; z-index:0;
+  background:
+    /* thin guide-line grid — crisp lines the glass rims fracture */
+    repeating-linear-gradient(0deg,  transparent 0 33px, rgba(255,255,255,.17) 33px 34px),
+    repeating-linear-gradient(90deg, transparent 0 33px, rgba(255,255,255,.14) 33px 34px),
+    /* bold, hard-edged colour orbs — real objects sitting behind the glass */
+    radial-gradient(64px 64px at 52% 23%, var(--mesh-2) 0 70%, transparent 74%),
+    radial-gradient(92px 92px at 87% 30%, var(--mesh-4) 0 68%, transparent 72%),
+    radial-gradient(74px 74px at 84% 86%, var(--mesh-5) 0 70%, transparent 74%),
+    radial-gradient(60px 60px at 11% 70%, var(--mesh-1) 0 70%, transparent 74%),
+    radial-gradient(46px 46px at 22% 13%, var(--mesh-3) 0 72%, transparent 76%),
+    /* soft colour wash for depth under the orbs */
+    radial-gradient(120% 92% at 8% 2%,   color-mix(in srgb, var(--mesh-1) 70%, transparent), transparent 56%),
+    radial-gradient(120% 96% at 96% 4%,  color-mix(in srgb, var(--mesh-2) 64%, transparent), transparent 54%),
+    radial-gradient(140% 130% at 92% 100%, color-mix(in srgb, var(--mesh-4) 60%, transparent), transparent 52%),
+    radial-gradient(150% 130% at 4% 100%, color-mix(in srgb, var(--mesh-5) 60%, transparent), transparent 56%),
+    var(--pg-bg);
+}
+/* produce line-silhouettes — the subject (leaf + droplet) as crisp linework
+   behind the glass, so the rims bend a real edge, not just a colour blur */
+.pg-tile[data-lang="glassmorphic"] .gl-mesh::before{
+  content:""; position:absolute; inset:0; pointer-events:none; z-index:0;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 19c0-7 5-12 14-13-1 11-6 14-13 13z'/%3E%3Cpath d='M5 19c2-5 5-8 9-10'/%3E%3C/svg%3E") no-repeat 61% 20% / 122px 122px,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z'/%3E%3C/svg%3E") no-repeat 18% 77% / 74px 74px;
+  opacity:.62;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-arc{
+  position:absolute; border-radius:50%; pointer-events:none;
+  mix-blend-mode:screen; will-change: transform;
+}
+/* bright cyan caustic ring, swept across the upper third (behind the lens) */
+.pg-tile[data-lang="glassmorphic"] .gl-arc-1{
+  width:120%; aspect-ratio:1; left:-32%; top:-46%;
+  background: radial-gradient(closest-side, transparent 54%,
+    rgba(120,238,255,.95) 58.5%, rgba(120,238,255,.0) 64%);
+  animation: gl-drift-a 26s ease-in-out infinite;
+}
+/* violet caustic ring sweeping low-right */
+.pg-tile[data-lang="glassmorphic"] .gl-arc-2{
+  width:96%; aspect-ratio:1; right:-34%; bottom:-44%;
+  background: radial-gradient(closest-side, transparent 56%,
+    rgba(196,156,255,.9) 60%, rgba(196,156,255,0) 66%);
+  animation: gl-drift-b 32s ease-in-out infinite;
+}
+/* a crisp diagonal light beam — the high-contrast edge the rims fracture */
+.pg-tile[data-lang="glassmorphic"] .gl-beam{
+  position:absolute; pointer-events:none; mix-blend-mode:screen;
+  left:-30%; width:160%; height:74px; top:24%;
+  transform: rotate(-21deg); transform-origin:center;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0) 0%, rgba(255,255,255,0) 26%,
+    rgba(255,252,235,.62) 50%, rgba(255,255,255,0) 74%, rgba(255,255,255,0) 100%);
+  filter: blur(4px);
+  animation: gl-beam 30s ease-in-out infinite;
+}
+@keyframes gl-drift-a{
+  0%,100%{ transform: translate3d(0,0,0) rotate(0deg); }
+  50%{ transform: translate3d(9%,6%,0) rotate(11deg); }
+}
+@keyframes gl-drift-b{
+  0%,100%{ transform: translate3d(0,0,0) rotate(0deg); }
+  50%{ transform: translate3d(-8%,-6%,0) rotate(-10deg); }
+}
+@keyframes gl-beam{
+  0%,100%{ transform: translate3d(0,0,0) rotate(-21deg); }
+  50%{ transform: translate3d(0,9%,0) rotate(-15deg); }
+}
+
+/* =========================================================================
+   SURFACE A — the phone
+   ========================================================================= */
+.pg-tile[data-lang="glassmorphic"] .pg-surface-app{
+  display:flex; justify-content:center;
+  padding: calc(16px * var(--pg-density));
+}
+.pg-tile[data-lang="glassmorphic"] .gl-phone{
+  width: 428px; height: 884px; flex: 0 0 auto;
+  border-radius: 60px; padding: 14px;
+  background: linear-gradient(155deg, #c7d2ce, #717f7a 40%, #2c3733);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,.4) inset,
+    0 42px 100px -30px rgba(10,30,24,.65),
+    0 8px 24px -10px rgba(10,30,24,.4);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-screen{
+  position:relative; width:100%; height:100%;
+  border-radius: 46px; overflow:hidden; background:var(--pg-bg);
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,.5);
+}
+
+/* the bold content wallpaper the glass refracts — big soft colour fields (the
+   "photo" the lens bends) plus a faint subject glyph for a real edge to fracture */
+.pg-tile[data-lang="glassmorphic"] .gl-bg{
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(82% 56% at 50% 24%, color-mix(in srgb, var(--pg-good) 32%, transparent), transparent 62%),
+    radial-gradient(80% 64% at 10% 72%, color-mix(in srgb, var(--mesh-2) 50%, transparent), transparent 66%),
+    radial-gradient(86% 70% at 94% 86%, color-mix(in srgb, var(--mesh-4) 44%, transparent), transparent 64%),
+    radial-gradient(70% 60% at 92% 8%,  color-mix(in srgb, var(--mesh-5) 40%, transparent), transparent 60%),
+    var(--pg-bg);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-bg::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 24 24' fill='none' stroke='%232f9e72' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 19c0-7 5-12 14-13-1 11-6 14-13 13z'/%3E%3Cpath d='M5 19c2-5 5-8 9-10'/%3E%3C/svg%3E") no-repeat 72% 44% / 320px 320px;
+  opacity:.16;
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-bg::before{ opacity:.22; }
+
+.pg-tile[data-lang="glassmorphic"] .gl-app{
+  position:absolute; inset:0; z-index:1;
+  display:flex; flex-direction:column;
+  gap: calc(16px * var(--pg-density));
+  padding: calc(22px * var(--pg-density)) calc(20px * var(--pg-density)) calc(24px * var(--pg-density));
+  overflow:hidden;
+}
+
+/* top bar */
+.pg-tile[data-lang="glassmorphic"] .gl-topbar{
+  flex:0 0 auto; height: 50px; border-radius: 25px;
+  display:flex; align-items:center; gap:10px;
+  padding: 0 18px;
+  margin-top: 30px;     /* clear the notch */
+}
+.pg-tile[data-lang="glassmorphic"] .gl-iconbtn{
+  width:30px; height:30px; flex:0 0 auto; display:grid; place-items:center;
+  border-radius:50%; color:var(--gl-ink);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-iconbtn svg{ width:18px; height:18px; }
+.pg-tile[data-lang="glassmorphic"] .gl-wordmark{
+  font-family: var(--pg-font-head); font-weight:700; font-size: 18px;
+  letter-spacing:-.02em; color:var(--gl-ink); margin-right:auto;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-dot{
+  width:7px; height:7px; border-radius:50%; background:var(--gl-ink-soft);
+  box-shadow: 12px 0 0 var(--gl-ink-soft), 24px 0 0 var(--gl-ink-soft);
+  margin-right:18px; opacity:.7;
+}
+
+/* hero: the score lens + product identity sit directly on the colour wallpaper */
+.pg-tile[data-lang="glassmorphic"] .gl-hero{
+  flex:0 0 auto; display:flex; flex-direction:column; align-items:center;
+  gap: calc(14px * var(--pg-density)); padding-top:4px;
+}
+
+/* ---- THE SIGNATURE: circular score lens (bigger now it owns the hero) ---- */
+.pg-tile[data-lang="glassmorphic"] .gl-gauge{
+  position:relative; flex:0 0 auto;
+  width: 200px; height: 200px; border-radius: 50%;
+  --pg-radius: 100px;       /* so the baked map domes the whole circle */
+  --pg-blur: 3px;           /* clearer than the chrome so the lens magnifies */
+  background: linear-gradient(180deg, rgba(255,255,255,.24), rgba(255,255,255,.03));
+  display:grid; place-items:center;
+  margin: 2px 0;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-gauge-ring{
+  position:absolute; inset:0; width:100%; height:100%;
+  transform: rotate(-90deg); z-index:2; pointer-events:none;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-gauge-track{
+  fill:none; stroke: rgba(255,255,255,.34); stroke-width:7;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-gauge-arc{
+  fill:none; stroke: var(--pg-good,#2f9e72); stroke-width:7; stroke-linecap:round;
+  filter: drop-shadow(0 1px 4px rgba(47,158,114,.55));
+}
+.pg-tile[data-lang="glassmorphic"] .gl-gauge-core{
+  position:relative; z-index:3; text-align:center; line-height:1;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-score{
+  display:block; font-family:var(--pg-font-head); font-weight:700;
+  font-size: 70px; letter-spacing:-.04em; color:var(--gl-ink);
+  text-shadow: 0 1px 1px rgba(255,255,255,.55);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-score-label{
+  display:inline-block; margin-top:4px;
+  font-family:var(--pg-font-head); font-weight:700; font-size:11px;
+  letter-spacing:.22em; text-indent:.22em;
+  color:#fff; background: var(--pg-good,#2f9e72);
+  padding: 3px 11px; border-radius:999px;
+  box-shadow: 0 2px 8px -2px rgba(47,158,114,.6);
+}
+
+/* product identity */
+.pg-tile[data-lang="glassmorphic"] .gl-product{ text-align:center; }
+.pg-tile[data-lang="glassmorphic"] .gl-product-name{
+  font-family:var(--pg-font-head); font-weight:600; font-size:23px;
+  letter-spacing:-.02em; color:var(--gl-ink); margin:0; line-height:1.18;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-product-meta{
+  margin:4px 0 0; font-size:13px; color:var(--gl-ink-soft); letter-spacing:.01em;
+}
+
+/* why rows (quiet — tinted by a tone bar + icon, text stays dark) */
+.pg-tile[data-lang="glassmorphic"] .gl-why{
+  list-style:none; margin:2px 0 0; padding:0; width:100%;
+  display:flex; flex-direction:column; gap:8px;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-why-row{
+  display:flex; align-items:center; gap:12px;
+  padding:13px 15px; border-radius:17px;
+  /* solid content card (NOT glass) — the bold "shapes" the chrome floats over */
+  background: color-mix(in srgb, var(--pg-surface, #fff) 90%, transparent);
+  border:1px solid color-mix(in srgb, var(--gl-ink) 9%, transparent);
+  box-shadow: 0 6px 18px -10px rgba(12,40,30,.4), inset 0 1px 0 rgba(255,255,255,.5);
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-why-row{
+  background: color-mix(in srgb, var(--pg-surface, #172420) 78%, transparent);
+  border-color: rgba(255,255,255,.08);
+  box-shadow: 0 8px 20px -12px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.06);
+}
+/* dark: keep the score lens mostly clear (so it refracts) but tint it smoky
+   enough that the light score reads, and flip the score's highlight shadow */
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-gauge{
+  background: linear-gradient(180deg, rgba(16,28,23,.30), rgba(16,28,23,.06));
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-score{
+  text-shadow: 0 1px 4px rgba(0,0,0,.45);
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-gauge-track{
+  stroke: rgba(255,255,255,.22);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-why-ic{
+  width:30px; height:30px; flex:0 0 auto; border-radius:10px;
+  display:grid; place-items:center; color:#fff;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-why-ic svg{ width:16px; height:16px; }
+.pg-tile[data-lang="glassmorphic"] .gl-why-row[data-tone="good"] .gl-why-ic{ background:var(--pg-good,#2f9e72); }
+.pg-tile[data-lang="glassmorphic"] .gl-why-row[data-tone="ok"]   .gl-why-ic{ background:var(--pg-ok,#e8a13a); }
+.pg-tile[data-lang="glassmorphic"] .gl-why-row[data-tone="avoid"].gl-why-ic{ background:var(--pg-avoid,#d8584f); }
+.pg-tile[data-lang="glassmorphic"] .gl-why-label{
+  flex:1 1 auto; font-size:14px; font-weight:500; color:var(--gl-ink);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-why-val{
+  font-family:var(--pg-font-head); font-weight:500; font-size:14px;
+  color:var(--gl-ink); letter-spacing:-.01em;
+}
+
+/* better-scoring picks */
+.pg-tile[data-lang="glassmorphic"] .gl-picks{ width:100%; margin-top:2px; }
+.pg-tile[data-lang="glassmorphic"] .gl-picks-label{
+  font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--gl-ink-soft); margin:0 0 9px 2px;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-chips{ display:flex; gap:9px; }
+.pg-tile[data-lang="glassmorphic"] .gl-chip{
+  flex:1 1 0; min-width:0; border-radius:16px;
+  padding:11px 10px 10px; text-align:left;
+  background: var(--chip-fill);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-chip-score{
+  font-family:var(--pg-font-head); font-weight:700; font-size:19px;
+  letter-spacing:-.03em; color:var(--pick-score); line-height:1;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-chip-name{
+  display:block; margin-top:5px; font-size:11.5px; font-weight:500;
+  color:var(--gl-ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* bottom floating glass dock — the iOS "Ask" bar analogue: a glass pill that
+   refracts the content wallpaper, with a solid green action as the one accent */
+.pg-tile[data-lang="glassmorphic"] .gl-dock{
+  flex:0 0 auto; margin-top:auto;
+  height:64px; border-radius:32px;
+  display:flex; align-items:center; gap:13px;
+  padding:0 8px 0 20px;
+  background: var(--glass-fill-strong);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-dock-ic{
+  width:22px; height:22px; flex:0 0 auto; color:var(--gl-ink); opacity:.8;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-dock-ic svg{ width:100%; height:100%; }
+.pg-tile[data-lang="glassmorphic"] .gl-dock-label{
+  flex:1 1 auto; font-family:var(--pg-font-head); font-weight:500; font-size:16px;
+  letter-spacing:-.01em; color:var(--gl-ink);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-dock-go{
+  width:48px; height:48px; flex:0 0 auto; border-radius:50%;
+  display:grid; place-items:center; color:#fff;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--pg-primary,#2f9e72) 86%, white 14%),
+                            var(--pg-primary,#2f9e72));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.5),
+    0 10px 22px -8px color-mix(in srgb, var(--pg-primary,#2f9e72) 70%, transparent);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-dock-go svg{ width:20px; height:20px; }
+
+/* =========================================================================
+   SURFACE B — the web hero (content-led: bold type + colour wallpaper as the
+   subject; glass lives only on the nav, the CTAs, and the mock's lens + chips)
+   ========================================================================= */
+.pg-tile[data-lang="glassmorphic"] .pg-surface-web{ padding:0; }
+.pg-tile[data-lang="glassmorphic"] .gl-web{
+  position:relative; overflow:hidden;
+  border-radius: clamp(20px, calc(var(--pg-radius) + 6px), 34px);
+  min-height: 600px;
+  padding: calc(26px * var(--pg-density)) clamp(20px, 4vw, 56px) calc(48px * var(--pg-density));
+}
+.pg-tile[data-lang="glassmorphic"] .gl-web > :not(.gl-web-bg){ position:relative; z-index:1; }
+
+/* the content wallpaper — big soft colour fields the glass rims bend, no busy orbs */
+.pg-tile[data-lang="glassmorphic"] .gl-web-bg{
+  position:absolute; inset:0; z-index:0; overflow:hidden;
+  background:
+    radial-gradient(72% 96% at 4% 2%,    color-mix(in srgb, var(--mesh-1) 62%, transparent), transparent 60%),
+    radial-gradient(72% 96% at 100% -2%, color-mix(in srgb, var(--mesh-2) 60%, transparent), transparent 58%),
+    radial-gradient(64% 96% at 96% 106%, color-mix(in srgb, var(--mesh-4) 54%, transparent), transparent 56%),
+    radial-gradient(74% 104% at -6% 112%, color-mix(in srgb, var(--mesh-5) 52%, transparent), transparent 60%),
+    radial-gradient(130% 120% at 48% 40%, color-mix(in srgb, var(--pg-good) 14%, transparent), transparent 70%),
+    var(--pg-bg);
+}
+/* a faint leaf glyph + droplet — real edges for the glass to fracture */
+.pg-tile[data-lang="glassmorphic"] .gl-web-bg::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='380' height='380' viewBox='0 0 24 24' fill='none' stroke='%232f9e72' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 19c0-7 5-12 14-13-1 11-6 14-13 13z'/%3E%3Cpath d='M5 19c2-5 5-8 9-10'/%3E%3C/svg%3E") no-repeat 86% 26% / 380px 380px,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150' viewBox='0 0 24 24' fill='none' stroke='%232f9e72' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z'/%3E%3C/svg%3E") no-repeat 58% 92% / 150px 150px;
+  opacity:.14;
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-web-bg::before{ opacity:.2; }
+/* the giant faint word: the page's own text becomes the shape the glass plays with */
+.pg-tile[data-lang="glassmorphic"] .gl-web-word{
+  position:absolute; right:-2%; top:-6%;
+  font-family:var(--pg-font-head); font-weight:700;
+  font-size: clamp(180px, 30vw, 380px); line-height:.8;
+  letter-spacing:-.05em; color:var(--gl-ink);
+  opacity:.05; user-select:none;
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-web-word{ opacity:.07; }
+
+.pg-tile[data-lang="glassmorphic"] .gl-nav{
+  display:flex; align-items:center; gap:18px;
+  height:60px; padding:0 12px 0 24px; border-radius:30px;
+  margin-bottom: clamp(30px, 6vh, 64px);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-nav-brand{
+  font-family:var(--pg-font-head); font-weight:700; font-size:22px;
+  letter-spacing:-.025em; color:var(--gl-ink); margin-right:auto;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-nav-links{
+  display:flex; align-items:center; gap:6px;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-nav-link{
+  font-size:14px; font-weight:500; color:var(--gl-ink-soft);
+  padding:9px 15px; border-radius:999px; text-decoration:none;
+  transition: color .18s ease, background .18s ease;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-nav-link:hover{
+  color:var(--gl-ink); background: rgba(255,255,255,.34);
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-nav-link:hover{ background: rgba(255,255,255,.1); }
+.pg-tile[data-lang="glassmorphic"] .gl-nav-link[data-active]{
+  color:var(--gl-ink); background: rgba(255,255,255,.46);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-nav-link[data-active]{ background: rgba(255,255,255,.14); }
+
+.pg-tile[data-lang="glassmorphic"] .gl-hero-web{
+  display:grid; grid-template-columns: minmax(0,1.12fr) minmax(0,.88fr);
+  gap: clamp(24px, 4vw, 56px); align-items:center;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-hero-copy{ max-width: 38ch; }
+/* kicker is a label, not interactive — a solid content pill, not glass */
+.pg-tile[data-lang="glassmorphic"] .gl-kicker{
+  display:inline-block; font-family:var(--pg-font-head); font-weight:600;
+  font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+  color: color-mix(in srgb, var(--pg-primary,#2f9e72) 60%, var(--gl-ink) 40%);
+  padding:7px 14px; border-radius:999px; margin-bottom:22px;
+  background: color-mix(in srgb, var(--pg-surface,#fff) 86%, transparent);
+  border:1px solid color-mix(in srgb, var(--gl-ink) 9%, transparent);
+  box-shadow: 0 6px 18px -12px rgba(12,40,30,.4);
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-kicker{
+  background: color-mix(in srgb, var(--pg-surface,#172420) 74%, transparent);
+  border-color: rgba(255,255,255,.08);
+  color: color-mix(in srgb, var(--pg-primary,#2f9e72) 40%, #ffffff 60%);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-headline{
+  font-family:var(--pg-font-head); font-weight:700;
+  font-size: clamp(40px, 5.2vw, 64px); line-height:1.0;
+  letter-spacing:-.035em; color:var(--gl-ink); margin:0;
+  text-wrap: balance;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-headline em{
+  font-style:normal; color:var(--pg-primary,#2f9e72);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-subhead{
+  margin:22px 0 0; font-size: clamp(15px, 1.5vw, 17px); line-height:1.55;
+  color:var(--gl-ink-soft); max-width:42ch;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-cta-row{
+  display:flex; flex-wrap:wrap; gap:13px; margin-top:30px;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-cta{
+  appearance:none; cursor:pointer; font-family:var(--pg-font-head);
+  font-weight:500; font-size:15.5px; letter-spacing:-.01em;
+  padding:15px 26px; border-radius:16px; text-decoration:none;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-cta-primary{
+  color:#fff; border:1px solid rgba(255,255,255,.34);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--pg-primary,#2f9e72) 86%, white 14%),
+                            var(--pg-primary,#2f9e72));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.5),
+    0 14px 30px -12px color-mix(in srgb, var(--pg-primary,#2f9e72) 70%, transparent);
+}
+/* secondary CTA stays a true glass pill — it refracts the wallpaper behind it */
+.pg-tile[data-lang="glassmorphic"] .gl-cta-secondary{
+  color:var(--gl-ink); border:1px solid var(--glass-edge);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-trust{
+  margin:28px 0 0; font-size:13px; color:var(--gl-ink-soft); letter-spacing:.01em;
+  display:flex; align-items:center; gap:8px;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-trust::before{
+  content:""; width:7px; height:7px; border-radius:50%;
+  background:var(--pg-good,#2f9e72); box-shadow:0 0 0 3px color-mix(in srgb,var(--pg-good,#2f9e72) 25%, transparent);
+}
+
+/* the floating phone mock — a content-led device (no glass box), glass on lens + chips */
+.pg-tile[data-lang="glassmorphic"] .gl-mock{
+  justify-self:center; position:relative;
+  width: 268px; padding: 13px; border-radius: 46px;
+  background: linear-gradient(155deg, #c7d2ce, #717f7a 42%, #2c3733);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,.4) inset,
+    0 36px 82px -28px rgba(10,30,24,.6),
+    0 8px 22px -10px rgba(10,30,24,.4);
+  transform: rotate(2deg);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-mock-screen{
+  position:relative; border-radius:34px; overflow:hidden;
+  height: 432px; background:var(--pg-bg);
+  display:flex; flex-direction:column; align-items:center;
+  gap:14px; padding:34px 20px 22px; box-shadow: inset 0 0 0 2px rgba(0,0,0,.45);
+}
+/* miniature content wallpaper inside the mock */
+.pg-tile[data-lang="glassmorphic"] .gl-mock-bg{
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(82% 56% at 50% 22%, color-mix(in srgb, var(--pg-good) 32%, transparent), transparent 62%),
+    radial-gradient(80% 64% at 8% 74%, color-mix(in srgb, var(--mesh-2) 50%, transparent), transparent 66%),
+    radial-gradient(86% 70% at 96% 88%, color-mix(in srgb, var(--mesh-4) 44%, transparent), transparent 64%),
+    radial-gradient(70% 60% at 92% 6%,  color-mix(in srgb, var(--mesh-5) 40%, transparent), transparent 60%),
+    var(--pg-bg);
+}
+.pg-tile[data-lang="glassmorphic"] .gl-mock-bg::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 24 24' fill='none' stroke='%232f9e72' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 19c0-7 5-12 14-13-1 11-6 14-13 13z'/%3E%3Cpath d='M5 19c2-5 5-8 9-10'/%3E%3C/svg%3E") no-repeat 74% 46% / 200px 200px;
+  opacity:.16;
+}
+:root[data-theme="dark"] .pg-tile[data-lang="glassmorphic"] .gl-mock-bg::before{ opacity:.22; }
+.pg-tile[data-lang="glassmorphic"] .gl-mock-screen > :not(.gl-mock-bg){ position:relative; z-index:1; }
+.pg-tile[data-lang="glassmorphic"] .gl-mock .gl-gauge{ width:138px; height:138px; --pg-radius:69px; margin:4px 0 2px; }
+.pg-tile[data-lang="glassmorphic"] .gl-mock .gl-score{ font-size:48px; }
+.pg-tile[data-lang="glassmorphic"] .gl-mock-id{ text-align:center; }
+.pg-tile[data-lang="glassmorphic"] .gl-mock-name{
+  font-family:var(--pg-font-head); font-weight:600; font-size:16px;
+  color:var(--gl-ink); text-align:center; margin:0; line-height:1.2;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-mock-meta{
+  font-size:12px; color:var(--gl-ink-soft); margin:3px 0 0; text-align:center;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-mock-chips{ width:100%; display:flex; gap:9px; margin-top:auto; }
+.pg-tile[data-lang="glassmorphic"] .gl-mock-chip{
+  flex:1 1 0; min-width:0; border-radius:15px; padding:10px 11px;
+  background: var(--chip-fill);
+  display:flex; flex-direction:column; gap:2px;
+  font-size:11px; font-weight:500; color:var(--gl-ink);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.pg-tile[data-lang="glassmorphic"] .gl-mock-chip-score{
+  font-family:var(--pg-font-head); font-weight:700; font-size:17px;
+  letter-spacing:-.03em; color:var(--pick-score); line-height:1;
+}
+
+/* =========================================================================
+   focus + reduced motion + responsive
+   ========================================================================= */
+.pg-tile[data-lang="glassmorphic"] :focus-visible{
+  outline: 2.5px solid var(--pg-primary,#2f9e72);
+  outline-offset: 3px; border-radius: 6px;
+}
+@media (prefers-reduced-motion: reduce){
+  .pg-tile[data-lang="glassmorphic"] .gl-arc,
+  .pg-tile[data-lang="glassmorphic"] .gl-beam{ animation:none !important; }
+  .pg-tile[data-lang="glassmorphic"] *{ transition:none !important; }
+}
+@media (max-width: 720px){
+  .pg-tile[data-lang="glassmorphic"] .gl-hero-web{ grid-template-columns: 1fr; }
+  .pg-tile[data-lang="glassmorphic"] .gl-mock{ display:none; }
+  .pg-tile[data-lang="glassmorphic"] .gl-nav-links{ display:none; }
+}

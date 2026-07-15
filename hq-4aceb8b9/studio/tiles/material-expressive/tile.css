@@ -1,0 +1,537 @@
+/* ============================================================================
+   Helthy Playground · tile: material-expressive
+   Material 3 Expressive — bold dynamic color, tonal surface containers, large
+   rounded + scalloped shapes, expressive Outfit/Inter-Tight type pairing.
+   Every selector scoped under .pg-tile[data-lang="material-expressive"] so all
+   six tiles coexist in one document with zero collisions.
+   Tunable color/font/shape read from --pg-* (shell live-edits these); the M3
+   tonal *role* system is derived from those seeds with color-mix(), so changing
+   one --pg-primary re-tints the whole language — real M3 dynamic color.
+   ============================================================================ */
+
+.pg-tile[data-lang="material-expressive"]{
+  /* ---- this language's starting type + color seeds (shell may override) ---- */
+  --pg-font-head: "Outfit", "Inter Tight", system-ui, sans-serif;
+  --pg-font-body: "Inter Tight", "Inter", system-ui, sans-serif;
+  --pg-primary: #0b7350;     /* M3 primary, tone ~40 — passes white-on contrast */
+  --pg-accent:  #f4b740;     /* M3 tertiary seed (warm honey) */
+  --pg-good:    #1e7d52;
+  --pg-ok:      #9a5b00;     /* darkened amber so the value text clears 4.5:1 */
+  --pg-avoid:   #ba1a1a;     /* M3 error */
+
+  /* ---- M3 shape scale, all derived from the tunable --pg-radius ---- */
+  --me-r-xl:   calc(var(--pg-radius) * 1.55);
+  --me-r-lg:   calc(var(--pg-radius) * 1.0);
+  --me-r-md:   calc(var(--pg-radius) * 0.62);
+  --me-r-sm:   calc(var(--pg-radius) * 0.4);
+  --me-r-full: 999px;
+
+  /* ---- tonal ROLE colors derived from the live seeds (dynamic color) ---- */
+  --me-on-primary:              #ffffff;
+  --me-primary-container:       color-mix(in srgb, var(--pg-primary) 20%, var(--pg-surface));
+  --me-on-primary-container:    color-mix(in srgb, var(--pg-primary) 82%, #06140d);
+  --me-secondary-container:     color-mix(in srgb, var(--pg-primary) 13%, var(--pg-surface));
+  --me-on-secondary-container:  var(--pg-ink);
+  --me-tertiary-container:      color-mix(in srgb, var(--pg-accent) 34%, var(--pg-surface));
+  --me-on-tertiary-container:   color-mix(in srgb, var(--pg-accent) 42%, #160c00);
+
+  /* "good" as TEXT on a surface — must lighten in dark (arc-fill stays --pg-good) */
+  --me-good-text: var(--pg-good);
+
+  /* tonal surface elevation ladder (M3 lifts with TONE, not heavy shadow) */
+  --me-surf-1: color-mix(in srgb, var(--pg-primary) 4%,  var(--pg-surface));
+  --me-surf-2: color-mix(in srgb, var(--pg-primary) 8%,  var(--pg-surface));
+  --me-surf-3: color-mix(in srgb, var(--pg-primary) 12%, var(--pg-surface));
+
+  /* trio containers + their on-colors */
+  --me-good-c:  color-mix(in srgb, var(--pg-good) 22%, var(--pg-surface));
+  --me-on-good: color-mix(in srgb, var(--pg-good) 80%, #04140b);
+  --me-ok-c:    color-mix(in srgb, var(--pg-ok)   26%, var(--pg-surface));
+  --me-on-ok:   color-mix(in srgb, var(--pg-ok)   78%, #1c1000);
+  --me-avoid-c: color-mix(in srgb, var(--pg-avoid) 22%, var(--pg-surface));
+
+  /* outline + subtle shadow scaled by --pg-elevation (kept light, M3-style) */
+  --me-outline: color-mix(in srgb, var(--pg-ink) 14%, transparent);
+  --me-shadow:  0 calc(2px * var(--pg-elevation)) calc(10px * var(--pg-elevation))
+                rgba(8, 38, 26, calc(0.10 * var(--pg-elevation)));
+  --me-shadow-lg: 0 calc(8px * var(--pg-elevation)) calc(30px * var(--pg-elevation))
+                rgba(8, 38, 26, calc(0.16 * var(--pg-elevation)));
+
+  /* density-driven base spacing unit */
+  --me-u: calc(8px * var(--pg-density));
+
+  /* ---- tile container ---- */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--me-u) * 5);
+  padding: calc(var(--me-u) * 4) calc(var(--me-u) * 3);
+  background:
+    radial-gradient(120% 70% at 85% -5%, var(--me-tertiary-container) 0%, transparent 42%),
+    radial-gradient(110% 60% at 0% 105%, var(--me-secondary-container) 0%, transparent 46%),
+    var(--pg-bg);
+  color: var(--pg-ink);
+  font-family: var(--pg-font-body);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.45;
+}
+
+/* dark-mode re-tune of the tonal roles (mix toward the dark surface/ink) */
+:root[data-theme="dark"] .pg-tile[data-lang="material-expressive"]{
+  --me-primary-container:      color-mix(in srgb, var(--pg-primary) 32%, #0b1a15);
+  --me-on-primary-container:   color-mix(in srgb, var(--pg-primary) 52%, #ffffff);
+  --me-secondary-container:    color-mix(in srgb, var(--pg-primary) 18%, var(--pg-surface));
+  --me-tertiary-container:     color-mix(in srgb, var(--pg-accent) 26%, #1a130a);
+  --me-on-tertiary-container:  color-mix(in srgb, var(--pg-accent) 72%, #ffffff);
+  --me-surf-1: color-mix(in srgb, var(--pg-primary) 6%,  var(--pg-surface));
+  --me-surf-2: color-mix(in srgb, var(--pg-primary) 12%, var(--pg-surface));
+  --me-surf-3: color-mix(in srgb, var(--pg-primary) 18%, var(--pg-surface));
+  --me-good-text: color-mix(in srgb, var(--pg-good) 55%, #ffffff);
+  --me-good-c:  color-mix(in srgb, var(--pg-good)  28%, #0b1a15);
+  --me-on-good: color-mix(in srgb, var(--pg-good)  60%, #ffffff);
+  --me-ok-c:    color-mix(in srgb, var(--pg-ok)    24%, #1a140a);
+  --me-on-ok:   color-mix(in srgb, var(--pg-accent) 78%, #ffffff);
+  --me-avoid-c: color-mix(in srgb, var(--pg-avoid) 28%, #1a0e0d);
+  --me-outline: color-mix(in srgb, var(--pg-ink) 20%, transparent);
+}
+
+/* shared defs svg is visually hidden */
+.pg-tile[data-lang="material-expressive"] .me-defs{
+  position: absolute; width: 0; height: 0; overflow: hidden;
+}
+
+/* the scalloped "cookie" — the signature shape, filled per role via modifier */
+.pg-tile[data-lang="material-expressive"] .me-cookie{ display: block; }
+.pg-tile[data-lang="material-expressive"] .me-cookie--primary  { fill: color-mix(in srgb, var(--pg-primary) 30%, var(--pg-surface)); }
+.pg-tile[data-lang="material-expressive"] .me-cookie--tertiary { fill: var(--me-tertiary-container); }
+.pg-tile[data-lang="material-expressive"] .me-cookie--surface  { fill: var(--me-surf-2); }
+
+/* generic helpers */
+.pg-tile[data-lang="material-expressive"] *{ box-sizing: border-box; }
+.pg-tile[data-lang="material-expressive"] button{ font: inherit; cursor: pointer; border: none; }
+.pg-tile[data-lang="material-expressive"] :focus-visible{
+  outline: 3px solid var(--pg-primary);
+  outline-offset: 3px;
+  border-radius: var(--me-r-sm);
+}
+
+/* ============================================================================
+   SURFACE A — app: scan -> score (phone)
+   ============================================================================ */
+.pg-tile[data-lang="material-expressive"] .pg-surface-app{
+  width: min(390px, 100%);
+  background: var(--pg-surface);
+  border-radius: calc(var(--me-r-xl) + 16px);
+  padding: calc(var(--me-u) * 2.2);
+  box-shadow: var(--me-shadow-lg), 0 0 0 1px var(--me-outline);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--me-u) * 2);
+}
+
+/* top app bar */
+.pg-tile[data-lang="material-expressive"] .me-appbar{
+  display: flex; align-items: center; gap: var(--me-u);
+  padding: calc(var(--me-u) * 0.5) calc(var(--me-u) * 0.5) 0;
+}
+.pg-tile[data-lang="material-expressive"] .me-iconbtn{
+  width: calc(var(--me-u) * 5.5); height: calc(var(--me-u) * 5.5);
+  display: grid; place-items: center;
+  border-radius: var(--me-r-full);
+  background: var(--me-surf-2);
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="material-expressive"] .me-iconbtn svg{ width: 20px; height: 20px; }
+.pg-tile[data-lang="material-expressive"] .me-appbar .me-brand{
+  font-family: var(--pg-font-head);
+  font-weight: 700; font-size: 1.32rem; letter-spacing: -0.02em;
+  color: var(--pg-ink); margin: 0;
+}
+.pg-tile[data-lang="material-expressive"] .me-appbar .me-spacer{ flex: 1; }
+
+/* hero: scalloped medallion cradling the circular gauge */
+.pg-tile[data-lang="material-expressive"] .me-hero{
+  position: relative;
+  background:
+    radial-gradient(140% 120% at 50% -30%, var(--me-secondary-container), transparent 70%),
+    var(--me-surf-1);
+  border-radius: var(--me-r-xl);
+  padding: calc(var(--me-u) * 3) calc(var(--me-u) * 2) calc(var(--me-u) * 3);
+  display: flex; flex-direction: column; align-items: center;
+  gap: calc(var(--me-u) * 1.5);
+  overflow: hidden;
+}
+.pg-tile[data-lang="material-expressive"] .me-medallion{
+  position: relative;
+  width: 218px; height: 218px;
+  display: grid; place-items: center;
+}
+.pg-tile[data-lang="material-expressive"] .me-medallion .me-cookie{
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  filter: drop-shadow(var(--me-shadow));
+}
+/* slow expressive rotation of the cookie behind the gauge (single micro-moment) */
+.pg-tile[data-lang="material-expressive"] .me-medallion .me-cookie{
+  animation: me-spin 60s linear infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes me-spin{ to{ transform: rotate(360deg); } }
+
+/* circular score gauge */
+.pg-tile[data-lang="material-expressive"] .me-gauge{
+  --me-score: 88;
+  position: relative;
+  width: 150px; height: 150px; border-radius: 50%;
+  background: conic-gradient(
+      var(--pg-good) calc(var(--me-score) * 3.6deg),
+      color-mix(in srgb, var(--pg-good) 16%, var(--pg-surface)) 0);
+  display: grid; place-items: center;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pg-good) 22%, transparent);
+}
+.pg-tile[data-lang="material-expressive"] .me-gauge__face{
+  width: 116px; height: 116px; border-radius: 50%;
+  background: var(--pg-surface);
+  display: grid; place-items: center; align-content: center;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(8,38,26,0.10);
+}
+.pg-tile[data-lang="material-expressive"] .me-score{
+  font-family: var(--pg-font-head);
+  font-weight: 700; font-size: 3.6rem; line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--me-good-text);
+}
+.pg-tile[data-lang="material-expressive"] .me-score__max{
+  font-family: var(--pg-font-body);
+  font-weight: 600; font-size: 0.78rem;
+  color: var(--pg-ink-soft); margin-top: 2px;
+}
+/* the GOOD pill */
+.pg-tile[data-lang="material-expressive"] .me-scorelabel{
+  display: inline-flex; align-items: center; gap: calc(var(--me-u) * 0.6);
+  font-family: var(--pg-font-head);
+  font-weight: 600; font-size: 0.92rem; letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: calc(var(--me-u) * 0.7) calc(var(--me-u) * 1.6);
+  border-radius: var(--me-r-full);
+  background: var(--me-good-c);
+  color: var(--me-on-good);
+}
+.pg-tile[data-lang="material-expressive"] .me-scorelabel::before{
+  content: ""; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--pg-good);
+}
+
+/* product heading */
+.pg-tile[data-lang="material-expressive"] .me-product{
+  text-align: center; padding: 0 calc(var(--me-u) * 1);
+}
+.pg-tile[data-lang="material-expressive"] .me-product__name{
+  font-family: var(--pg-font-head);
+  font-weight: 600; font-size: 1.5rem; line-height: 1.12;
+  letter-spacing: -0.02em; margin: 0;
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="material-expressive"] .me-product__meta{
+  margin: calc(var(--me-u) * 0.6) 0 0;
+  font-size: 0.9rem; color: var(--pg-ink-soft);
+}
+
+/* why-rows: M3 tonal list-items in one container */
+.pg-tile[data-lang="material-expressive"] .me-whys{
+  background: var(--me-surf-1);
+  border-radius: var(--me-r-lg);
+  padding: calc(var(--me-u) * 0.8);
+  display: flex; flex-direction: column;
+  gap: calc(var(--me-u) * 0.6);
+}
+.pg-tile[data-lang="material-expressive"] .me-why{
+  display: flex; align-items: center; gap: calc(var(--me-u) * 1.4);
+  padding: calc(var(--me-u) * 1.3) calc(var(--me-u) * 1.4);
+  border-radius: var(--me-r-md);
+  background: var(--pg-surface);
+}
+.pg-tile[data-lang="material-expressive"] .me-why__icon{
+  flex: none;
+  width: calc(var(--me-u) * 5); height: calc(var(--me-u) * 5);
+  border-radius: var(--me-r-full);
+  display: grid; place-items: center;
+}
+.pg-tile[data-lang="material-expressive"] .me-why__icon svg{ width: 22px; height: 22px; }
+.pg-tile[data-lang="material-expressive"] .me-why__label{
+  flex: 1; font-weight: 500; font-size: 1rem; color: var(--pg-ink);
+}
+.pg-tile[data-lang="material-expressive"] .me-why__value{
+  font-family: var(--pg-font-head);
+  font-weight: 600; font-size: 0.95rem;
+  padding: calc(var(--me-u) * 0.5) calc(var(--me-u) * 1.2);
+  border-radius: var(--me-r-full);
+}
+/* trio tints */
+.pg-tile[data-lang="material-expressive"] .me-why[data-tone="good"] .me-why__icon{
+  background: var(--me-good-c); color: var(--me-on-good);
+}
+.pg-tile[data-lang="material-expressive"] .me-why[data-tone="good"] .me-why__value{
+  background: var(--me-good-c); color: var(--me-on-good);
+}
+.pg-tile[data-lang="material-expressive"] .me-why[data-tone="ok"] .me-why__icon{
+  background: var(--me-ok-c); color: var(--me-on-ok);
+}
+.pg-tile[data-lang="material-expressive"] .me-why[data-tone="ok"] .me-why__value{
+  background: var(--me-ok-c); color: var(--me-on-ok);
+}
+
+/* picks strip */
+.pg-tile[data-lang="material-expressive"] .me-picks-h{
+  font-family: var(--pg-font-head);
+  font-weight: 600; font-size: 1.05rem; letter-spacing: -0.01em;
+  margin: calc(var(--me-u) * 0.5) 0 calc(var(--me-u) * 0.2) calc(var(--me-u) * 0.5);
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="material-expressive"] .me-picks{
+  display: flex; gap: var(--me-u);
+  overflow-x: auto; padding: calc(var(--me-u) * 0.5);
+  scrollbar-width: none;
+}
+.pg-tile[data-lang="material-expressive"] .me-picks::-webkit-scrollbar{ display: none; }
+.pg-tile[data-lang="material-expressive"] .me-pick{
+  flex: 1 1 0; min-width: 0;
+  display: flex; flex-direction: column; align-items: center; gap: calc(var(--me-u) * 0.7);
+  padding: calc(var(--me-u) * 1.4) calc(var(--me-u) * 0.8);
+  border-radius: var(--me-r-md);
+  background: var(--me-primary-container);
+  color: var(--me-on-primary-container);
+  text-align: center;
+}
+.pg-tile[data-lang="material-expressive"] .me-pick__score{
+  width: calc(var(--me-u) * 4.5); height: calc(var(--me-u) * 4.5);
+  display: grid; place-items: center;
+  border-radius: var(--me-r-full);
+  background: var(--pg-surface); color: var(--me-good-text);
+  font-family: var(--pg-font-head); font-weight: 700; font-size: 1.02rem;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--pg-good) 30%, transparent);
+}
+.pg-tile[data-lang="material-expressive"] .me-pick__name{
+  font-size: 0.78rem; font-weight: 500; line-height: 1.15;
+}
+
+/* filled primary button (M3 pill) */
+.pg-tile[data-lang="material-expressive"] .me-btn{
+  width: 100%;
+  display: inline-flex; align-items: center; justify-content: center; gap: calc(var(--me-u) * 1);
+  font-family: var(--pg-font-head);
+  font-weight: 600; font-size: 1.05rem; letter-spacing: 0.01em;
+  padding: calc(var(--me-u) * 2) calc(var(--me-u) * 3);
+  border-radius: var(--me-r-full);
+  background: var(--pg-primary); color: var(--me-on-primary);
+  box-shadow: var(--me-shadow);
+  white-space: nowrap;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.pg-tile[data-lang="material-expressive"] .me-btn svg{ width: 20px; height: 20px; }
+.pg-tile[data-lang="material-expressive"] .me-btn:hover{
+  filter: brightness(1.04); box-shadow: var(--me-shadow-lg); transform: translateY(-1px);
+}
+.pg-tile[data-lang="material-expressive"] .me-btn:active{ transform: translateY(0); }
+
+/* ============================================================================
+   SURFACE B — website hero
+   ============================================================================ */
+.pg-tile[data-lang="material-expressive"] .pg-surface-web{
+  width: 100%;
+  position: relative;
+  background: var(--me-surf-1);
+  border-radius: var(--me-r-xl);
+  padding: clamp(20px, 4vw, 56px);
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--me-outline);
+}
+/* color-blocked scalloped shapes bleeding off-edge — expressive M3 background */
+.pg-tile[data-lang="material-expressive"] .me-web-blob{
+  position: absolute; pointer-events: none; opacity: .9; z-index: 0;
+}
+.pg-tile[data-lang="material-expressive"] .me-web-blob--a{
+  width: 360px; height: 360px; right: -120px; top: -140px;
+}
+.pg-tile[data-lang="material-expressive"] .me-web-blob--b{
+  width: 260px; height: 260px; left: -110px; bottom: -130px; opacity: .8;
+}
+.pg-tile[data-lang="material-expressive"] .me-web-inner{
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+}
+
+/* web top bar */
+.pg-tile[data-lang="material-expressive"] .me-webnav{
+  position: relative; z-index: 1;
+  grid-column: 1 / -1;
+  display: flex; align-items: center; gap: calc(var(--me-u) * 2);
+  margin-bottom: clamp(18px, 3vw, 40px);
+}
+.pg-tile[data-lang="material-expressive"] .me-webnav__brand{
+  font-family: var(--pg-font-head);
+  font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em;
+  color: var(--pg-ink); margin: 0;
+  display: inline-flex; align-items: center; gap: calc(var(--me-u) * 1);
+}
+.pg-tile[data-lang="material-expressive"] .me-webnav__brand .me-dot{
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--pg-primary);
+  box-shadow: 0 0 0 4px var(--me-primary-container);
+}
+.pg-tile[data-lang="material-expressive"] .me-webnav__links{
+  margin-left: auto; display: flex; gap: calc(var(--me-u) * 0.5);
+  background: var(--pg-surface);
+  border-radius: var(--me-r-full);
+  padding: calc(var(--me-u) * 0.5);
+  box-shadow: inset 0 0 0 1px var(--me-outline);
+}
+.pg-tile[data-lang="material-expressive"] .me-webnav__links a{
+  text-decoration: none; color: var(--pg-ink);
+  font-weight: 500; font-size: 0.92rem;
+  padding: calc(var(--me-u) * 0.9) calc(var(--me-u) * 1.8);
+  border-radius: var(--me-r-full);
+  transition: background .16s ease, color .16s ease;
+}
+.pg-tile[data-lang="material-expressive"] .me-webnav__links a:hover{
+  background: var(--me-secondary-container);
+}
+.pg-tile[data-lang="material-expressive"] .me-webnav__links a[aria-current]{
+  background: var(--pg-primary); color: var(--me-on-primary);
+}
+
+/* hero copy */
+.pg-tile[data-lang="material-expressive"] .me-kicker{
+  display: inline-flex; align-items: center; gap: calc(var(--me-u) * 0.8);
+  font-weight: 600; font-size: 0.82rem; letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: calc(var(--me-u) * 0.7) calc(var(--me-u) * 1.5);
+  border-radius: var(--me-r-full);
+  background: var(--me-tertiary-container); color: var(--me-on-tertiary-container);
+  margin-bottom: calc(var(--me-u) * 2.2);
+}
+.pg-tile[data-lang="material-expressive"] .me-kicker::before{
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--pg-accent);
+}
+.pg-tile[data-lang="material-expressive"] .me-headline{
+  font-family: var(--pg-font-head);
+  font-weight: 700; font-size: clamp(2rem, 4.2vw, 3.3rem);
+  line-height: 1.04; letter-spacing: -0.03em;
+  margin: 0; color: var(--pg-ink);
+  max-width: 16ch;
+}
+.pg-tile[data-lang="material-expressive"] .me-headline em{
+  font-style: normal; color: var(--pg-primary);
+}
+.pg-tile[data-lang="material-expressive"] .me-subhead{
+  margin: calc(var(--me-u) * 2.4) 0 0;
+  font-size: clamp(1rem, 1.4vw, 1.18rem);
+  color: var(--pg-ink-soft); max-width: 46ch;
+}
+.pg-tile[data-lang="material-expressive"] .me-cta-row{
+  display: flex; flex-wrap: wrap; gap: calc(var(--me-u) * 1.5);
+  margin-top: calc(var(--me-u) * 3.4);
+}
+.pg-tile[data-lang="material-expressive"] .me-cta{
+  display: inline-flex; align-items: center; gap: calc(var(--me-u) * 1);
+  font-family: var(--pg-font-head);
+  font-weight: 600; font-size: 1.02rem;
+  padding: calc(var(--me-u) * 1.9) calc(var(--me-u) * 3.2);
+  border-radius: var(--me-r-full);
+  white-space: nowrap;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, filter .18s ease;
+}
+.pg-tile[data-lang="material-expressive"] .me-cta--primary{
+  background: var(--pg-primary); color: var(--me-on-primary);
+  box-shadow: var(--me-shadow);
+}
+.pg-tile[data-lang="material-expressive"] .me-cta--primary:hover{
+  filter: brightness(1.04); transform: translateY(-1px); box-shadow: var(--me-shadow-lg);
+}
+.pg-tile[data-lang="material-expressive"] .me-cta--secondary{
+  background: var(--me-secondary-container); color: var(--me-on-primary-container);
+  box-shadow: inset 0 0 0 1px var(--me-outline);
+}
+.pg-tile[data-lang="material-expressive"] .me-cta--secondary:hover{
+  background: var(--me-primary-container);
+}
+.pg-tile[data-lang="material-expressive"] .me-trust{
+  display: flex; align-items: center; gap: calc(var(--me-u) * 1);
+  margin-top: calc(var(--me-u) * 3.4);
+  font-size: 0.86rem; color: var(--pg-ink-soft);
+}
+.pg-tile[data-lang="material-expressive"] .me-trust::before{
+  content: ""; width: 22px; height: 2px; border-radius: 2px;
+  background: var(--pg-accent);
+}
+
+/* floating phone mock cradled in a scalloped frame */
+.pg-tile[data-lang="material-expressive"] .me-mock{
+  position: relative;
+  justify-self: center;
+  width: min(300px, 100%);
+  aspect-ratio: 300 / 380;
+  display: grid; place-items: center;
+}
+.pg-tile[data-lang="material-expressive"] .me-mock .me-cookie{
+  position: absolute; inset: -6% ; width: 112%; height: 112%;
+  filter: drop-shadow(var(--me-shadow-lg));
+}
+.pg-tile[data-lang="material-expressive"] .me-mock__card{
+  position: relative; z-index: 1;
+  width: 72%;
+  background: var(--pg-surface);
+  border-radius: calc(var(--me-r-lg) + 8px);
+  padding: calc(var(--me-u) * 2.4) calc(var(--me-u) * 1.8) calc(var(--me-u) * 2.6);
+  box-shadow: var(--me-shadow-lg), 0 0 0 1px var(--me-outline);
+  display: flex; flex-direction: column; align-items: center;
+  gap: calc(var(--me-u) * 1.2);
+  text-align: center;
+}
+.pg-tile[data-lang="material-expressive"] .me-mock__gauge{
+  width: 104px; height: 104px; border-radius: 50%;
+  background: conic-gradient(
+      var(--pg-good) calc(88 * 3.6deg),
+      color-mix(in srgb, var(--pg-good) 16%, var(--pg-surface)) 0);
+  display: grid; place-items: center;
+}
+.pg-tile[data-lang="material-expressive"] .me-mock__gauge span{
+  width: 78px; height: 78px; border-radius: 50%;
+  background: var(--pg-surface);
+  display: grid; place-items: center;
+  font-family: var(--pg-font-head); font-weight: 700; font-size: 1.9rem;
+  letter-spacing: -0.03em; color: var(--me-good-text);
+}
+.pg-tile[data-lang="material-expressive"] .me-mock__name{
+  font-family: var(--pg-font-head); font-weight: 600; font-size: 0.98rem;
+  line-height: 1.15; color: var(--pg-ink);
+}
+.pg-tile[data-lang="material-expressive"] .me-mock__pill{
+  font-family: var(--pg-font-head);
+  font-weight: 600; font-size: 0.72rem; letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: calc(var(--me-u) * 0.5) calc(var(--me-u) * 1.3);
+  border-radius: var(--me-r-full);
+  background: var(--me-good-c); color: var(--me-on-good);
+}
+
+/* ============================================================================
+   responsive + a11y
+   ============================================================================ */
+@media (max-width: 720px){
+  .pg-tile[data-lang="material-expressive"] .me-web-inner{ grid-template-columns: 1fr; }
+  .pg-tile[data-lang="material-expressive"] .me-webnav__links{ display: none; }
+  .pg-tile[data-lang="material-expressive"] .me-mock{ order: -1; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .pg-tile[data-lang="material-expressive"] *,
+  .pg-tile[data-lang="material-expressive"] *::before,
+  .pg-tile[data-lang="material-expressive"] *::after{
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Helthy tile · material-expressive</title>
+
+<!-- Google Fonts: this language's display + body pairing (+ §1 fallbacks) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ---- SPEC §1 shared token contract (the live-tunable control surface) ---- */
+  :root{
+    --pg-bg:        #eef3f0;
+    --pg-surface:   #ffffff;
+    --pg-ink:       #14241d;
+    --pg-ink-soft:  #5c6f67;
+    --pg-primary:   #2f9e72;
+    --pg-accent:    #f4b740;
+    --pg-good:      #2f9e72;
+    --pg-ok:        #e8a13a;
+    --pg-avoid:     #d8584f;
+    --pg-font-head: "Fraunces", Georgia, serif;
+    --pg-font-body: "Inter", system-ui, sans-serif;
+    --pg-radius:    20px;
+    --pg-elevation: 1;
+    --pg-blur:      14px;
+    --pg-density:   1;
+  }
+  :root[data-theme="dark"]{ --pg-bg:#0f1714; --pg-surface:#172420; --pg-ink:#eaf3ee; --pg-ink-soft:#9fb3aa; }
+
+  html,body{ margin:0; }
+  body{
+    background: var(--pg-bg);
+    min-height:100vh;
+    padding: 28px 18px 56px;
+    transition: background .2s ease;
+  }
+  /* tiny verification helper — toggle dark to check both themes */
+  .pv-toggle{
+    position: fixed; top: 14px; right: 14px; z-index: 50;
+    font: 600 13px/1 "Inter Tight", system-ui, sans-serif;
+    padding: 9px 16px; border-radius: 999px; border: none; cursor: pointer;
+    background: var(--pg-primary); color: #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,.18);
+  }
+  .pv-wrap{ max-width: 1180px; margin: 0 auto; }
+</style>
+<link rel="stylesheet" href="tile.css">
+</head>
+<body>
+  <button class="pv-toggle" type="button" id="pvToggle">Toggle dark</button>
+  <div class="pv-wrap" id="mount">Loading tile…</div>
+
+  <script>
+    document.getElementById('pvToggle').addEventListener('click', () => {
+      const root = document.documentElement;
+      root.dataset.theme = root.dataset.theme === 'dark' ? '' : 'dark';
+    });
+    fetch('tile.html')
+      .then(r => r.text())
+      .then(html => { document.getElementById('mount').innerHTML = html; })
+      .catch(e => { document.getElementById('mount').textContent = 'Could not load tile.html — serve over http (python3 -m http.server). ' + e; });
+  </script>
+</body>
+</html>

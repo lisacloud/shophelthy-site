@@ -1,0 +1,754 @@
+/* =========================================================================
+   organic-bento — Helthy design-language tile
+   Warm rounded BENTO-GRID: friendly tiles of varied size, soft natural palette,
+   organic blob accents. Signature = the blob-ring score gauge.
+   Every selector is scoped under .pg-tile[data-lang="organic-bento"] so all six
+   tiles coexist in one document with zero collisions.
+   ========================================================================= */
+
+/* ---- language defaults: set the tunable --pg-* contract on the tile scope,
+        plus this language's own identity tokens (--ob-*) ------------------- */
+.pg-tile[data-lang="organic-bento"]{
+  /* palette (live-tunable via the shell) */
+  --pg-bg:        #f7f2e9;
+  --pg-surface:   #fffdf8;
+  --pg-ink:       #283129;
+  --pg-ink-soft:  #5c665d;
+  --pg-primary:   #2f9e72;
+  --pg-accent:    #f2a64e;
+  --pg-good:      #2f9e72;
+  --pg-ok:        #e0973a;
+  --pg-avoid:     #d56a5c;
+  /* type — warm humanist pairing chosen for organic-bento */
+  --pg-font-head: "Bricolage Grotesque", "Nunito", system-ui, sans-serif;
+  --pg-font-body: "Nunito", system-ui, sans-serif;
+  /* shape / feel knobs */
+  --pg-radius:    22px;
+  --pg-elevation: 1;
+  --pg-blur:      14px;
+  --pg-density:   1;
+
+  /* ---- derived identity tokens (language-static logic, palette-aware) ---- */
+  /* spacing scale driven by --pg-density */
+  --ob-gap:    calc(14px * var(--pg-density));
+  --ob-pad:    calc(18px * var(--pg-density));
+  --ob-padlg:  calc(24px * var(--pg-density));
+  /* soft bento washes = the brand hues whispered into the surface (auto dark-adapts) */
+  --ob-wash-sage:   color-mix(in srgb, var(--pg-good)    13%, var(--pg-surface));
+  --ob-wash-butter: color-mix(in srgb, var(--pg-accent)  16%, var(--pg-surface));
+  --ob-wash-blush:  color-mix(in srgb, var(--pg-avoid)   12%, var(--pg-surface));
+  --ob-wash-mint:   color-mix(in srgb, var(--pg-primary) 10%, var(--pg-surface));
+  /* phone bezel + shadow ink are theme-aware so they don't invert when ink flips light in dark mode */
+  --ob-bezel:      color-mix(in srgb, var(--pg-ink) 86%, #000);
+  --ob-shadow-ink: var(--pg-ink);
+  /* tile hairline + soft elevation derived from --pg-elevation */
+  --ob-line:    color-mix(in srgb, var(--pg-ink) 9%, transparent);
+  --ob-shadow:  0 calc(2px * var(--pg-elevation)) calc(8px * var(--pg-elevation)) color-mix(in srgb, var(--ob-shadow-ink) calc(5% * var(--pg-elevation)), transparent),
+                0 calc(12px * var(--pg-elevation)) calc(30px * var(--pg-elevation)) color-mix(in srgb, var(--ob-shadow-ink) calc(6% * var(--pg-elevation)), transparent);
+  /* "ink-on-tint" roles — deep in light so labels read on pale chips */
+  --ob-on-good:  color-mix(in srgb, var(--pg-good)  60%, #06201a);
+  --ob-on-ok:    color-mix(in srgb, var(--pg-ok)    52%, #3a2406);
+  --ob-on-avoid: color-mix(in srgb, var(--pg-avoid) 60%, #340f0a);
+  --ob-chip-good:  color-mix(in srgb, var(--pg-good)  18%, var(--pg-surface));
+  --ob-chip-ok:    color-mix(in srgb, var(--pg-ok)    20%, var(--pg-surface));
+  --ob-chip-avoid: color-mix(in srgb, var(--pg-avoid) 18%, var(--pg-surface));
+  /* a deep, lush fill for the primary button so white text clears the floor */
+  --ob-cta-top:    var(--pg-primary);
+  --ob-cta-bot:    color-mix(in srgb, var(--pg-primary) 62%, #06281b);
+
+  font-family: var(--pg-font-body);
+  color: var(--pg-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* DARK MODE — re-tune this language's neutrals on the tile scope itself, because the tile sets its
+   own --pg-* defaults (SPEC §3) which shadow the §1 :root[data-theme="dark"] override. */
+:root[data-theme="dark"] .pg-tile[data-lang="organic-bento"]{
+  --pg-bg:      #0f1714;
+  --pg-surface: #182521;
+  --pg-ink:     #eaf3ee;
+  --pg-ink-soft:#9fb3aa;
+  /* keep the bezel dark + shadows black rather than inverting with the now-light ink */
+  --ob-bezel:      #04080a;
+  --ob-shadow-ink: #000000;
+  /* "ink-on-tint" roles flip LIGHT (don't read dark text on a dark chip) */
+  --ob-on-good:  color-mix(in srgb, var(--pg-good)  72%, #ffffff);
+  --ob-on-ok:    color-mix(in srgb, var(--pg-ok)    74%, #ffffff);
+  --ob-on-avoid: color-mix(in srgb, var(--pg-avoid) 74%, #ffffff);
+  --ob-line:     color-mix(in srgb, #ffffff 12%, transparent);
+}
+
+/* shared resets within the tile only */
+.pg-tile[data-lang="organic-bento"] *{ box-sizing: border-box; }
+.pg-tile[data-lang="organic-bento"] h1,
+.pg-tile[data-lang="organic-bento"] h2,
+.pg-tile[data-lang="organic-bento"] h3,
+.pg-tile[data-lang="organic-bento"] p,
+.pg-tile[data-lang="organic-bento"] ul{ margin: 0; padding: 0; }
+.pg-tile[data-lang="organic-bento"] ul{ list-style: none; }
+.pg-tile[data-lang="organic-bento"] button{ font: inherit; cursor: pointer; }
+
+/* the reusable bento tile */
+.pg-tile[data-lang="organic-bento"] .ob-tile{
+  position: relative;
+  background: var(--pg-surface);
+  border: 1px solid var(--ob-line);
+  border-radius: var(--pg-radius);
+  box-shadow: var(--ob-shadow);
+  padding: var(--ob-pad);
+}
+.pg-tile[data-lang="organic-bento"] .ob-wash-sage{   background: var(--ob-wash-sage); }
+.pg-tile[data-lang="organic-bento"] .ob-wash-butter{ background: var(--ob-wash-butter); }
+.pg-tile[data-lang="organic-bento"] .ob-wash-blush{  background: var(--ob-wash-blush); }
+.pg-tile[data-lang="organic-bento"] .ob-wash-mint{   background: var(--ob-wash-mint); }
+
+.pg-tile[data-lang="organic-bento"] .ob-eyebrow{
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--pg-ink-soft);
+}
+
+/* =========================================================================
+   SURFACE A — app: scan -> score, as a vertical bento mosaic
+   ========================================================================= */
+.pg-tile[data-lang="organic-bento"] .pg-surface-app{
+  display: flex;
+  justify-content: center;
+}
+.pg-tile[data-lang="organic-bento"] .ob-phone{
+  width: 372px;
+  max-width: 100%;
+  background: var(--ob-bezel);
+  border-radius: 46px;
+  padding: 12px;
+  box-shadow:
+    0 30px 70px color-mix(in srgb, #000 22%, transparent),
+    inset 0 0 0 2px color-mix(in srgb, #ffffff 8%, transparent);
+}
+.pg-tile[data-lang="organic-bento"] .ob-phone-screen{
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 85% -6%, color-mix(in srgb, var(--pg-accent) 16%, transparent), transparent 60%),
+    radial-gradient(120% 90% at -10% 8%, color-mix(in srgb, var(--pg-primary) 14%, transparent), transparent 55%),
+    var(--pg-bg);
+  border-radius: 36px;
+  overflow: hidden;
+  padding: calc(16px * var(--pg-density)) calc(15px * var(--pg-density)) calc(18px * var(--pg-density));
+}
+/* status / app bar */
+.pg-tile[data-lang="organic-bento"] .ob-appbar{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 4px calc(12px * var(--pg-density));
+}
+.pg-tile[data-lang="organic-bento"] .ob-back{
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border: 1px solid var(--ob-line);
+  border-radius: 50%;
+  background: var(--pg-surface);
+  color: var(--pg-ink);
+  font-size: 20px; line-height: 1;
+  padding-bottom: 2px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-wordmark{
+  font-family: var(--pg-font-head);
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -.01em;
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="organic-bento"] .ob-wordmark::after{
+  content: "";
+  display: inline-block;
+  width: 6px; height: 6px;
+  margin-left: 3px; margin-bottom: 9px;
+  border-radius: 50%;
+  background: var(--pg-good);
+  vertical-align: middle;
+}
+.pg-tile[data-lang="organic-bento"] .ob-appbar-spacer{ flex: 1; }
+.pg-tile[data-lang="organic-bento"] .ob-appbar-dot{
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--ob-line);
+  background: var(--pg-surface);
+  color: var(--pg-ink-soft);
+  font-size: 17px;
+}
+
+.pg-tile[data-lang="organic-bento"] .ob-app-stack{
+  display: flex;
+  flex-direction: column;
+  gap: var(--ob-gap);
+}
+
+/* ---- hero score tile (the signature) ---- */
+.pg-tile[data-lang="organic-bento"] .ob-tile--score{
+  display: flex;
+  align-items: center;
+  gap: calc(16px * var(--pg-density));
+  padding: var(--ob-padlg);
+  overflow: hidden;
+}
+.pg-tile[data-lang="organic-bento"] .ob-gauge{
+  position: relative;
+  flex: 0 0 auto;
+  width: 120px; height: 120px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-gauge svg{
+  width: 100%; height: 100%;
+  display: block;
+  overflow: visible;
+}
+.pg-tile[data-lang="organic-bento"] .ob-blob{
+  fill: color-mix(in srgb, var(--pg-good) 16%, var(--pg-surface));
+}
+.pg-tile[data-lang="organic-bento"] .ob-ring-track{
+  fill: none;
+  stroke: color-mix(in srgb, var(--pg-ink) 9%, transparent);
+  stroke-width: 11;
+}
+.pg-tile[data-lang="organic-bento"] .ob-ring-fill{
+  fill: none;
+  stroke: var(--pg-good);
+  stroke-width: 11;
+  stroke-linecap: round;
+  stroke-dasharray: 314.16;
+  stroke-dashoffset: 37.7;            /* 88% filled */
+  transform: rotate(-90deg);
+  transform-origin: 60px 60px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-gauge-num{
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--pg-font-head);
+  font-weight: 800;
+  font-size: 40px;
+  letter-spacing: -.02em;
+  color: var(--ob-on-good);
+  font-variant-numeric: tabular-nums;
+}
+.pg-tile[data-lang="organic-bento"] .ob-score-meta{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.pg-tile[data-lang="organic-bento"] .ob-score-label{
+  align-self: flex-start;
+  font-family: var(--pg-font-head);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: .12em;
+  padding: 6px 13px;
+  border-radius: 999px;
+  color: var(--ob-on-good);
+  background: var(--ob-chip-good);
+}
+.pg-tile[data-lang="organic-bento"] .ob-score-sub{
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--pg-ink-soft);
+}
+
+/* ---- product tile ---- */
+.pg-tile[data-lang="organic-bento"] .ob-tile--product{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-thumb{
+  flex: 0 0 auto;
+  width: 50px; height: 50px;
+  display: grid; place-items: center;
+  border-radius: 16px;
+  background: var(--ob-wash-mint);
+  font-size: 24px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-product-name{
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: 16.5px;
+  line-height: 1.2;
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="organic-bento"] .ob-product-meta{
+  margin-top: 3px;
+  font-size: 13px;
+  color: var(--pg-ink-soft);
+}
+
+/* ---- why tile ---- */
+.pg-tile[data-lang="organic-bento"] .ob-tile--why{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-why-list{
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-why{
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  background: var(--pg-surface);
+  border: 1px solid var(--ob-line);
+  border-radius: calc(var(--pg-radius) * .62);
+  padding: 9px 12px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-why-ico{
+  flex: 0 0 auto;
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border-radius: 9px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-why-ico svg{ width: 16px; height: 16px; }
+.pg-tile[data-lang="organic-bento"] .ob-why--good .ob-why-ico{ background: var(--ob-chip-good);  color: var(--ob-on-good); }
+.pg-tile[data-lang="organic-bento"] .ob-why--ok   .ob-why-ico{ background: var(--ob-chip-ok);    color: var(--ob-on-ok); }
+.pg-tile[data-lang="organic-bento"] .ob-why-label{
+  flex: 1;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="organic-bento"] .ob-why-val{
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: 14.5px;
+  font-variant-numeric: tabular-nums;
+}
+.pg-tile[data-lang="organic-bento"] .ob-why--good .ob-why-val{ color: var(--ob-on-good); }
+.pg-tile[data-lang="organic-bento"] .ob-why--ok   .ob-why-val{ color: var(--ob-on-ok); }
+
+/* ---- better-scoring picks strip ---- */
+.pg-tile[data-lang="organic-bento"] .ob-picks{
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 2px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-picks-row{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-pick{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--ob-line);
+  border-radius: calc(var(--pg-radius) * .72);
+  padding: 13px 8px 11px;
+  text-align: center;
+}
+.pg-tile[data-lang="organic-bento"] .ob-pick-score{
+  width: 38px; height: 38px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--pg-surface);
+  border: 1.5px solid color-mix(in srgb, var(--pg-good) 40%, transparent);
+  font-family: var(--pg-font-head);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--ob-on-good);
+  font-variant-numeric: tabular-nums;
+}
+.pg-tile[data-lang="organic-bento"] .ob-pick-name{
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--pg-ink-soft);
+}
+
+/* ---- primary CTA ---- */
+.pg-tile[data-lang="organic-bento"] .ob-cta{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 15px 22px;
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  background: linear-gradient(180deg, var(--ob-cta-top), var(--ob-cta-bot));
+  box-shadow:
+    0 calc(6px * var(--pg-elevation)) calc(18px * var(--pg-elevation)) color-mix(in srgb, var(--pg-primary) 38%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 28%, transparent);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.pg-tile[data-lang="organic-bento"] .ob-cta .ob-cta-ico{ width: 18px; height: 18px; }
+.pg-tile[data-lang="organic-bento"] .ob-cta:hover{
+  transform: translateY(-2px);
+  box-shadow:
+    0 calc(10px * var(--pg-elevation)) calc(26px * var(--pg-elevation)) color-mix(in srgb, var(--pg-primary) 46%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 28%, transparent);
+}
+
+/* =========================================================================
+   SURFACE B — website hero, as a bento mosaic
+   ========================================================================= */
+.pg-tile[data-lang="organic-bento"] .pg-surface-web{
+  position: relative;
+  background:
+    radial-gradient(70% 60% at 88% -8%, color-mix(in srgb, var(--pg-accent) 20%, transparent), transparent 60%),
+    radial-gradient(60% 70% at -6% 110%, color-mix(in srgb, var(--pg-primary) 16%, transparent), transparent 60%),
+    var(--pg-bg);
+  border-radius: calc(var(--pg-radius) + 8px);
+  padding: calc(26px * var(--pg-density)) calc(30px * var(--pg-density)) calc(34px * var(--pg-density));
+  overflow: hidden;
+}
+/* organic blob peeking behind the mosaic */
+.pg-tile[data-lang="organic-bento"] .ob-web-blob{
+  position: absolute;
+  width: 340px; height: 340px;
+  right: -70px; top: 40px;
+  z-index: 0;
+  opacity: .5;
+  pointer-events: none;
+}
+.pg-tile[data-lang="organic-bento"] .ob-web-blob path{
+  fill: color-mix(in srgb, var(--pg-accent) 22%, var(--pg-bg));
+}
+
+.pg-tile[data-lang="organic-bento"] .ob-web-nav{
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: calc(26px * var(--pg-density));
+}
+.pg-tile[data-lang="organic-bento"] .ob-web-brand{
+  font-family: var(--pg-font-head);
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: -.015em;
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="organic-bento"] .ob-web-brand::after{
+  content: "";
+  display: inline-block;
+  width: 7px; height: 7px;
+  margin-left: 4px; margin-bottom: 12px;
+  border-radius: 50%;
+  background: var(--pg-good);
+  vertical-align: middle;
+}
+.pg-tile[data-lang="organic-bento"] .ob-web-links{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: color-mix(in srgb, var(--pg-surface) 70%, transparent);
+  border: 1px solid var(--ob-line);
+  border-radius: 999px;
+  padding: 6px;
+  backdrop-filter: blur(8px);
+}
+.pg-tile[data-lang="organic-bento"] .ob-web-links a{
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pg-ink-soft);
+  padding: 7px 14px;
+  border-radius: 999px;
+  transition: background .15s ease, color .15s ease;
+}
+.pg-tile[data-lang="organic-bento"] .ob-web-links a:last-child{
+  color: var(--ob-on-good);
+  background: var(--ob-chip-good);
+}
+.pg-tile[data-lang="organic-bento"] .ob-web-links a:hover{
+  color: var(--pg-ink);
+  background: color-mix(in srgb, var(--pg-ink) 6%, transparent);
+}
+
+.pg-tile[data-lang="organic-bento"] .ob-hero{
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr);
+  gap: var(--ob-gap);
+  align-items: stretch;
+}
+
+/* ---- copy tile ---- */
+.pg-tile[data-lang="organic-bento"] .ob-hero-copy{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: calc(30px * var(--pg-density)) calc(30px * var(--pg-density));
+  justify-content: center;
+}
+.pg-tile[data-lang="organic-bento"] .ob-kicker{
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  color: var(--ob-on-good);
+  background: var(--ob-chip-good);
+  padding: 7px 14px 7px 11px;
+  border-radius: 999px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-kicker::before{
+  content: "";
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--pg-good);
+}
+.pg-tile[data-lang="organic-bento"] .ob-headline{
+  font-family: var(--pg-font-head);
+  font-weight: 800;
+  font-size: clamp(30px, 3.4vw, 44px);
+  line-height: 1.04;
+  letter-spacing: -.02em;
+  color: var(--pg-ink);
+  max-width: 14ch;
+}
+.pg-tile[data-lang="organic-bento"] .ob-headline em{
+  font-style: normal;
+  color: var(--pg-good);
+  position: relative;
+  white-space: nowrap;
+}
+.pg-tile[data-lang="organic-bento"] .ob-subhead{
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--pg-ink-soft);
+  max-width: 42ch;
+}
+.pg-tile[data-lang="organic-bento"] .ob-cta-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px;
+  margin-top: 4px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-cta-row .ob-cta{ width: auto; }
+.pg-tile[data-lang="organic-bento"] .ob-cta--ghost{
+  background: var(--pg-surface);
+  color: var(--pg-ink);
+  border: 1px solid color-mix(in srgb, var(--pg-ink) 16%, transparent);
+  box-shadow: var(--ob-shadow);
+}
+.pg-tile[data-lang="organic-bento"] .ob-cta--ghost:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--ob-shadow);
+  background: color-mix(in srgb, var(--pg-ink) 4%, var(--pg-surface));
+}
+.pg-tile[data-lang="organic-bento"] .ob-trust{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--pg-ink-soft);
+}
+.pg-tile[data-lang="organic-bento"] .ob-trust::before{
+  content: "";
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 45%, var(--pg-good) 0 3px, transparent 4px),
+    var(--ob-chip-good);
+}
+
+/* ---- right-side bento cluster ---- */
+.pg-tile[data-lang="organic-bento"] .ob-hero-bento{
+  display: grid;
+  grid-template-columns: 1.25fr .95fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--ob-gap);
+  min-width: 0;
+}
+.pg-tile[data-lang="organic-bento"] .ob-mock{
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: var(--ob-pad);
+  overflow: hidden;
+}
+.pg-tile[data-lang="organic-bento"] .ob-mock-head{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-mgauge{
+  position: relative;
+  flex: 0 0 auto;
+  width: 78px; height: 78px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-mgauge svg{ width: 100%; height: 100%; display: block; overflow: visible; }
+.pg-tile[data-lang="organic-bento"] .ob-mblob{ fill: color-mix(in srgb, var(--pg-good) 16%, var(--pg-surface)); }
+.pg-tile[data-lang="organic-bento"] .ob-mgauge-track{
+  fill: none;
+  stroke: color-mix(in srgb, var(--pg-ink) 9%, transparent);
+  stroke-width: 9;
+}
+.pg-tile[data-lang="organic-bento"] .ob-mgauge-fill{
+  fill: none;
+  stroke: var(--pg-good);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-dasharray: 213.6;
+  stroke-dashoffset: 25.6;            /* 88% filled */
+  transform: rotate(-90deg);
+  transform-origin: 50px 50px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-mgauge-num{
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: var(--pg-font-head);
+  font-weight: 800;
+  font-size: 25px;
+  color: var(--ob-on-good);
+  font-variant-numeric: tabular-nums;
+}
+.pg-tile[data-lang="organic-bento"] .ob-mock-name{
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: 14.5px;
+  line-height: 1.2;
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="organic-bento"] .ob-mock-meta{
+  font-size: 12px;
+  color: var(--pg-ink-soft);
+  margin-top: 2px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-mock-row{
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--pg-surface);
+  border: 1px solid var(--ob-line);
+  border-radius: 13px;
+  padding: 9px 11px;
+}
+.pg-tile[data-lang="organic-bento"] .ob-mock-row .ob-dot{
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--pg-good);
+  flex: 0 0 auto;
+}
+.pg-tile[data-lang="organic-bento"] .ob-mock-row.ob-ok .ob-dot{ background: var(--pg-ok); }
+.pg-tile[data-lang="organic-bento"] .ob-mock-row .ob-mr-label{
+  flex: 1;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--pg-ink);
+}
+.pg-tile[data-lang="organic-bento"] .ob-mock-row .ob-mr-val{
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ob-on-good);
+}
+.pg-tile[data-lang="organic-bento"] .ob-mock-row.ob-ok .ob-mr-val{ color: var(--ob-on-ok); }
+.pg-tile[data-lang="organic-bento"] .ob-mock-cta{
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 12px 16px;
+  font-family: var(--pg-font-head);
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #fff;
+  background: linear-gradient(180deg, var(--ob-cta-top), var(--ob-cta-bot));
+  box-shadow:
+    0 calc(5px * var(--pg-elevation)) calc(14px * var(--pg-elevation)) color-mix(in srgb, var(--pg-primary) 32%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 26%, transparent);
+}
+.pg-tile[data-lang="organic-bento"] .ob-mock-cta svg{ width: 15px; height: 15px; }
+
+/* satellite stat tiles */
+.pg-tile[data-lang="organic-bento"] .ob-stat{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: var(--ob-pad);
+}
+.pg-tile[data-lang="organic-bento"] .ob-stat-num{
+  font-family: var(--pg-font-head);
+  font-weight: 800;
+  font-size: clamp(26px, 2.4vw, 34px);
+  line-height: 1;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+}
+.pg-tile[data-lang="organic-bento"] .ob-stat--protein .ob-stat-num{ color: var(--ob-on-good); }
+.pg-tile[data-lang="organic-bento"] .ob-stat--sugar   .ob-stat-num{ color: var(--ob-on-ok); }
+.pg-tile[data-lang="organic-bento"] .ob-stat-label{
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--pg-ink-soft);
+}
+
+/* =========================================================================
+   the one orchestrated motion moment — ring draws on load
+   ========================================================================= */
+@media (prefers-reduced-motion: no-preference){
+  .pg-tile[data-lang="organic-bento"] .ob-ring-fill{
+    animation: ob-draw 1.1s cubic-bezier(.34,.85,.4,1) .15s both;
+  }
+  .pg-tile[data-lang="organic-bento"] .ob-mgauge-fill{
+    animation: ob-draw-m 1.1s cubic-bezier(.34,.85,.4,1) .15s both;
+  }
+  @keyframes ob-draw{
+    from{ stroke-dashoffset: 314.16; }
+    to{   stroke-dashoffset: 37.7; }
+  }
+  @keyframes ob-draw-m{
+    from{ stroke-dashoffset: 213.6; }
+    to{   stroke-dashoffset: 25.6; }
+  }
+}
+
+/* =========================================================================
+   quality floor — visible keyboard focus
+   ========================================================================= */
+.pg-tile[data-lang="organic-bento"] a:focus-visible,
+.pg-tile[data-lang="organic-bento"] button:focus-visible{
+  outline: 3px solid color-mix(in srgb, var(--pg-primary) 60%, transparent);
+  outline-offset: 3px;
+}
+
+/* =========================================================================
+   responsive — collapse the web bento on narrow viewports
+   ========================================================================= */
+@media (max-width: 900px){
+  .pg-tile[data-lang="organic-bento"] .ob-hero{ grid-template-columns: 1fr; }
+  .pg-tile[data-lang="organic-bento"] .ob-hero-bento{
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  .pg-tile[data-lang="organic-bento"] .ob-mock{ grid-column: 1 / -1; grid-row: auto; }
+}
+@media (max-width: 560px){
+  .pg-tile[data-lang="organic-bento"] .ob-web-links{ display: none; }
+  .pg-tile[data-lang="organic-bento"] .ob-hero-bento{ grid-template-columns: 1fr; }
+  .pg-tile[data-lang="organic-bento"] .ob-mock{ grid-column: auto; }
+  .pg-tile[data-lang="organic-bento"] .ob-headline{ font-size: clamp(26px, 8vw, 34px); }
+}

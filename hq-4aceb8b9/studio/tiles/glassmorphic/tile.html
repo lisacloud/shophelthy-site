@@ -1,0 +1,316 @@
+<div class="pg-tile" data-lang="glassmorphic">
+
+  <!-- off-screen defs: the JS bakes one <filter> per glass element in here -->
+  <svg class="gl-defs" aria-hidden="true" focusable="false"><defs></defs></svg>
+
+  <!-- ===================== SURFACE A — app: scan -> score ===================== -->
+  <section class="pg-surface-app" aria-label="Helthy app scan result">
+    <div class="gl-phone">
+      <div class="gl-screen">
+
+        <!-- The app's own content is the wallpaper the glass refracts: bold colour
+             fields + a faint subject glyph + bold type. Glass lives ONLY on the
+             interactive chrome floating over it — the top bar, the score lens, the
+             pick chips, and the bottom scan dock (à la the iOS "Ask" bar). -->
+        <div class="gl-bg" aria-hidden="true"></div>
+
+        <div class="gl-app">
+
+          <header class="gl-topbar gl-glass">
+            <span class="gl-iconbtn" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </span>
+            <span class="gl-wordmark" data-pg-slot="brand">Helthy</span>
+            <span class="gl-dot" aria-hidden="true"></span>
+          </header>
+
+          <!-- THE SIGNATURE: a big liquid-glass score lens floating over the colour wallpaper -->
+          <div class="gl-hero">
+            <div class="gl-gauge gl-glass" role="img" aria-label="Score 88 out of 100, rated good">
+              <svg class="gl-gauge-ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="gl-gauge-track" cx="50" cy="50" r="44"/>
+                <circle class="gl-gauge-arc" cx="50" cy="50" r="44"
+                        stroke-dasharray="276.46" stroke-dashoffset="33.18"/>
+              </svg>
+              <div class="gl-gauge-core">
+                <span class="gl-score" data-pg-slot="scoreValue">88</span>
+                <span class="gl-score-label" data-pg-slot="scoreLabel">GOOD</span>
+              </div>
+            </div>
+            <div class="gl-product">
+              <h2 class="gl-product-name" data-pg-slot="productName">Siggi's Plain Whole-Milk Yogurt</h2>
+              <p class="gl-product-meta" data-pg-slot="productMeta">Skyr · 4.4 oz cup</p>
+            </div>
+          </div>
+
+          <ul class="gl-why">
+            <li class="gl-why-row" data-tone="good">
+              <span class="gl-why-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="gl-why-label" data-pg-slot="whyLabel">High protein</span>
+              <span class="gl-why-val" data-pg-slot="whyValue">11 g</span>
+            </li>
+            <li class="gl-why-row" data-tone="good">
+              <span class="gl-why-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <span class="gl-why-label" data-pg-slot="whyLabel">No added sugar</span>
+              <span class="gl-why-val" data-pg-slot="whyValue">0 g</span>
+            </li>
+            <li class="gl-why-row" data-tone="ok">
+              <span class="gl-why-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 4.3L2.6 18a1.6 1.6 0 001.4 2.4h16a1.6 1.6 0 001.4-2.4L13.7 4.3a1.6 1.6 0 00-2.8 0z"/></svg></span>
+              <span class="gl-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+              <span class="gl-why-val" data-pg-slot="whyValue">65 mg</span>
+            </li>
+          </ul>
+
+          <div class="gl-picks">
+            <p class="gl-picks-label" data-pg-slot="picksLabel">Better-scoring picks</p>
+            <div class="gl-chips">
+              <div class="gl-chip gl-glass">
+                <span class="gl-chip-score" data-pg-slot="pickScore">91</span>
+                <span class="gl-chip-name" data-pg-slot="pickName">Fage Total 0%</span>
+              </div>
+              <div class="gl-chip gl-glass">
+                <span class="gl-chip-score" data-pg-slot="pickScore">90</span>
+                <span class="gl-chip-name" data-pg-slot="pickName">Chobani Plain</span>
+              </div>
+              <div class="gl-chip gl-glass">
+                <span class="gl-chip-score" data-pg-slot="pickScore">86</span>
+                <span class="gl-chip-name" data-pg-slot="pickName">Oikos Triple Zero</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- bottom floating glass dock — the iOS "Ask" bar analogue: glass over content -->
+          <div class="gl-dock gl-glass">
+            <span class="gl-dock-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2M3 12h18"/></svg>
+            </span>
+            <span class="gl-dock-label" data-pg-slot="appCta">Scan another food</span>
+            <span class="gl-dock-go" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SURFACE B — website hero ===================== -->
+  <section class="pg-surface-web" aria-label="Helthy marketing hero">
+    <div class="gl-web">
+
+      <!-- content wallpaper: soft colour fields + a faint leaf glyph + a giant
+           faint word, so the glass chrome refracts real letterforms — the way the
+           iOS panel lets its own text become the shapes behind the glass -->
+      <div class="gl-web-bg" aria-hidden="true">
+        <span class="gl-web-word">scan</span>
+      </div>
+
+      <nav class="gl-nav gl-glass" aria-label="Primary">
+        <span class="gl-nav-brand" data-pg-slot="brand">Helthy</span>
+        <div class="gl-nav-links">
+          <a class="gl-nav-link" href="#" data-pg-slot="navItem">How it works</a>
+          <a class="gl-nav-link" href="#" data-pg-slot="navItem">Science</a>
+          <a class="gl-nav-link" href="#" data-active data-pg-slot="navItem">Beta</a>
+        </div>
+      </nav>
+
+      <div class="gl-hero-web">
+        <div class="gl-hero-copy">
+          <span class="gl-kicker" data-pg-slot="heroKicker">Food scanning for blood-sugar goals</span>
+          <h1 class="gl-headline" data-pg-slot="heroHeadline">Know if it's right for your <em>blood sugar</em>, before you buy.</h1>
+          <p class="gl-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+          <div class="gl-cta-row">
+            <a class="gl-cta gl-cta-primary gl-glass" href="#" data-pg-slot="heroPrimaryCta">Join the beta</a>
+            <a class="gl-cta gl-cta-secondary gl-glass" href="#" data-pg-slot="heroSecondaryCta">See how it works</a>
+          </div>
+          <p class="gl-trust" data-pg-slot="trustLine">Built with dietitians · Open Food Facts + USDA nutrition</p>
+        </div>
+
+        <!-- the mock matches the app: a content-led device, glass only on the lens + chips -->
+        <div class="gl-mock" aria-hidden="true">
+          <div class="gl-mock-screen">
+            <div class="gl-mock-bg" aria-hidden="true"></div>
+            <div class="gl-gauge gl-glass">
+              <svg class="gl-gauge-ring" viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="gl-gauge-track" cx="50" cy="50" r="44"/>
+                <circle class="gl-gauge-arc" cx="50" cy="50" r="44" stroke-dasharray="276.46" stroke-dashoffset="33.18"/>
+              </svg>
+              <div class="gl-gauge-core">
+                <span class="gl-score" data-pg-slot="scoreValue">88</span>
+                <span class="gl-score-label" data-pg-slot="scoreLabel">GOOD</span>
+              </div>
+            </div>
+            <div class="gl-mock-id">
+              <p class="gl-mock-name" data-pg-slot="productName">Siggi's Plain Whole-Milk Yogurt</p>
+              <p class="gl-mock-meta" data-pg-slot="productMeta">Skyr · 4.4 oz cup</p>
+            </div>
+            <div class="gl-mock-chips">
+              <div class="gl-mock-chip gl-glass"><span class="gl-mock-chip-score">91</span><span>Fage 0%</span></div>
+              <div class="gl-mock-chip gl-glass"><span class="gl-mock-chip-score">90</span><span>Chobani</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  /* Liquid-glass refraction — JS port of lib/glassfx-reference.py.
+     Bakes a rounded-rect normal map onto a <canvas> per glass element, injects
+     an SVG <filter> (feImage -> 3x feDisplacementMap R/G/B dispersion ->
+     per-channel feColorMatrix -> screen feBlend -> tiny feGaussianBlur), and
+     wires it into backdrop-filter via the --gl-filter custom property. */
+  (function () {
+    "use strict";
+    if (window.__helthyGlassInit) { window.__helthyGlassInit(); return; }
+    var SVGNS = "http://www.w3.org/2000/svg";
+
+    function smoothstep(t){ return t*t*(3-2*t); }
+    function sdfRoundRect(x,y,w,h,r){
+      var qx = Math.abs(x - w/2) - (w/2 - r);
+      var qy = Math.abs(y - h/2) - (h/2 - r);
+      var ax = Math.max(qx,0), ay = Math.max(qy,0);
+      return Math.hypot(ax,ay) + Math.min(Math.max(qx,qy),0) - r;
+    }
+
+    var mapCache = new Map();
+    function bakeNormalMap(w,h,radius,bevel,depth,resMax){
+      var key = w+"|"+h+"|"+radius+"|"+bevel+"|"+depth;
+      if (mapCache.has(key)) return mapCache.get(key);
+      var sc = resMax / Math.max(w,h);
+      var W = Math.max(8, Math.round(w*sc));
+      var H = Math.max(8, Math.round(h*sc));
+      var r = radius*sc;
+      var bev = Math.max(1, bevel*sc);
+      var heightPx = bev*depth;
+      var hgt = new Float32Array(W*H);
+      for (var j=0;j<H;j++){
+        for (var i=0;i<W;i++){
+          var d = sdfRoundRect(i+0.5, j+0.5, W, H, r);
+          var t = Math.max(0, Math.min(1, (-d)/bev));
+          hgt[j*W+i] = smoothstep(t);
+        }
+      }
+      var cv = document.createElement("canvas");
+      cv.width = W; cv.height = H;
+      var ctx = cv.getContext("2d");
+      var im = ctx.createImageData(W,H);
+      var data = im.data;
+      for (var jj=0; jj<H; jj++){
+        var row = jj*W;
+        var rowm = Math.max(0, jj-1)*W;
+        var rowp = Math.min(H-1, jj+1)*W;
+        for (var ii=0; ii<W; ii++){
+          var gx = (hgt[row + Math.min(W-1,ii+1)] - hgt[row + Math.max(0,ii-1)]) * 0.5;
+          var gy = (hgt[rowp + ii] - hgt[rowm + ii]) * 0.5;
+          var nx = Math.max(-1, Math.min(1, -gx*heightPx));
+          var ny = Math.max(-1, Math.min(1, -gy*heightPx));
+          var o = (row + ii)*4;
+          data[o]   = (128 + 127*nx) | 0;
+          data[o+1] = (128 + 127*ny) | 0;
+          data[o+2] = 255;
+          data[o+3] = 255;
+        }
+      }
+      ctx.putImageData(im, 0, 0);
+      var uri = cv.toDataURL("image/png");
+      mapCache.set(key, uri);
+      return uri;
+    }
+
+    function filterMarkup(fid, uri, w, h, scale, ca, blur){
+      var sR = (scale*(1+ca)).toFixed(2), sG = scale.toFixed(2), sB = (scale*(1-ca)).toFixed(2);
+      function disp(s, res){
+        return '<feDisplacementMap in="SourceGraphic" in2="map" scale="'+s+'" '+
+               'xChannelSelector="R" yChannelSelector="G" result="'+res+'"/>';
+      }
+      var cmR = "1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0";
+      var cmG = "0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0";
+      var cmB = "0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0";
+      return '<filter id="'+fid+'" x="-18%" y="-18%" width="136%" height="136%" '+
+             'filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" '+
+             'color-interpolation-filters="sRGB">'+
+        '<feImage href="'+uri+'" xlink:href="'+uri+'" x="0" y="0" width="'+w+'" height="'+h+'" '+
+          'preserveAspectRatio="none" result="map"/>'+
+        disp(sR,"dR") + disp(sG,"dG") + disp(sB,"dB") +
+        '<feColorMatrix in="dR" type="matrix" values="'+cmR+'" result="cR"/>'+
+        '<feColorMatrix in="dG" type="matrix" values="'+cmG+'" result="cG"/>'+
+        '<feColorMatrix in="dB" type="matrix" values="'+cmB+'" result="cB"/>'+
+        '<feBlend in="cR" in2="cG" mode="screen" result="rg"/>'+
+        '<feBlend in="rg" in2="cB" mode="screen" result="rgb"/>'+
+        '<feGaussianBlur in="rgb" stdDeviation="'+blur+'"/>'+
+      '</filter>';
+    }
+
+    function processTile(tile){
+      var defs = tile.querySelector(".gl-defs defs");
+      if (!defs) return;
+      var uid = tile.getAttribute("data-gl-uid");
+      if (!uid){ uid = "glx" + Math.random().toString(36).slice(2,7); tile.setAttribute("data-gl-uid", uid); }
+      var els = tile.querySelectorAll(".gl-glass");
+      els.forEach(function(el, k){
+        var rect = el.getBoundingClientRect();
+        var w = Math.round(rect.width), h = Math.round(rect.height);
+        if (w < 8 || h < 8) return;
+        var cs = getComputedStyle(el);
+        var radius = parseFloat(cs.borderTopLeftRadius) || 0;
+        radius = Math.min(radius, Math.min(w,h)/2);
+        if (radius < 2) return;
+        var bevel = Math.max(5, Math.min(44, radius * 0.55));
+        var scale = Math.max(10, Math.min(62, radius * 0.82));
+        var resMax = Math.max(w,h) > 240 ? 300 : 200;
+        var uri = bakeNormalMap(w, h, Math.round(radius), Math.round(bevel), 3, resMax);
+        var fid = uid + "-f" + k;
+        var existing = defs.querySelector("#" + (window.CSS && CSS.escape ? CSS.escape(fid) : fid));
+        var wrap = document.createElementNS(SVGNS, "svg");
+        wrap.innerHTML = filterMarkup(fid, uri, w, h, scale, 0.17, 0.5);
+        var filt = wrap.firstElementChild;
+        if (existing) existing.replaceWith(filt); else defs.appendChild(filt);
+        el.style.setProperty("--gl-filter", "url(#" + fid + ")");
+      });
+    }
+
+    function run(){
+      var tiles = document.querySelectorAll('.pg-tile[data-lang="glassmorphic"]');
+      tiles.forEach(function(t){
+        if (t.offsetParent !== null || t.getClientRects().length) processTile(t);
+      });
+    }
+
+    var rafId = 0;
+    function schedule(){
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(function(){
+        rafId = requestAnimationFrame(run);
+      });
+    }
+    window.__helthyGlassInit = schedule;
+    window.HelthyGlass = { run: schedule };
+
+    if (document.readyState === "loading"){
+      document.addEventListener("DOMContentLoaded", schedule);
+    } else {
+      schedule();
+    }
+    if (document.fonts && document.fonts.ready){ document.fonts.ready.then(schedule); }
+
+    var rTimer = 0;
+    window.addEventListener("resize", function(){
+      clearTimeout(rTimer); rTimer = setTimeout(schedule, 160);
+    });
+
+    // re-bake when the shell mutates :root vars (radius/blur) or toggles theme
+    try {
+      var mo = new MutationObserver(schedule);
+      mo.observe(document.documentElement, { attributes:true, attributeFilter:["style","data-theme"] });
+    } catch(e){}
+
+    if (window.ResizeObserver){
+      var ro = new ResizeObserver(function(){ schedule(); });
+      document.querySelectorAll('.pg-tile[data-lang="glassmorphic"]').forEach(function(t){ ro.observe(t); });
+      window.__helthyGlassRO = ro;
+    }
+  })();
+  </script>
+</div>

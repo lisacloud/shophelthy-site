@@ -1,0 +1,191 @@
+<!-- neumorphic tile — soft monochrome clay extrusion. Scoped under .pg-tile[data-lang="neumorphic"]. -->
+<div class="pg-tile" data-lang="neumorphic">
+
+  <!-- ============================ SURFACE A — App screen ============================ -->
+  <section class="pg-surface-app">
+    <div class="neu-stage neu-stage--app">
+      <div class="neu-phone neu-raised-lg">
+        <span class="neu-notch" aria-hidden="true"></span>
+        <div class="neu-phone-inner">
+
+          <header class="neu-topbar">
+            <button class="neu-icon-btn neu-pressed-sm" type="button" aria-label="Back">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <span class="neu-wordmark">
+              <span class="neu-logo neu-raised-sm" aria-hidden="true"></span>
+              <span data-pg-slot="brand">Helthy</span>
+            </span>
+            <span class="neu-topbar-pad" aria-hidden="true"></span>
+          </header>
+
+          <!-- SIGNATURE: debossed score dial -->
+          <div class="neu-dial-wrap">
+            <div class="neu-dial neu-pressed-lg">
+              <svg class="neu-dial-arc" viewBox="0 0 100 100" aria-hidden="true">
+                <circle class="neu-arc-track" cx="50" cy="50" r="42"></circle>
+                <circle class="neu-arc-fill"  cx="50" cy="50" r="42"></circle>
+              </svg>
+              <div class="neu-dial-face neu-raised-md">
+                <span class="neu-score" data-pg-slot="scoreValue">88</span>
+                <span class="neu-score-chip neu-pressed-sm">
+                  <i class="neu-dot neu-dot--good" aria-hidden="true"></i>
+                  <span data-pg-slot="scoreLabel">GOOD</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="neu-product">
+            <h2 class="neu-product-name" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</h2>
+            <p class="neu-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+          </div>
+
+          <ul class="neu-why">
+            <li class="neu-why-row neu-pressed-sm">
+              <span class="neu-why-icon neu-fill--good" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 13l4 4 10-11"/></svg>
+              </span>
+              <span class="neu-why-label" data-pg-slot="whyLabel">High protein</span>
+              <span class="neu-why-value" data-pg-slot="whyValue">11 g</span>
+            </li>
+            <li class="neu-why-row neu-pressed-sm">
+              <span class="neu-why-icon neu-fill--good" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 13l4 4 10-11"/></svg>
+              </span>
+              <span class="neu-why-label" data-pg-slot="whyLabel">No added sugar</span>
+              <span class="neu-why-value" data-pg-slot="whyValue">0 g</span>
+            </li>
+            <li class="neu-why-row neu-pressed-sm">
+              <span class="neu-why-icon neu-fill--ok" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 7v7"/><path d="M12 17.5h.02"/></svg>
+              </span>
+              <span class="neu-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+              <span class="neu-why-value" data-pg-slot="whyValue">65 mg</span>
+            </li>
+          </ul>
+
+          <div class="neu-picks">
+            <h3 class="neu-picks-title">Better-scoring picks</h3>
+            <div class="neu-picks-row">
+              <div class="neu-pick neu-raised-sm">
+                <span class="neu-pick-badge neu-pressed-sm">
+                  <i class="neu-dot neu-dot--good" aria-hidden="true"></i>
+                  <span data-pg-slot="pickScore">91</span>
+                </span>
+                <span class="neu-pick-label">Plain skyr</span>
+              </div>
+              <div class="neu-pick neu-raised-sm">
+                <span class="neu-pick-badge neu-pressed-sm">
+                  <i class="neu-dot neu-dot--good" aria-hidden="true"></i>
+                  <span data-pg-slot="pickScore">90</span>
+                </span>
+                <span class="neu-pick-label">Greek 2%</span>
+              </div>
+              <div class="neu-pick neu-raised-sm">
+                <span class="neu-pick-badge neu-pressed-sm">
+                  <i class="neu-dot neu-dot--good" aria-hidden="true"></i>
+                  <span data-pg-slot="pickScore">86</span>
+                </span>
+                <span class="neu-pick-label">Low-fat kefir</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="neu-cta neu-cta--primary neu-raised-md" type="button" data-pg-slot="appCta">
+            <svg class="neu-cta-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M4 12h16"/></svg>
+            <span>Scan another</span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ SURFACE B — Website hero ============================ -->
+  <section class="pg-surface-web">
+    <div class="neu-stage neu-stage--web">
+      <div class="neu-hero">
+
+        <header class="neu-web-nav">
+          <span class="neu-wordmark neu-wordmark--lg">
+            <span class="neu-logo neu-raised-sm" aria-hidden="true"></span>
+            <span data-pg-slot="brand">Helthy</span>
+          </span>
+          <nav class="neu-nav-links" aria-label="Primary">
+            <a href="#" class="neu-nav-link" data-pg-slot="navItem">How it works</a>
+            <a href="#" class="neu-nav-link" data-pg-slot="navItem">Science</a>
+            <a href="#" class="neu-nav-link" data-pg-slot="navItem">Beta</a>
+          </nav>
+        </header>
+
+        <div class="neu-hero-body">
+          <div class="neu-hero-copy">
+            <span class="neu-kicker neu-pressed-sm" data-pg-slot="heroKicker">The food scanner for blood sugar</span>
+            <h1 class="neu-headline" data-pg-slot="heroHeadline">Know if it&rsquo;s right for your blood sugar &mdash; before you buy.</h1>
+            <p class="neu-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+            <div class="neu-hero-ctas">
+              <button class="neu-cta neu-cta--primary neu-raised-md" type="button" data-pg-slot="heroPrimaryCta">Join the beta</button>
+              <button class="neu-cta neu-cta--ghost neu-raised-md" type="button" data-pg-slot="heroSecondaryCta">
+                <span>See how it works</span>
+                <svg class="neu-cta-glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+            <p class="neu-trust" data-pg-slot="trustLine">Built with dietitians &middot; Open Food Facts + USDA nutrition</p>
+          </div>
+
+          <div class="neu-hero-mock" aria-hidden="false">
+            <div class="neu-phone neu-phone--mini neu-raised-lg">
+              <span class="neu-notch" aria-hidden="true"></span>
+              <div class="neu-phone-inner">
+                <header class="neu-topbar neu-topbar--mini">
+                  <span class="neu-wordmark">
+                    <span class="neu-logo neu-raised-sm" aria-hidden="true"></span>
+                    <span data-pg-slot="brand">Helthy</span>
+                  </span>
+                </header>
+                <div class="neu-dial-wrap neu-dial-wrap--mini">
+                  <div class="neu-dial neu-dial--mini neu-pressed-lg">
+                    <svg class="neu-dial-arc" viewBox="0 0 100 100" aria-hidden="true">
+                      <circle class="neu-arc-track" cx="50" cy="50" r="42"></circle>
+                      <circle class="neu-arc-fill"  cx="50" cy="50" r="42"></circle>
+                    </svg>
+                    <div class="neu-dial-face neu-raised-md">
+                      <span class="neu-score" data-pg-slot="scoreValue">88</span>
+                      <span class="neu-score-chip neu-pressed-sm">
+                        <i class="neu-dot neu-dot--good" aria-hidden="true"></i>
+                        <span data-pg-slot="scoreLabel">GOOD</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="neu-product neu-product--mini">
+                  <h2 class="neu-product-name" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</h2>
+                  <p class="neu-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+                </div>
+                <ul class="neu-why neu-why--mini">
+                  <li class="neu-why-row neu-pressed-sm">
+                    <span class="neu-why-icon neu-fill--good" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="M5 13l4 4 10-11"/></svg>
+                    </span>
+                    <span class="neu-why-label" data-pg-slot="whyLabel">High protein</span>
+                    <span class="neu-why-value" data-pg-slot="whyValue">11 g</span>
+                  </li>
+                  <li class="neu-why-row neu-pressed-sm">
+                    <span class="neu-why-icon neu-fill--ok" aria-hidden="true">
+                      <svg viewBox="0 0 24 24"><path d="M12 7v7"/><path d="M12 17.5h.02"/></svg>
+                    </span>
+                    <span class="neu-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+                    <span class="neu-why-value" data-pg-slot="whyValue">65 mg</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>

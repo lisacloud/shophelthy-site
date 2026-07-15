@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helthy Playground — editorial tile preview</title>
+
+  <!-- Google Fonts: Archivo (grotesk display/UI) + Newsreader (editorial serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="tile.css">
+  <style>
+    :root{ --pg-bg:#ECEDE7; }
+    :root[data-theme="dark"]{ --pg-bg:#0F1714; }
+    html,body{ margin:0; background:var(--pg-bg); }
+    .pv-wrap{ display:flex; flex-direction:column; }
+    .pv-label{
+      font:600 11px/1 "Archivo", system-ui, sans-serif;
+      letter-spacing:.2em; text-transform:uppercase;
+      color:#8a948c; padding:18px 24px 0;
+    }
+    .pv-toggle{
+      position:fixed; top:14px; right:16px; z-index:9;
+      font:600 11px/1 "Archivo", system-ui, sans-serif;
+      letter-spacing:.12em; text-transform:uppercase;
+      background:#161A17; color:#FBFAF6; border:0; border-radius:3px;
+      padding:9px 13px; cursor:pointer;
+    }
+    :root[data-theme="dark"] .pv-toggle{ background:#EAF3EE; color:#0F1714; }
+  </style>
+</head>
+<body>
+  <button class="pv-toggle" id="pv-toggle" type="button">Toggle theme</button>
+  <div class="pv-wrap">
+
+    <p class="pv-label">Surface A — App</p>
+    <div class="pg-tile" data-lang="editorial">
+      <section class="pg-surface-app">
+        <div class="ed-stage ed-stage--app">
+          <article class="ed-phone">
+            <header class="ed-mast">
+              <button class="ed-back" type="button" aria-label="Back">&lsaquo;</button>
+              <span class="ed-wordmark" data-pg-slot="brand">Helthy</span>
+              <span class="ed-section">Scan result</span>
+            </header>
+            <div class="ed-screen">
+              <p class="ed-kicker"><span class="ed-kicker-rule"></span>Nutrition score</p>
+              <div class="ed-score">
+                <div class="ed-ring">
+                  <svg viewBox="0 0 160 160" aria-hidden="true">
+                    <circle class="ed-ring-track" cx="80" cy="80" r="70"></circle>
+                    <circle class="ed-ring-arc" cx="80" cy="80" r="70" stroke-dasharray="387 440" stroke-dashoffset="0"></circle>
+                  </svg>
+                  <span class="ed-score-num ed-num" data-pg-slot="scoreValue">88</span>
+                </div>
+                <div class="ed-score-meta">
+                  <p class="ed-verdict" data-pg-slot="scoreLabel">Good</p>
+                  <p class="ed-score-foot">Scores <span class="ed-num">88</span> of 100</p>
+                </div>
+              </div>
+              <hr class="ed-hr">
+              <h1 class="ed-product" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</h1>
+              <p class="ed-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+              <hr class="ed-hr">
+              <ul class="ed-why">
+                <li class="ed-why-row ed-why--good">
+                  <span class="ed-tick"></span>
+                  <span class="ed-why-label" data-pg-slot="whyLabel">High protein</span>
+                  <span class="ed-why-value ed-num" data-pg-slot="whyValue">11 g</span>
+                </li>
+                <li class="ed-why-row ed-why--good">
+                  <span class="ed-tick"></span>
+                  <span class="ed-why-label" data-pg-slot="whyLabel">No added sugar</span>
+                  <span class="ed-why-value ed-num" data-pg-slot="whyValue">0 g</span>
+                </li>
+                <li class="ed-why-row ed-why--ok">
+                  <span class="ed-tick"></span>
+                  <span class="ed-why-label" data-pg-slot="whyLabel">Watch sodium</span>
+                  <span class="ed-why-value ed-num" data-pg-slot="whyValue">65 mg</span>
+                </li>
+              </ul>
+              <hr class="ed-hr">
+              <p class="ed-kicker"><span class="ed-kicker-rule"></span>Better-scoring picks</p>
+              <ol class="ed-picks">
+                <li class="ed-pick">
+                  <span class="ed-pick-name">Plain skyr, nonfat</span>
+                  <span class="ed-pick-dots" aria-hidden="true"></span>
+                  <span class="ed-pick-score ed-num" data-pg-slot="pickScore">91</span>
+                </li>
+                <li class="ed-pick">
+                  <span class="ed-pick-name">Greek yogurt, 2%</span>
+                  <span class="ed-pick-dots" aria-hidden="true"></span>
+                  <span class="ed-pick-score ed-num" data-pg-slot="pickScore">90</span>
+                </li>
+                <li class="ed-pick">
+                  <span class="ed-pick-name">Plain kefir, low-fat</span>
+                  <span class="ed-pick-dots" aria-hidden="true"></span>
+                  <span class="ed-pick-score ed-num" data-pg-slot="pickScore">86</span>
+                </li>
+              </ol>
+              <button class="ed-cta" type="button" data-pg-slot="appCta">Scan another</button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <p class="pv-label">Surface B — Web hero</p>
+    <div class="pg-tile" data-lang="editorial">
+      <section class="pg-surface-web">
+        <div class="ed-stage ed-stage--web">
+          <div class="ed-hero">
+            <header class="ed-topbar">
+              <span class="ed-wordmark" data-pg-slot="brand">Helthy</span>
+              <nav class="ed-nav" aria-label="Primary">
+                <a href="#" data-pg-slot="navItem">How it works</a>
+                <a href="#" data-pg-slot="navItem">Science</a>
+                <a href="#" data-pg-slot="navItem">Beta</a>
+              </nav>
+            </header>
+            <hr class="ed-hr ed-hr--top">
+            <div class="ed-hero-grid">
+              <div class="ed-hero-copy">
+                <p class="ed-kicker ed-kicker--hero">
+                  <span class="ed-kicker-rule"></span>
+                  <span data-pg-slot="heroKicker">Food scoring for blood sugar</span>
+                </p>
+                <h1 class="ed-headline" data-pg-slot="heroHeadline">Know if it&rsquo;s right for your blood sugar &mdash; before you buy.</h1>
+                <p class="ed-subhead" data-pg-slot="heroSubhead">Scan any food. Helthy reads the label, checks it against your blood-sugar goals, and shows you better picks in seconds.</p>
+                <div class="ed-cta-row">
+                  <button class="ed-cta ed-cta--primary" type="button" data-pg-slot="heroPrimaryCta">Join the beta</button>
+                  <button class="ed-cta ed-cta--ghost" type="button" data-pg-slot="heroSecondaryCta">See how it works</button>
+                </div>
+              </div>
+              <aside class="ed-hero-mock" aria-label="App preview">
+                <article class="ed-phone ed-phone--mock">
+                  <header class="ed-mast">
+                    <button class="ed-back" type="button" aria-label="Back" tabindex="-1">&lsaquo;</button>
+                    <span class="ed-wordmark" data-pg-slot="brand">Helthy</span>
+                    <span class="ed-section">Scan result</span>
+                  </header>
+                  <div class="ed-screen">
+                    <p class="ed-kicker"><span class="ed-kicker-rule"></span>Nutrition score</p>
+                    <div class="ed-score">
+                      <div class="ed-ring">
+                        <svg viewBox="0 0 160 160" aria-hidden="true">
+                          <circle class="ed-ring-track" cx="80" cy="80" r="70"></circle>
+                          <circle class="ed-ring-arc" cx="80" cy="80" r="70" stroke-dasharray="387 440" stroke-dashoffset="0"></circle>
+                        </svg>
+                        <span class="ed-score-num ed-num" data-pg-slot="scoreValue">88</span>
+                      </div>
+                      <div class="ed-score-meta">
+                        <p class="ed-verdict" data-pg-slot="scoreLabel">Good</p>
+                        <p class="ed-score-foot">Scores <span class="ed-num">88</span> of 100</p>
+                      </div>
+                    </div>
+                    <hr class="ed-hr">
+                    <h2 class="ed-product" data-pg-slot="productName">Siggi&rsquo;s Plain Whole-Milk Yogurt</h2>
+                    <p class="ed-product-meta" data-pg-slot="productMeta">Skyr &middot; 4.4 oz cup</p>
+                  </div>
+                </article>
+              </aside>
+            </div>
+            <hr class="ed-hr ed-hr--bottom">
+            <p class="ed-trust" data-pg-slot="trustLine">Built with dietitians &middot; Open Food Facts + USDA nutrition</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </div>
+
+  <script>
+    // standalone-preview helpers: ?theme=dark and a toggle button
+    const root = document.documentElement;
+    if (new URLSearchParams(location.search).get('theme') === 'dark') root.setAttribute('data-theme','dark');
+    document.getElementById('pv-toggle').addEventListener('click', () => {
+      root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  </script>
+</body>
+</html>

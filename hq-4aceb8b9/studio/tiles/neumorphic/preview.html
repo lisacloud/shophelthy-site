@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Helthy · neumorphic tile preview</title>
+
+<!-- Google Fonts for this language: Quicksand (display) + Nunito (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="tile.css">
+<style>
+  /* Standalone shell only — the playground supplies these :root tokens live.
+     The tile reads them via var(--pg-*); here we just seed the SPEC §1 defaults. */
+  :root{
+    --pg-bg:#eef3f0; --pg-surface:#ffffff; --pg-ink:#14241d; --pg-ink-soft:#5c6f67;
+    --pg-primary:#2f9e72; --pg-accent:#f4b740;
+    --pg-good:#2f9e72; --pg-ok:#e8a13a; --pg-avoid:#d8584f;
+    --pg-font-head:"Fraunces",Georgia,serif; --pg-font-body:"Inter",system-ui,sans-serif;
+    --pg-radius:20px; --pg-elevation:1; --pg-blur:14px; --pg-density:1;
+  }
+  :root[data-theme="dark"]{ --pg-bg:#0f1714; --pg-surface:#172420; --pg-ink:#eaf3ee; --pg-ink-soft:#9fb3aa; }
+  html,body{ margin:0; }
+  body{ background:var(--pg-bg); transition:background .2s ease; }
+  .pv-section-label{
+    font:700 12px/1 "Nunito",system-ui,sans-serif; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--pg-ink-soft); padding:26px clamp(20px,4vw,44px) 0;
+  }
+</style>
+</head>
+<body>
+  <div id="mount"></div>
+
+  <script>
+    // Pull the tile markup in (served over http) so preview and shell share one source of truth.
+    fetch('tile.html')
+      .then(function(r){ return r.text(); })
+      .then(function(html){
+        document.getElementById('mount').innerHTML =
+          '<p class="pv-section-label">Surface A — app</p>' + html;
+        // tile.html holds both surfaces in one .pg-tile; add a label before the web surface too.
+        var web = document.querySelector('.pg-surface-web');
+        if (web){
+          var lbl = document.createElement('p');
+          lbl.className = 'pv-section-label';
+          lbl.textContent = 'Surface B — website hero';
+          web.parentNode.insertBefore(lbl, web);
+        }
+      });
+
+    // ?theme=dark for verification screenshots.
+    if (new URLSearchParams(location.search).get('theme') === 'dark'){
+      document.documentElement.setAttribute('data-theme','dark');
+    }
+  </script>
+</body>
+</html>
