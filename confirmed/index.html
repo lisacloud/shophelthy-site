@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Email confirmed — Helthy</title>
+<meta name="description" content="Your Helthy account email has been confirmed." />
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#386840; --green-deep:#2a5232; --green-soft:#5a9a6f;
+  --leaf:#F2FCE2; --leaf-line:#dcedc8; --paper:#fbfaf7; --card:#ffffff;
+  --ink:#25291f; --ink-soft:#54594a; --ink-faint:#9aa191; --hairline:#e6e4dc;
+  /* Amber is this page's only new token. It exists so the "link expired" state is
+     not a shade of the brand green — a status colour must never share a hex with a
+     decorative one. Measured 5.18:1 on --paper. */
+  --amber:#9a5b16; --amber-wash:#fdf4e7; --amber-line:#f0dcc0;
+  --serif:"Fraunces",Georgia,serif; --sans:"Instrument Sans",-apple-system,"Helvetica Neue",sans-serif;
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{ font-family:var(--sans); color:var(--ink); background:var(--paper); line-height:1.65; -webkit-font-smoothing:antialiased; min-height:100vh; display:flex; flex-direction:column; }
+a{ color:var(--green); text-decoration:none; } a:hover{ text-decoration:underline; }
+a:focus-visible, .btn:focus-visible{ outline:2px solid var(--green-deep); outline-offset:3px; border-radius:4px; }
+
+header{ border-bottom:1px solid var(--hairline); }
+.nav{ max-width:1080px; margin:0 auto; padding:0 24px; display:flex; align-items:center; height:66px; }
+.brand{ display:flex; align-items:center; gap:10px; font-family:var(--serif); font-weight:600; font-size:21px; color:var(--green-deep); }
+.brand .mark{ width:30px; height:30px; border-radius:8px; background:var(--green); color:#fff; display:grid; place-items:center; font-family:var(--serif); font-weight:600; font-size:17px; }
+
+main{ flex:1; display:flex; align-items:center; justify-content:center; padding:48px 24px 72px; }
+.panel{ width:100%; max-width:520px; text-align:center; }
+
+.badge{ width:76px; height:76px; margin:0 auto 26px; border-radius:50%; display:grid; place-items:center;
+  background:var(--leaf); border:1px solid var(--leaf-line); color:var(--green);
+  animation:rise .45s cubic-bezier(.2,.7,.3,1) both; }
+.badge svg{ width:38px; height:38px; }
+@keyframes rise{ from{ opacity:0; transform:translateY(8px) scale(.94); } to{ opacity:1; transform:none; } }
+
+h1{ font-family:var(--serif); font-weight:600; font-size:clamp(30px,6vw,42px); line-height:1.1; letter-spacing:-.02em; color:var(--ink); }
+.lede{ font-size:17px; color:var(--ink-soft); margin-top:14px; }
+
+.next{ background:var(--leaf); border:1px solid var(--leaf-line); border-radius:16px;
+  padding:22px 24px; margin-top:32px; text-align:left; }
+/* --green, not the site's usual --green-soft eyebrow: green-soft measures 3.15:1 on
+   --leaf, which fails 4.5:1 at this size. --green measures 6.14:1. */
+.next .label{ display:block; font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--green); }
+.next p{ margin-top:9px; font-size:17px; color:var(--ink); }
+.next p + p{ margin-top:10px; font-size:15px; color:var(--ink-soft); }
+
+.btn{ display:inline-flex; align-items:center; justify-content:center; min-height:48px; margin-top:22px;
+  padding:12px 26px; border-radius:999px; background:var(--green); color:#fff;
+  font-family:var(--sans); font-size:16px; font-weight:600; }
+.btn:hover{ background:var(--green-deep); text-decoration:none; }
+
+/* --ink-soft (6.93:1), not --ink-faint (2.55:1 — fails). This is the line a stuck
+   person reads, so it is the last place to spend contrast. */
+.aside{ margin-top:26px; font-size:15px; color:var(--ink-soft); }
+/* inline-block + padding gets the mail link to a 44px touch target without
+   breaking the sentence it sits in. */
+.aside a{ display:inline-block; padding:10px 2px; color:var(--green); font-weight:500; text-decoration:underline; }
+
+footer{ border-top:1px solid var(--hairline); padding:26px 0; }
+.foot{ max-width:1080px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:center; gap:24px; flex-wrap:wrap; font-size:14px; }
+.foot a{ color:var(--ink-soft); } .foot a:hover{ color:var(--green-deep); text-decoration:none; }
+
+/* "Link expired" state. Colour is never the only carrier: the glyph and the
+   headline both change with it. */
+body[data-state="expired"] .badge{ background:var(--amber-wash); border-color:var(--amber-line); color:var(--amber); }
+body[data-state="expired"] .next{ background:var(--amber-wash); border-color:var(--amber-line); }
+body[data-state="expired"] .next .label{ color:var(--amber); }
+
+@media (prefers-reduced-motion:reduce){
+  .badge{ animation:none; }
+}
+</style>
+</head>
+<body data-state="confirmed">
+
+<header>
+  <div class="nav">
+    <a href="/" class="brand"><span class="mark">H</span>Helthy</a>
+  </div>
+</header>
+
+<main>
+  <div class="panel">
+
+    <!-- Both glyphs are hand-drawn on Lucide's grid (24x24, 2px stroke, round caps
+         and joins) rather than taken from the library, so the page stays a single
+         self-contained file with no icon dependency. -->
+    <div class="badge" id="badge">
+      <svg id="glyph-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21.8 10.9V12a10 10 0 1 1-5.9-9.1"/>
+        <path d="M9 11.5 12 14.5 22 4.6"/>
+      </svg>
+      <svg id="glyph-expired" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
+        <circle cx="12" cy="12" r="9.25"/>
+        <path d="M12 7.25v5.25l3.25 2"/>
+      </svg>
+    </div>
+
+    <h1 id="headline">You're all set</h1>
+    <p class="lede" id="lede">Your email address is confirmed and your Helthy account is ready to use.</p>
+
+    <div class="next">
+      <span class="label" id="next-label">Next step</span>
+      <p id="next-body">Reopen the <strong>Helthy</strong> app on your phone and sign in with the email and password you just used.</p>
+      <p id="next-note">You can close this page. Signing in happens in the app, not here.</p>
+    </div>
+
+    <p class="aside" id="aside">Something not working? Email <a href="mailto:lisa@shophelthy.com">lisa@shophelthy.com</a> and we'll sort it out.</p>
+
+  </div>
+</main>
+
+<footer>
+  <div class="foot">
+    <a href="/">About Helthy</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/terms.html">Terms of Use</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // Supabase redirects here after /auth/v1/verify. A success carries the session in
+  // the URL fragment; a failure carries error fields. Older and newer GoTrue builds
+  // disagree about fragment vs query string, so read both.
+  var hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+  var query = new URLSearchParams(location.search);
+  var get = function (k) { return hash.get(k) || query.get(k); };
+
+  var error = get('error') || get('error_code');
+  var errorDesc = (get('error_description') || '').toLowerCase();
+
+  if (error) {
+    var expired = /expire|invalid/.test(errorDesc) || /expired/.test(error);
+    document.body.setAttribute('data-state', 'expired');
+    document.getElementById('glyph-ok').style.display = 'none';
+    document.getElementById('glyph-expired').style.display = '';
+    document.getElementById('headline').textContent =
+      expired ? 'This link has expired' : "That link didn't work";
+    document.getElementById('lede').textContent =
+      expired
+        ? 'Confirmation links are single-use and time out after an hour. Your account still exists, it just needs a fresh link.'
+        : 'We could not confirm your email from that link. Your account still exists.';
+    document.getElementById('next-label').textContent = 'What to do';
+    document.getElementById('next-body').innerHTML =
+      'Open the <strong>Helthy</strong> app and try signing in. If it says your email is not confirmed, sign up again with the same address to get a new link.';
+    document.getElementById('next-note').textContent =
+      'Open the new email on your phone and tap the link within the hour.';
+  }
+
+  // The session tokens arrive in the fragment. Nothing on this page uses them, and
+  // leaving them in the address bar means they get copied into a screenshot or a
+  // shared URL, so drop them as soon as we have read the state.
+  if (location.hash || location.search) {
+    history.replaceState(null, '', location.pathname);
+  }
+})();
+</script>
+
+</body>
+</html>
