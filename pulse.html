@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Helthy weekly check-in</title>
+<meta name="description" content="A 2-minute check-in on your week with Helthy." />
+<meta name="robots" content="noindex" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --green:      #386840;
+  --green-deep: #2a5232;
+  --green-soft: #5a9a6f;
+  --leaf:       #F2FCE2;
+  --leaf-line:  #dcedc8;
+  --paper:      #fbfaf7;
+  --card:       #ffffff;
+  --ink:        #25291f;
+  --ink-soft:   #6b7263;
+  --ink-faint:  #9aa191;
+  --hairline:   #e6e4dc;
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Instrument Sans", -apple-system, "Helvetica Neue", sans-serif;
+  --maxw: 1440px;
+  --site-margin: clamp(1.25rem, 0.28rem + 4.14vw, 4rem);
+  --wrap-pad:    clamp(2.5rem, 1.97rem + 2.26vw, 4rem);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{ color:inherit; text-decoration:none; }
+.wrap{ width:calc(100% - var(--site-margin)*2); max-width:var(--maxw); margin:0 auto; padding:0 var(--wrap-pad); }
+
+header{
+  position:sticky; top:0; z-index:50;
+  background:rgba(251,250,247,.85);
+  backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--hairline);
+}
+.nav{ display:flex; align-items:center; justify-content:space-between; height:72px; }
+.brand{
+  display:flex; align-items:center; gap:11px;
+  font-family:var(--serif); font-weight:600; font-size:23px; letter-spacing:-.01em;
+  color:var(--green-deep);
+}
+.brand .mark{
+  width:34px; height:34px; border-radius:9px;
+  background:var(--green); color:#fff;
+  display:grid; place-items:center;
+  font-family:var(--serif); font-weight:600; font-size:20px;
+  box-shadow:0 2px 8px rgba(56,104,64,.28);
+}
+
+.pulse{
+  padding:56px 0 88px;
+  background:
+    radial-gradient(1100px 600px at 88% 6%, var(--leaf) 0%, transparent 55%),
+    var(--paper);
+}
+.pulse-card{
+  background:var(--card); border:1px solid var(--hairline); border-radius:26px;
+  padding:48px 48px 40px; box-shadow:0 1px 2px rgba(37,41,31,.04);
+  max-width:640px; margin:0 auto;
+}
+.eyebrow{
+  display:inline-block;
+  font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--green-soft);
+  background:var(--leaf); border:1px solid var(--leaf-line);
+  padding:6px 14px; border-radius:999px;
+  margin-bottom:20px;
+}
+.pulse-card h1{
+  font-family:var(--serif); font-weight:600;
+  font-size:clamp(26px, 3.4vw, 34px); line-height:1.14; letter-spacing:-.02em;
+}
+.pulse-card p.lede{ margin-top:14px; font-size:16px; color:var(--ink-soft); }
+
+.q{ margin:26px 0; }
+.q-label{ display:block; font-size:15px; font-weight:600; color:var(--ink); margin-bottom:10px; }
+.q-label em{ font-style:normal; font-weight:500; font-size:13px; color:var(--ink-faint); }
+
+.opts{ display:flex; flex-direction:column; gap:8px; }
+.opt{
+  display:flex; align-items:center; gap:10px;
+  padding:11px 14px; border:1px solid var(--hairline); border-radius:10px;
+  background:var(--paper); cursor:pointer;
+  font-size:14.5px; font-weight:500; color:var(--ink);
+  transition:background .15s, border-color .15s;
+}
+.opt:hover{ border-color:var(--green-soft); }
+.opt input{ accent-color:var(--green); width:17px; height:17px; margin:0; flex-shrink:0; cursor:pointer; }
+.opt:has(input:checked){ background:var(--leaf); border-color:var(--green); color:var(--green-deep); }
+
+.beta-field label{ display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:6px; }
+.beta-field input, .beta-field textarea{
+  width:100%; padding:12px 14px; border:1px solid var(--hairline); border-radius:11px;
+  font-family:inherit; font-size:15px; background:var(--paper); color:var(--ink);
+}
+.beta-field textarea{ resize:vertical; min-height:72px; }
+.beta-field input:focus, .beta-field textarea:focus{ outline:none; border-color:var(--green); box-shadow:0 0 0 3px rgba(56,104,64,.13); }
+.idrow{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:24px; }
+#qAvailability{ display:none; }
+#qAvailability.show{ display:block; }
+
+.beta-error{ color:#c0392b; font-size:13.5px; display:none; margin-bottom:12px; }
+.beta-submit{
+  width:100%; background:var(--green); color:#fff; border:0; border-radius:999px;
+  padding:15px; font-family:inherit; font-weight:600; font-size:15.5px; cursor:pointer;
+  transition:transform .15s;
+}
+.beta-submit:hover{ transform:translateY(-1px); }
+.beta-submit:disabled{ opacity:.6; cursor:default; transform:none; }
+.beta-note{ font-size:12px; color:var(--ink-faint); text-align:center; margin-top:10px; }
+
+.confirm-overlay{ position:fixed; inset:0; background:rgba(20,23,15,.55); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; z-index:100; padding:20px; }
+.confirm-overlay.open{ display:flex; }
+.confirm-modal{
+  background:var(--card); border-radius:22px; max-width:420px; width:100%;
+  padding:38px 32px 30px; box-shadow:0 30px 70px rgba(0,0,0,.3);
+  text-align:center; animation:confirmIn .22s ease;
+}
+@keyframes confirmIn{ from{ opacity:0; transform:translateY(12px) scale(.98); } to{ opacity:1; transform:none; } }
+.confirm-modal .tick{
+  width:58px; height:58px; border-radius:50%;
+  background:var(--leaf); border:1px solid var(--leaf-line); color:var(--green);
+  display:grid; place-items:center; font-size:28px; margin:0 auto 16px;
+}
+.confirm-modal h2{ font-family:var(--serif); font-weight:600; font-size:24px; color:var(--green-deep); margin-bottom:10px; }
+.confirm-modal p{ color:var(--ink-soft); font-size:15px; }
+.confirm-btn{ margin-top:22px; background:var(--green); color:#fff; border:0; border-radius:999px; padding:12px 34px; font-family:inherit; font-weight:600; font-size:15px; cursor:pointer; transition:transform .15s; }
+.confirm-btn:hover{ transform:translateY(-1px); }
+
+.pulse-success{ display:none; text-align:center; padding:48px 0; }
+.pulse-success .tick{
+  width:58px; height:58px; border-radius:50%;
+  background:var(--leaf); border:1px solid var(--leaf-line); color:var(--green);
+  display:grid; place-items:center; font-size:28px; margin:0 auto 16px;
+}
+.pulse-success h2{ font-family:var(--serif); font-weight:600; font-size:26px; color:var(--green-deep); margin-bottom:8px; }
+.pulse-success p{ color:var(--ink-soft); font-size:15px; }
+
+footer{ padding:40px 0; }
+.foot-note{ text-align:center; font-size:13px; color:var(--ink-faint); }
+
+/* ---------- Responsive (must stay LAST in this stylesheet: these overrides
+   lose to any equal-specificity rule written after them) ---------- */
+@media (max-width:860px){
+  .wrap{ padding-left:0; padding-right:0; }
+  .pulse{ padding:32px 0 64px; }
+  .pulse-card{ padding:32px 22px 30px; }
+  .idrow{ grid-template-columns:1fr; }
+  .beta-field input, .beta-field textarea{ font-size:16px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand"><span class="mark">H</span>Helthy</a>
+  </div>
+</header>
+
+<section class="pulse">
+  <div class="wrap">
+    <div class="pulse-card">
+
+      <div id="pulseFormWrap">
+        <span class="eyebrow">Weekly check-in</span>
+        <h1>How was your week with Helthy?</h1>
+        <p class="lede">Two minutes, seven quick questions — your honest answers each week are what shape the app.</p>
+
+        <form id="pulseForm" novalidate>
+
+          <div class="idrow">
+            <div class="beta-field"><label for="pName">Name</label><input id="pName" type="text" autocomplete="name" required></div>
+            <div class="beta-field"><label for="pEmail">Email</label><input id="pEmail" type="email" autocomplete="email" required></div>
+          </div>
+
+          <div class="q" data-q="shopped">
+            <span class="q-label">1. Did you go grocery shopping this past week?</span>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="shopped" value="Yes"> Yes</label>
+              <label class="opt"><input type="radio" name="shopped" value="No"> No</label>
+            </div>
+          </div>
+
+          <div class="q" data-q="used">
+            <span class="q-label">2. Did you use Helthy this past week?</span>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="used" value="Yes — at the store"> Yes — at the store</label>
+              <label class="opt"><input type="radio" name="used" value="Yes — at home"> Yes — at home</label>
+              <label class="opt"><input type="radio" name="used" value="Both"> Both</label>
+              <label class="opt"><input type="radio" name="used" value="Not this week"> Not this week</label>
+            </div>
+          </div>
+
+          <div class="q" data-q="changed">
+            <span class="q-label">3. Did Helthy change a decision this week — a swap, a skip, or a new pick?</span>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="changed" value="Yes, more than once"> Yes, more than once</label>
+              <label class="opt"><input type="radio" name="changed" value="Yes, once"> Yes, once</label>
+              <label class="opt"><input type="radio" name="changed" value="No"> No</label>
+              <label class="opt"><input type="radio" name="changed" value="I didn't use it this week"> I didn&rsquo;t use it this week</label>
+            </div>
+          </div>
+
+          <div class="q" data-q="helpful">
+            <span class="q-label">4. How helpful was Helthy for you this week?</span>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="helpful" value="Not at all helpful"> Not at all helpful</label>
+              <label class="opt"><input type="radio" name="helpful" value="Slightly helpful"> Slightly helpful</label>
+              <label class="opt"><input type="radio" name="helpful" value="Somewhat helpful"> Somewhat helpful</label>
+              <label class="opt"><input type="radio" name="helpful" value="Very helpful"> Very helpful</label>
+              <label class="opt"><input type="radio" name="helpful" value="Extremely helpful"> Extremely helpful</label>
+            </div>
+          </div>
+
+          <div class="q" data-q="annoyance">
+            <span class="q-label">5. One thing that annoyed or confused you this week? <em>(&ldquo;nothing this week&rdquo; is a fine answer)</em></span>
+            <div class="beta-field"><textarea id="annoyance" rows="2"></textarea></div>
+          </div>
+
+          <div class="q" data-q="delight">
+            <span class="q-label">6. One thing you loved — or a moment Helthy helped?</span>
+            <div class="beta-field"><textarea id="delight" rows="2"></textarea></div>
+          </div>
+
+          <div class="q" data-q="interview">
+            <span class="q-label">7. Would you be open to a casual 30-minute chat with our research team about your experience?</span>
+            <div class="opts">
+              <label class="opt"><input type="radio" name="interview" value="Yes"> Yes — I&rsquo;d be happy to chat</label>
+              <label class="opt"><input type="radio" name="interview" value="No"> Not right now</label>
+            </div>
+          </div>
+
+          <div class="q" id="qAvailability" data-q="availability">
+            <span class="q-label">Wonderful! When are you generally available? <em>(select all that apply — we&rsquo;ll email you to find a time)</em></span>
+            <div class="opts">
+              <label class="opt"><input type="checkbox" name="availability" value="Weekday mornings"> Weekday mornings</label>
+              <label class="opt"><input type="checkbox" name="availability" value="Weekday afternoons"> Weekday afternoons</label>
+              <label class="opt"><input type="checkbox" name="availability" value="Weekday evenings"> Weekday evenings</label>
+              <label class="opt"><input type="checkbox" name="availability" value="Weekends"> Weekends</label>
+            </div>
+          </div>
+
+          <div class="beta-error" id="pulseError"></div>
+          <button class="beta-submit" type="submit">Send my check-in</button>
+          <div class="beta-note">Private — used only for Helthy beta research.</div>
+        </form>
+      </div>
+
+      <div class="pulse-success" id="pulseSuccess">
+        <div class="tick">&#10003;</div>
+        <h2>Thank you!</h2>
+        <p>Check-in received — see you next week. 💚</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-note">© 2026 Helthy. All rights reserved. · <a href="https://www.shophelthy.com">shophelthy.com</a></div>
+  </div>
+</footer>
+
+<!-- ============ SUBMIT CONFIRMATION POP-UP ============ -->
+<div class="confirm-overlay" id="confirmOverlay" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="confirm-modal">
+    <div class="tick">&#10003;</div>
+    <h2 id="confirmTitle">Check-in received!</h2>
+    <p>Thank you — your answers genuinely shape what we build each week.</p>
+    <button class="confirm-btn" type="button" id="confirmClose">Got it</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* Same Apps Script endpoint as the other site forms. */
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbxkKsSdPonzXq7yF3Q8sOk6h6hPR1R21rW4A46LaNhwM-kuLqd2_VOsoMyjeoqwuC8M/exec';
+
+  var form = document.getElementById('pulseForm');
+  var wrap = document.getElementById('pulseFormWrap');
+  var success = document.getElementById('pulseSuccess');
+  var errEl = document.getElementById('pulseError');
+  var nameEl = document.getElementById('pName'), emailEl = document.getElementById('pEmail');
+
+  /* Pre-fill identity from the email link (?name=…&email=…). */
+  try{
+    var q = new URLSearchParams(location.search);
+    if(q.get('name'))  nameEl.value  = q.get('name');
+    if(q.get('email')) emailEl.value = q.get('email');
+  }catch(e){}
+
+  function checked(name){
+    return [].map.call(document.querySelectorAll('input[name="'+name+'"]:checked'), function(i){ return i.value; });
+  }
+  function radio(name){
+    var r = document.querySelector('input[name="'+name+'"]:checked');
+    return r ? r.value : '';
+  }
+
+  /* Availability appears only when they say yes to the chat. */
+  [].forEach.call(document.querySelectorAll('input[name="interview"]'), function(rb){
+    rb.addEventListener('change', function(){
+      document.getElementById('qAvailability').classList.toggle('show', radio('interview') === 'Yes');
+    });
+  });
+
+  function showErr(m, qKey){
+    errEl.textContent = m; errEl.style.display = 'block';
+    var el = qKey ? document.querySelector('[data-q="'+qKey+'"]') : null;
+    (el || errEl).scrollIntoView({ behavior:'smooth', block:'center' });
+  }
+  function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    errEl.style.display = 'none';
+
+    var name = nameEl.value.trim(), email = emailEl.value.trim();
+    if(!name)           return showErr('Please enter your name.');
+    if(!isEmail(email)) return showErr('Please enter a valid email address.');
+
+    var d = {
+      formType: 'pulse',
+      name: name, email: email,
+      shopped: radio('shopped'),
+      used: radio('used'),
+      changed: radio('changed'),
+      helpful: radio('helpful'),
+      annoyance: document.getElementById('annoyance').value.trim(),
+      delight: document.getElementById('delight').value.trim(),
+      interview: radio('interview'),
+      availability: checked('availability'),
+      page: location.pathname, ts: new Date().toISOString()
+    };
+
+    if(!d.shopped)   return showErr('Q1: did you go grocery shopping this week?', 'shopped');
+    if(!d.used)      return showErr('Q2: did you use Helthy this week?', 'used');
+    if(!d.changed)   return showErr('Q3: did Helthy change a decision this week?', 'changed');
+    if(!d.helpful)   return showErr('Q4: how helpful was Helthy this week?', 'helpful');
+    if(!d.annoyance) return showErr('Q5: one annoyance — or just say "nothing this week".', 'annoyance');
+    if(!d.delight)   return showErr('Q6: one delight — or "nothing this week" works here too.', 'delight');
+    if(!d.interview) return showErr('Q7: open to a quick chat? Either answer is fine.', 'interview');
+    if(d.interview === 'Yes' && !d.availability.length)
+                     return showErr('Please pick at least one time that generally works.', 'availability');
+
+    var btn = form.querySelector('.beta-submit'); btn.disabled = true; btn.textContent = 'Sending…';
+    fetch(ENDPOINT, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(d) })
+      .then(function(){
+        wrap.style.display='none'; success.style.display='block'; window.scrollTo(0,0);
+        document.getElementById('confirmOverlay').classList.add('open');
+      })
+      .catch(function(){ btn.disabled=false; btn.textContent='Send my check-in'; showErr('Something went wrong — please try again.'); });
+  });
+
+  var overlay = document.getElementById('confirmOverlay');
+  document.getElementById('confirmClose').addEventListener('click', function(){ overlay.classList.remove('open'); });
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) overlay.classList.remove('open'); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') overlay.classList.remove('open'); });
+})();
+</script>
+
+</body>
+</html>
