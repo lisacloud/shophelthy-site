@@ -10,7 +10,7 @@ That is the living plan: the roadmap, who is doing what, the decisions we have m
 
 The link is unlisted rather than password-protected. It is not linked from the website and search engines are told to skip it, but anyone holding the link can open it, so treat it as shareable-within-the-team and not beyond.
 
-There is also a `Helthy_Dashboard.html` file in this folder. That is the copy the dashboard is **edited** in, and it says so in a banner across the top when you open it. It can be ahead of the live one. When the two disagree, the link above is the one everybody else is looking at.
+There used to be a `Helthy_Dashboard.html` file in this folder to double-click instead. It is gone as of 27 August 2026, deliberately: two copies of the same dashboard drifted apart, and the link above is now the only one. If you have it bookmarked as a file, replace that bookmark.
 
 ## Sharing files
 

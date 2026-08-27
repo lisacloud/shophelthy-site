@@ -2,7 +2,7 @@
 
 The thinking behind Helthy, in one place. These notes moved here from our old Notion so HQ is the single source of truth. Notion is being retired, so if you remember something living there, it is here now.
 
-Everything in this folder is a reference, not a task list. Open tasks and the live plan stay on the dashboard (`Helthy_Dashboard.html`). The dates in these notes are the planning estimates we wrote down; when a date matters, the dashboard is the one to trust.
+Everything in this folder is a reference, not a task list. Open tasks and the live plan stay on the dashboard: <https://www.shophelthy.com/hq-4aceb8b9/>. The dates in these notes are the planning estimates we wrote down; when a date matters, the dashboard is the one to trust.
 
 ## What's here
 

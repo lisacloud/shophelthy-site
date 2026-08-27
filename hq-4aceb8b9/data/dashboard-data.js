@@ -290,9 +290,9 @@ window.HELTHY_DATA = {
 
   files: [
     {
-      path: "index.html",
+      path: "https://www.shophelthy.com/hq-4aceb8b9/",
       title: "This dashboard",
-      desc: "The living plan: roadmap, tasks, decisions. Open it any time.",
+      desc: "The living plan: roadmap, tasks, decisions. Bookmark it.",
       kind: "hq",
     },
     {
