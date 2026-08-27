@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- The hosted copy at shophelthy.com is unlisted; keep this so it stays out of search. -->
 <meta name="robots" content="noindex, nofollow">
 <title>Helthy HQ</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
@@ -2751,6 +2752,32 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
 </style>
 </head>
 <body>
+<div id="hq-source-banner" hidden>
+  <strong>Working copy.</strong>
+  <span>This is the file the dashboard is edited in. The one Lisa and Joanna read is
+  <a href="https://www.shophelthy.com/hq-4aceb8b9/">shophelthy.com/hq-4aceb8b9</a>,
+  and it only changes when the deploy is run.</span>
+</div>
+<style>
+  #hq-source-banner {
+    display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline;
+    padding: 10px 18px; font-size: 13.5px; line-height: 1.5;
+    background: #8a6524; color: #fff;
+  }
+  #hq-source-banner a { color: #fff; text-underline-offset: 3px; }
+  #hq-source-banner strong { letter-spacing: .01em; }
+  @media print { #hq-source-banner { display: none; } }
+</style>
+<script>
+  /* Show it anywhere that is not the published host. */
+  (function () {
+    var el = document.getElementById("hq-source-banner");
+    if (!el) return;
+    var published = location.hostname === "www.shophelthy.com" ||
+                    location.hostname === "shophelthy.com";
+    if (!published) el.hidden = false;
+  })();
+</script>
 <div class="wrap">
 
   <header>

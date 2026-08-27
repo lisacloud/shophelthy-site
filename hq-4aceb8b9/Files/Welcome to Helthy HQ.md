@@ -4,9 +4,13 @@ This folder is our shared headquarters. It lives on your computer and on Aaron's
 
 ## The one habit that matters
 
-Open **Helthy_Dashboard.html** (double-click it). That is the living plan: the roadmap, who is doing what, the decisions we have made and why. Aaron keeps it current, so what you see is always where things actually stand.
+Open the dashboard: **https://www.shophelthy.com/hq-4aceb8b9/**
 
-Tip: drag `Helthy_Dashboard.html` onto your bookmarks bar, or keep the folder in your Dock. On your phone or iPad it works too.
+That is the living plan: the roadmap, who is doing what, the decisions we have made and why. Bookmark it. It works on a phone or an iPad, and it works for anyone on the team whether or not they have this folder.
+
+The link is unlisted rather than password-protected. It is not linked from the website and search engines are told to skip it, but anyone holding the link can open it, so treat it as shareable-within-the-team and not beyond.
+
+There is also a `Helthy_Dashboard.html` file in this folder. That is the copy the dashboard is **edited** in, and it says so in a banner across the top when you open it. It can be ahead of the live one. When the two disagree, the link above is the one everybody else is looking at.
 
 ## Sharing files
 
@@ -15,5 +19,5 @@ Drop anything into the **Files** folder: documents, spreadsheets, images, voice 
 ## Three small rules
 
 1. **If it is not in HQ, it is not the plan.** Notion stays as the archive; this is the source of truth.
-2. **Nothing here is precious.** Everything is versioned behind the scenes, so you cannot break anything by editing or moving files.
+2. **Deleting is the one thing to be careful about.** Editing and adding are free. But this folder syncs both ways with no version history, so deleting or moving a file removes it from everyone's computer, not just yours. If something looks like clutter, say so rather than clearing it out.
 3. **When in doubt, just drop it in Files** and tell Aaron. Filing it perfectly is his problem, not yours.
