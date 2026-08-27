@@ -5,28 +5,18 @@
    keeps it current. Dates are YYYY-MM-DD.
    ===================================================================== */
 window.HELTHY_DATA = {
-  updated: "2026-07-14",
   /* Knowledge migrated out of Notion into Files/Knowledge Base/ on 2026-06-09. */
 
   /* Live backend: a dedicated Supabase project (PostgREST). When reachable, the
      Tasks tab reads/writes hq_tasks (the list below is the offline fallback and
-     first-run seed) and the Meetings tab reads/writes hq_meetings. The publishable
-     key is anon-scoped to those two tables only (safe to ship in this file; it
-     cannot reach any other project). Schema: Lisa-app/Helthy/hq-supabase-schema.sql. */
+     first-run seed), the Meetings tab reads/writes hq_meetings + hq_tabs, and the
+     From Claude tab reads/writes hq_handoffs. The publishable key is anon-scoped
+     to those hq_* tables only (safe to ship in this file; it cannot reach any
+     other project). Schema: hq-supabase-schema.sql at the root of this folder. */
   supabase: {
     url: "https://xnfobhzhczzviuhivimo.supabase.co/rest/v1",
     key: "sb_publishable_xnjjsu1dnc8HOrFbHiMGig_XTwjP_bT",
   },
-
-  statusLine:
-    'Two big ones landed. First, the rebuilt scoring engine is now <em>live across the whole database</em>: all ' +
-    '510,000 products carry fresh scores from the new formula, checked against our calibration before we ' +
-    'trusted it. Second, the <em>Sound Board</em> is ready and lives right here in HQ. Tap the fader icon in ' +
-    'the header and the whole engine becomes a mixing desk: a fader for every trigger line (how much sugar, ' +
-    'salt, or saturated fat starts costing points, and how much turns a food red), live meters showing how the ' +
-    'entire catalog regrades as you slide, real foods rescoring in front of you with the reason shown, and a ' +
-    'step-by-step walkthrough Nora can follow with a pencil for any product. Tuning takes zero code. Next up: ' +
-    'a working session where you and Nora set the dials for real, then one rescore locks your numbers in.',
 
   timeline: { start: "2026-06-08", end: "2026-07-19" },
 
@@ -54,7 +44,7 @@ window.HELTHY_DATA = {
     {
       name: "Mobile app",
       bars: [
-        { label: "iOS and Android app shell", start: "2026-06-10", end: "2026-06-30", progress: 95 },
+        { label: "iOS and Android app shell", start: "2026-06-10", end: "2026-06-30", progress: 100 },
         { label: "Apple Developer enrollment", start: "2026-06-09", end: "2026-07-12", progress: 100 },
         { label: "Security and keys hardening", start: "2026-06-22", end: "2026-07-02", progress: 0 },
       ],
@@ -62,8 +52,8 @@ window.HELTHY_DATA = {
     {
       name: "Beta",
       bars: [
-        { label: "Accounts and anonymous usage insights", start: "2026-07-11", end: "2026-07-14", progress: 80 },
-        { label: "Tester invites and feedback rounds", start: "2026-06-30", end: "2026-07-17", progress: 0 },
+        { label: "Accounts and anonymous usage insights", start: "2026-07-11", end: "2026-07-14", progress: 100 },
+        { label: "Tester invites and feedback rounds", start: "2026-06-30", end: "2026-07-17", progress: 25 },
       ],
     },
   ],
@@ -82,6 +72,13 @@ window.HELTHY_DATA = {
     { date: "2026-07-12", label: "Accounts and anonymous usage insights built for the alpha" },
     { date: "2026-06-30", label: "Beta on phones (TestFlight)" },
     { date: "2026-07-17", label: "Go or grow: public launch call" },
+    { date: "2026-07-18", label: "Sign in with Apple connected end to end" },
+    { date: "2026-07-18", label: "First build uploaded to TestFlight (internal)" },
+    { date: "2026-07-20", label: "Scoring update: dried fruit corrected, and a blank nutrition panel can no longer be rated well on its name" },
+    { date: "2026-07-23", label: "Five scan-flow bugs fixed and confirmed on a real phone: the second scan back, the toast off the navigation bar, a text field that no longer zooms in, a barcode failure that now explains itself instead of freezing, and a card-collapse fix." },
+    { date: "2026-07-25", label: "Those five scan-flow fixes merged into the main app code, along with an updated scoring engine, and shipped in a new TestFlight build" },
+    { date: "2026-07-25", label: "Submitted to Apple for outside beta review, with a public join link ready to share once Apple approves it" },
+    { date: "2026-08-04", label: "Testers can now disagree with a rating. A thumbs up and thumbs down sit under every score, and a thumbs down can carry a reason: too harsh, too generous, or wrong product. Written feedback also moved inside the app. Apple approved the build the same day, so this reached the outside beta group too, and testers get it without installing anything. The reactions save to our database. Nothing displays them yet. There are only four so far and two of those are Apple's reviewer, so the sensible order is to let real reactions build up first and then build somewhere to read them." },
   ],
 
   /* status: grown (done) · growing (in progress) · sprout (up next) · waiting (blocked on something) */
@@ -232,103 +229,6 @@ window.HELTHY_DATA = {
     ],
   },
 
-  /* "UI" tab: the design and mobile-app work, run as light agile sprints.
-     One sprint at a time, each with a single goal. Cards flow left to right:
-     backlog (ideas, not scheduled) -> sprint (planned for this sprint) ->
-     doing (in progress) -> done. blocked: true adds an amber "waiting" pill;
-     blockedNote says what it is waiting on. epics maps each card to its theme. */
-  ui: {
-    celebration:
-      "🎉 We're finally getting to the fun part. The database is solid and the app now runs end to end " +
-      "on a real iPhone, bugs found and fixed along the way. From here it's about making it feel as good " +
-      "as it works.",
-    sprint: {
-      number: 1,
-      start: "2026-07-07",
-      end: "2026-07-17",
-      goal:
-        "Make the recommendation screens feel as smart as the new engine underneath them, " +
-        "and be ready to put the app on real phones the moment the Apple Developer account opens.",
-    },
-    epics: {
-      recs:   "🥦 Smarter recommendations on screen",
-      shell:  "📱 The app on your phone",
-      alpha:  "🧪 Ready for testers",
-      polish: "✨ Design polish",
-    },
-    stories: [
-      {
-        title: "Split the picks row into engine and display layers", epic: "recs", status: "done",
-        note: "The home picks row now has a clean seam: the database feeds it, the design side draws it. This is what lets the engine work and the design work move in parallel safely.",
-      },
-      {
-        title: "Wrap the app in its native iOS shell", epic: "shell", status: "done",
-        note: "Helthy builds and runs in the iPhone simulator as a real iOS app, from the same codebase as the web version.",
-      },
-      {
-        title: "Fit the layout around the notch and home bar", epic: "shell", status: "done",
-        note: "The app now sits correctly on modern iPhone screens instead of hiding behind the notch or the home indicator.",
-      },
-      {
-        title: "Redesign the home picks row", epic: "recs", status: "doing",
-        note: "A fresh look for the diabetes-friendly picks: clearer cards, the corrected scores front and center, and room to explain why each product earned its spot.",
-      },
-      {
-        title: "Redesign the similar-products panel", epic: "recs", status: "sprint",
-        note: "The after-scan suggestions get the same treatment: a layout that makes the healthier swap feel obvious at a glance.",
-      },
-      {
-        title: "Friendly empty and error moments", epic: "recs", status: "sprint",
-        note: "When we have no good suggestion for a scan, the app should say why and what to try next. Never a blank space.",
-      },
-      {
-        title: "App icon and launch screen", epic: "shell", status: "sprint",
-        note: "The face of Helthy on a real home screen: the icon and the first moment the app opens.",
-      },
-      {
-        title: "Run the app on a real iPhone", epic: "shell", status: "done",
-        note: "Done, ahead of the Apple Developer account: Lisa greenlit personal-device testing on Aaron's own phone in the meantime. Verified end to end, camera and all.",
-      },
-      {
-        title: "Fix bugs found while testing on a real phone", epic: "shell", status: "done",
-        note: "First real-device pass turned up a scanner that froze after one scan, alternatives that went silent instead of saying why, and a couple of navigation and layout snags. All fixed and re-verified on the device.",
-      },
-      {
-        title: "First TestFlight build for testers", epic: "shell", status: "doing",
-        note: "Now unblocked: the Apple Developer account is in place. This is the build that goes out to our first testers' phones, and it is the immediate next step.",
-      },
-      {
-        title: "Save your scan history to your account", epic: "alpha", status: "doing",
-        note: "Built this week. Signing in now saves a tester's scan history to their account, so it survives reinstalls (constant during a beta) and follows them across devices. The app still works fully without an account; signing in just backs the history up and syncs it. Turns on with a small database addition.",
-      },
-      {
-        title: "Private, anonymous usage insights", epic: "alpha", status: "doing",
-        note: "Built this week. Anonymous stats on which screens testers use and whether scanning works, to guide what we improve first. First-party only (just us understanding our own app, no ad tracking), and it never logs what someone scans or any health numbers. Testers see a short notice and can switch it off. Connects once we plug in the analytics account.",
-      },
-      {
-        title: "Show the why behind each pick", epic: "recs", status: "backlog",
-        note: "Every recommendation should carry its reason in plain words, like “less added sugar than the one you scanned.” Waits on the engine exposing those reasons.",
-      },
-      {
-        title: "A design pass over every main screen", epic: "polish", status: "backlog",
-        note: "Navigation, spacing, and loading states reviewed screen by screen before the beta.",
-      },
-      {
-        title: "Rethink Home's purpose and navigation", epic: "polish", status: "backlog",
-        note: "First-time testing raised a real question: what is Home actually for as a landing spot? Worth reconsidering the app's navigation structure, including whether scan history fits better on Profile.",
-      },
-      {
-        title: "Android build", epic: "shell", status: "backlog",
-        note: "Same codebase, second platform. Comes after the iPhone path is proven end to end.",
-      },
-    ],
-    how:
-      "How this works: we run the design and mobile work in short sprints, each with one clear goal, " +
-      "written at the top of this page. Cards move left to right as they progress, and a card that is " +
-      "waiting on something outside the code says so right on its face. At the end of a sprint we look " +
-      "at the Done column together, decide the next goal, and start the next sprint. If you want " +
-      "something on this board, say it in a meeting or drop it in the Tasks tab and it becomes a card.",
-  },
 
   decisions: [
     {
@@ -388,15 +288,60 @@ window.HELTHY_DATA = {
     },
   ],
 
-  /* This is the hosted copy (served from shophelthy-site) — the Knowledge Base docs
-     and the Files/ exchange folder still live only in the Syncthing-synced local HQ
-     folder, so those links are intentionally left out here to avoid dead links. */
   files: [
     {
       path: "index.html",
       title: "This dashboard",
       desc: "The living plan: roadmap, tasks, decisions. Open it any time.",
       kind: "hq",
+    },
+    {
+      path: "Files/Welcome to Helthy HQ.md",
+      title: "Welcome to Helthy HQ",
+      desc: "Two-minute read on how this folder works and where things go.",
+      kind: "md",
+    },
+    {
+      path: "Files/Knowledge Base/README.md",
+      title: "Knowledge Base",
+      desc: "The thinking behind Helthy, moved here from Notion. Start with this index.",
+      kind: "kb",
+    },
+    {
+      path: "Files/Knowledge Base/What Helthy Does Today.md",
+      title: "What Helthy Does Today",
+      desc: "A plain-language map of every feature already built into the app.",
+      kind: "md",
+    },
+    {
+      path: "Files/Knowledge Base/Product Direction.md",
+      title: "Product Direction",
+      desc: "How the app should look and feel, the screens we are reshaping, products we study.",
+      kind: "md",
+    },
+    {
+      path: "Files/Knowledge Base/AI & Personalization.md",
+      title: "AI & Personalization",
+      desc: "How a scan becomes advice today, and where the intelligence is heading.",
+      kind: "md",
+    },
+    {
+      path: "Files/Knowledge Base/Health & Diet Approach.md",
+      title: "Health & Diet Approach",
+      desc: "What good for this person means, and the encouraging-not-punitive line we hold.",
+      kind: "md",
+    },
+    {
+      path: "Files/Knowledge Base/iOS App Plan.md",
+      title: "iOS App Plan",
+      desc: "Taking the web app to the App Store, plus the Apple Developer setup (Lisa's first step).",
+      kind: "md",
+    },
+    {
+      path: "Files/Knowledge Base/Go-to-Market Notes.md",
+      title: "Go-to-Market Notes",
+      desc: "Early outreach ideas and the path from first testers to launch.",
+      kind: "md",
     },
   ],
 };
