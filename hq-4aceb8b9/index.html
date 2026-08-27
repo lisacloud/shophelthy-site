@@ -1781,7 +1781,12 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
   .modal-btn.danger:active { transform: scale(.98); }
 
   @media (max-width: 640px) {
+    /* Column layout flips the main axis, so .mtg-field.agenda's `flex: 1 1 240px`
+       stops meaning "at least 240px wide" and starts meaning "at least 240px
+       TALL" — which grew the agenda box to most of the screen. Reset it to
+       content height here. */
     .mtg-composer { flex-direction: column; }
+    .mtg-field.agenda { flex: 0 0 auto; }
     .mtg-add { padding: 12px; }
     .mtg-row { gap: 12px; padding: 13px 14px; }
     .mtg-open span { display: none; }
