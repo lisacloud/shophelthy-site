@@ -126,12 +126,12 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
   .wrap { max-width: 980px; margin: 0 auto; padding: 0 28px 120px; }
 
   /* ---------- header ---------- */
-  /* The header carries the two launcher buttons and the theme toggle, nothing else.
-     The title, tagline, one-sentence summary, "needs your call" block and "last
-     updated" stamp were removed 2026-08-04: they pushed every tab's content below
-     the fold, and a summary sentence that has to be hand-maintained goes stale
-     faster than the panes it summarises. */
-  header { padding: 56px 0 0; animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+  /* The header carries the theme toggle and nothing else. The title, tagline,
+     one-sentence summary, "needs your call" block and "last updated" stamp went
+     2026-08-04 (they pushed every tab below the fold); the Design Studio and
+     Sound Board launchers went 2026-08-27. Kept as a thin strip rather than
+     folded into the nav so the toggle cannot crowd the tabs at 390px. */
+  header { padding: 26px 0 0; animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
   .load-error {
     margin-top: 8px; max-width: 620px; font-size: 14px; line-height: 1.6;
     color: var(--amber); font-weight: 600;
@@ -139,25 +139,11 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
 
   /* ---------- theme toggle (light / dark / system) ---------- */
   header { position: relative; }
-  /* header actions: Design Studio launcher + theme toggle, top-right */
+  /* header actions: the theme toggle, top-right */
   .header-actions {
-    position: absolute; top: 52px; right: 0; z-index: 6;
+    position: absolute; top: 22px; right: 0; z-index: 6;
     display: inline-flex; align-items: center; gap: 10px;
   }
-  .hq-studio-btn {
-    appearance: none; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--sans); font-size: 12px; font-weight: 600;
-    letter-spacing: .1em; text-transform: uppercase; white-space: nowrap;
-    color: var(--green-deep);
-    background: var(--clay-card); border: 1px solid var(--leaf-line); border-radius: 999px;
-    padding: 8px 15px 8px 12px; box-shadow: var(--clay-raise-sm);
-    transition: all .18s ease;
-  }
-  .hq-studio-btn svg { width: 17px; height: 17px; color: var(--green); transition: color .18s ease; }
-  .hq-studio-btn:hover { color: #fff; background: var(--green); border-color: var(--green); transform: translateY(-1px); }
-  .hq-studio-btn:hover svg { color: #fff; }
-  .hq-studio-btn:focus-visible { outline: 2px solid var(--green-soft); outline-offset: 2px; }
   .theme-tog {
     display: inline-flex; gap: 1px;
     background: var(--clay-card); border: 1px solid var(--hairline); border-radius: 999px;
@@ -172,15 +158,13 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
   .theme-tog button.on { background: var(--leaf); color: var(--green-deep); }
   .theme-tog svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   @media (max-width: 560px) {
-    .header-actions { top: 12px; gap: 7px; }
-    .hq-studio-btn span { display: none; }
-    .hq-studio-btn { padding: 8px; }
+    .header-actions { top: 14px; gap: 7px; }
   }
 
   /* ---------- tab nav ---------- */
   .tab-nav {
     position: sticky; top: 0; z-index: 50;
-    margin: 36px -28px 0; padding: 10px 28px;
+    margin: 22px -28px 0; padding: 10px 28px;
     background: color-mix(in srgb, var(--paper) 88%, transparent);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--hairline);
@@ -211,87 +195,7 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
   }
   .pane-head .deck { margin-top: 6px; color: var(--ink-soft); font-size: 14.5px; max-width: 560px; }
 
-  /* ---------- roadmap / gantt ---------- */
-  .gantt-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
-  .gantt { min-width: 760px; position: relative; }
-
-  .g-months { display: flex; margin-left: var(--label-w, 200px); }
-  .g-month {
-    font-family: var(--serif); font-size: 14px; font-weight: 600; color: var(--green-deep);
-    border-left: 1px solid var(--hairline); padding: 0 0 6px 8px;
-  }
-  .g-days { display: flex; margin-left: var(--label-w, 200px); border-bottom: 1px solid var(--hairline); }
-  .g-day {
-    flex: 1; text-align: center; font-size: 10px; color: var(--ink-faint);
-    padding-bottom: 6px; font-variant-numeric: tabular-nums; min-width: 0;
-  }
-  .g-day.is-monday { color: var(--ink-soft); font-weight: 600; }
-
-  .g-body { position: relative; }
-  .g-grid { position: absolute; inset: 0; left: var(--label-w, 200px); display: flex; pointer-events: none; }
-  .g-grid .g-col { flex: 1; border-left: 1px solid var(--line-soft); }
-  .g-grid .g-col.is-monday { border-left-color: var(--hairline); }
-  .g-grid .g-col.is-today { background: var(--leaf); border-left: 1px solid var(--leaf-line); }
-  .g-today-tag {
-    position: absolute; top: -24px; transform: translateX(-50%);
-    font-size: 9.5px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
-    color: var(--green); background: var(--leaf); border: 1px solid var(--leaf-line);
-    padding: 2px 8px; border-radius: 999px; white-space: nowrap;
-  }
-
-  .g-row { display: flex; align-items: center; position: relative; padding: 13px 0; }
-  .g-row + .g-row { border-top: 1px dashed var(--line-soft); }
-  .g-label { width: var(--label-w, 200px); flex: none; padding-right: 18px; }
-  .g-label .t { font-size: 13.5px; font-weight: 600; color: var(--ink); line-height: 1.3; }
-  .g-label .s { font-size: 11px; color: var(--ink-faint); margin-top: 1px; }
-  .g-lane { flex: 1; position: relative; height: 22px; }
-
-  .g-bar {
-    position: absolute; top: 0; height: 22px; border-radius: 6px;
-    background: var(--track); overflow: hidden;
-    transition: transform .2s ease;
-  }
-  .g-bar:hover { transform: translateY(-1px); }
-  .g-bar .fill {
-    position: absolute; inset: 0; width: var(--p, 0%);
-    background: var(--green); border-radius: 6px 0 0 6px;
-    animation: grow 1s .3s cubic-bezier(.2,.7,.2,1) both;
-  }
-  .g-bar.done .fill { border-radius: 6px; }
-  .g-bar .pct {
-    position: absolute; right: 7px; top: 50%; transform: translateY(-50%);
-    font-size: 9.5px; font-weight: 700; color: var(--ink-soft);
-    font-variant-numeric: tabular-nums;
-  }
-  .g-bar .fill ~ .pct.inside { color: var(--on-green); }
-
-  .g-milestone {
-    position: absolute; top: 50%; width: 13px; height: 13px;
-    transform: translate(-50%, -50%) rotate(45deg);
-    background: var(--card); border: 2.5px solid var(--green);
-    border-radius: 2px;
-  }
-  .g-milestone.hit { background: var(--green); }
-  .g-milestone .tip {
-    position: absolute; bottom: 18px; left: 50%;
-    transform: translateX(-50%) rotate(-45deg) translateX(8px);
-    transform-origin: left bottom;
-    white-space: nowrap; font-size: 10px; font-weight: 600; color: var(--green-deep);
-    background: var(--card); border: 1px solid var(--leaf-line);
-    padding: 2px 7px; border-radius: 999px; opacity: 0; pointer-events: none;
-    transition: opacity .2s ease;
-  }
-  .g-milestone:hover .tip { opacity: 1; }
-  .g-row.milestones-row .g-lane { height: 30px; }
-
-  .legend { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 26px; font-size: 12px; color: var(--ink-soft); }
-  .legend span { display: inline-flex; align-items: center; gap: 7px; }
-  .lg-bar { width: 26px; height: 10px; border-radius: 4px; background: var(--track); position: relative; overflow: hidden; }
-  .lg-bar i { position: absolute; inset: 0; width: 55%; background: var(--green); }
-  .lg-di { width: 9px; height: 9px; transform: rotate(45deg); background: var(--card); border: 2px solid var(--green); border-radius: 1px; }
-  .lg-today { width: 14px; height: 14px; border-radius: 4px; background: var(--leaf); border: 1px solid var(--leaf-line); }
-
-  /* ---------- tasks ---------- */
+  /* ---------- shared: filter chips + sync pill (Meetings uses these) ---------- */
   .filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 26px; }
   .chip {
     appearance: none; cursor: pointer; font-family: var(--sans);
@@ -303,8 +207,6 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
   .chip:hover { border-color: var(--green-soft); color: var(--green-deep); }
   .chip.active { background: var(--green); border-color: var(--green); color: var(--on-green); }
 
-  /* (Tasks tab now renders via the vendored Tasks Machine — see its CSS block below.) */
-
   .sync-pill {
     align-self: center; margin-left: auto;
     font-size: 11px; font-weight: 600; letter-spacing: .04em;
@@ -312,174 +214,6 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
   }
   .sync-pill.on  { color: var(--green-deep); background: var(--leaf); border: 1px solid var(--leaf-line); }
   .sync-pill.off { color: var(--amber); background: var(--amber-soft); border: 1px solid var(--amber-line); }
-
-  /* ===== Tasks Machine — skin it with Helthy's "growing" palette ===== */
-  #tm-board {
-    --tm-bg: var(--paper); --tm-card: var(--card); --tm-ink: var(--ink); --tm-ink-soft: var(--ink-soft);
-    --tm-ink-faint: var(--ink-faint); --tm-line: var(--hairline); --tm-well: #f1efe8; --tm-chip: #eef1ea;
-    --tm-accent: var(--green); --tm-accent-ink: #fff; --tm-accent-soft: var(--green-soft);
-    --tm-warn: var(--amber); --tm-warn-soft: var(--amber-soft); --tm-danger: #b4453a;
-    --tm-serif: var(--serif); --tm-sans: var(--sans);
-    --tm-glass: rgba(251,250,247,.86); --tm-glass-line: var(--leaf-line);
-  }
-  /* Tasks Machine — dark surfaces + dark-tuned status pills. Its other tokens
-     reference the dashboard palette above, so they flip automatically. */
-  :root.mde-dark #tm-board, :root.mde-dark .tm-root {
-    --tm-well: #20211a; --tm-chip: #24251d; --tm-glass: rgba(20,21,16,.82); --tm-accent-ink: #11231a;
-    --tm-pill-sat: 30%; --tm-pill-light: 24%; --tm-pill-ink-sat: 32%; --tm-pill-ink-light: 80%;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not(.mde-light):not(.mde-dark) #tm-board, :root:not(.mde-light):not(.mde-dark) .tm-root {
-      --tm-well: #20211a; --tm-chip: #24251d; --tm-glass: rgba(20,21,16,.82); --tm-accent-ink: #11231a;
-      --tm-pill-sat: 30%; --tm-pill-light: 24%; --tm-pill-ink-sat: 32%; --tm-pill-ink-light: 80%;
-    }
-  }
-
-  /* ===== vendored from Claude/Utils/tasks-machine/tasks-machine.css — keep in sync ===== */
-  .tm-root {
-    --tm-bg:#f4f1ea; --tm-card:#ffffff; --tm-ink:#25291f; --tm-ink-soft:#6b7263; --tm-ink-faint:#9aa191;
-    --tm-line:#e6e4dc; --tm-well:#f1efe8; --tm-chip:#ece9e1; --tm-accent:#386840; --tm-accent-ink:#ffffff;
-    --tm-accent-soft:#5a9a6f; --tm-warn:#a87b2d; --tm-warn-soft:#f7efdd; --tm-danger:#b4453a;
-    --tm-radius:18px; --tm-radius-sm:11px; --tm-serif:"Fraunces",Georgia,serif;
-    --tm-sans:"Instrument Sans",-apple-system,"Helvetica Neue",sans-serif; --tm-mono:ui-monospace,"SF Mono",Menlo,monospace;
-    --tm-shadow-card:0 1px 2px rgba(40,40,30,.05),0 6px 16px -10px rgba(40,40,30,.18);
-    --tm-shadow-lift:0 2px 4px rgba(40,40,30,.07),0 14px 30px -12px rgba(40,40,30,.26);
-    --tm-glass:rgba(255,255,255,.82); --tm-glass-line:rgba(255,255,255,.6);
-    --tm-pill-sat:42%; --tm-pill-light:93%; --tm-pill-ink-sat:38%; --tm-pill-ink-light:32%;
-    font-family:var(--tm-sans); color:var(--tm-ink);
-  }
-  .tm-root *, .tm-root *::before, .tm-root *::after { box-sizing:border-box; }
-  .tm-toolbar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
-  .tm-search { flex:1 1 180px; min-width:0; font-family:var(--tm-sans); font-size:13.5px; color:var(--tm-ink);
-    background:var(--tm-card); border:1px solid var(--tm-line); border-radius:999px; padding:9px 16px; outline:none;
-    transition:border-color .18s ease; }
-  .tm-search:focus { border-color:var(--tm-accent-soft); }
-  .tm-spacer { flex:1 1 auto; }
-  .tm-add-btn { font-family:var(--tm-sans); font-size:12px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
-    color:var(--tm-accent-ink); background:var(--tm-accent); border:none; border-radius:999px; padding:10px 18px; cursor:pointer;
-    transition:filter .18s ease, opacity .18s ease; }
-  .tm-add-btn:hover { filter:brightness(1.06); }
-  .tm-add-btn:disabled { background:var(--tm-ink-faint); cursor:not-allowed; }
-  .tm-filter { position:relative; display:inline-block; }
-  .tm-filter-btn { display:inline-flex; align-items:center; gap:8px; font-family:var(--tm-sans); font-size:11px; font-weight:600;
-    letter-spacing:.08em; text-transform:uppercase; color:var(--tm-ink-soft); background:var(--tm-chip); border:none; border-radius:999px;
-    padding:9px 15px; cursor:pointer; transition:color .15s ease, background-color .15s ease; }
-  .tm-filter-btn:hover { color:var(--tm-ink); }
-  .tm-filter-btn.tm-on { color:var(--tm-accent-ink); background:var(--tm-accent); }
-  .tm-filter-count { font-family:var(--tm-mono); font-size:10px; font-weight:500; line-height:1; padding:3px 6px; border-radius:999px;
-    background:rgba(0,0,0,.07); color:inherit; }
-  .tm-filter-btn.tm-on .tm-filter-count { background:rgba(255,255,255,.2); }
-  .tm-caret { width:12px; height:12px; opacity:.7; }
-  .tm-menu { position:absolute; top:calc(100% + 8px); right:0; z-index:50; min-width:232px; padding:7px; border-radius:var(--tm-radius);
-    background:var(--tm-glass); -webkit-backdrop-filter:blur(22px) saturate(160%); backdrop-filter:blur(22px) saturate(160%);
-    border:1px solid var(--tm-glass-line); box-shadow:var(--tm-shadow-lift); display:flex; flex-direction:column; gap:2px;
-    transform-origin:top right; animation:tm-menu-in .18s cubic-bezier(.16,1,.3,1) both; }
-  @keyframes tm-menu-in { from { opacity:0; transform:scale(.95) translateY(-4px); } to { opacity:1; transform:none; } }
-  .tm-menu[hidden] { display:none !important; }
-  .tm-menu-label { font-family:var(--tm-sans); font-size:9px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
-    color:var(--tm-ink-faint); padding:8px 12px 4px; }
-  .tm-item { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:9px 13px; border-radius:12px;
-    font-family:var(--tm-sans); font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; color:var(--tm-ink-soft);
-    background:transparent; border:none; cursor:pointer; text-align:left; transition:color .12s ease, background-color .12s ease; }
-  .tm-item:hover { color:var(--tm-ink); background:rgba(0,0,0,.05); }
-  .tm-item.tm-active { color:var(--tm-ink); background:var(--tm-chip); }
-  .tm-item-left { display:inline-flex; align-items:center; gap:9px; min-width:0; }
-  .tm-swatch { width:9px; height:9px; border-radius:3px; flex:none; }
-  .tm-item-count { font-family:var(--tm-mono); font-size:10px; font-weight:500; padding:2px 7px; border-radius:999px;
-    background:var(--tm-chip); color:var(--tm-ink-faint); }
-  .tm-item.tm-active .tm-item-count { color:var(--tm-ink); }
-  .tm-item.tm-toggle { margin-top:6px; }
-  .tm-toggle-state { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:6px;
-    background:var(--tm-chip); color:transparent; }
-  .tm-item.tm-on .tm-toggle-state { background:var(--tm-accent); color:var(--tm-accent-ink); }
-  .tm-toggle-state svg { width:12px; height:12px; }
-  .tm-list { display:block; }
-  .tm-group-label { font-family:var(--tm-sans); font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
-    color:var(--tm-ink-faint); margin:22px 2px 10px; display:flex; align-items:center; gap:9px; }
-  .tm-group-label:first-child { margin-top:4px; }
-  .tm-group-label .tm-swatch { width:10px; height:10px; }
-  @keyframes tm-rise { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-  .tm-card { position:relative; display:grid; grid-template-columns:auto 1fr; gap:13px; margin:0 0 10px; padding:15px 16px 14px 16px;
-    background:var(--tm-card); border:1px solid var(--tm-line); border-radius:var(--tm-radius); box-shadow:var(--tm-shadow-card);
-    animation:tm-rise .4s cubic-bezier(.2,.7,.2,1) both; animation-delay:calc(var(--i,0) * 35ms);
-    transition:transform .16s ease, box-shadow .16s ease, opacity .2s ease; }
-  @media (hover:hover) { .tm-card:hover { transform:translateY(-1px); box-shadow:var(--tm-shadow-lift); } }
-  .tm-card.tm-done { opacity:.55; }
-  .tm-dot { margin-top:2px; width:19px; height:19px; flex:none; border-radius:50%; border:2px solid var(--tm-ink-faint);
-    background:transparent; cursor:pointer; padding:0; transition:box-shadow .15s ease, background-color .15s ease, border-color .15s ease; position:relative; }
-  .tm-dot:hover { box-shadow:0 0 0 4px color-mix(in srgb, var(--tm-accent) 16%, transparent); }
-  .tm-dot.k-active { border-color:var(--tm-accent); background:linear-gradient(to top, var(--tm-accent) 50%, transparent 50%); }
-  .tm-dot.k-waiting { border-style:dashed; border-color:var(--tm-warn); }
-  .tm-dot.k-done { background:var(--tm-accent); border-color:var(--tm-accent); }
-  .tm-dot.k-done::after { content:""; position:absolute; inset:0; background-repeat:no-repeat; background-position:center; background-size:11px;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E"); }
-  .tm-dot[data-readonly] { cursor:default; }
-  .tm-dot[data-readonly]:hover { box-shadow:none; }
-  .tm-body { min-width:0; cursor:pointer; -webkit-tap-highlight-color:transparent; }
-  .tm-title { display:block; font-family:var(--tm-serif); font-size:16px; font-weight:560; color:var(--tm-ink); letter-spacing:-.005em; line-height:1.34; }
-  .tm-card.tm-done .tm-title { color:var(--tm-ink-faint); text-decoration:line-through; text-decoration-color:var(--tm-line); text-decoration-thickness:1.5px; }
-  .tm-note { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; margin-top:5px;
-    font-family:var(--tm-sans); font-size:12.5px; color:var(--tm-ink-soft); line-height:1.5; white-space:pre-wrap; }
-  .tm-meta { display:flex; flex-wrap:wrap; align-items:center; gap:6px 8px; margin-top:9px; }
-  .tm-meta:empty { display:none; }
-  .tm-pill { display:inline-flex; align-items:center; gap:5px; font-family:var(--tm-sans); font-size:9.5px; font-weight:700;
-    letter-spacing:.09em; text-transform:uppercase; padding:3px 9px; border-radius:7px; white-space:nowrap; line-height:1.4;
-    background:var(--tm-chip); color:var(--tm-ink-soft); }
-  .tm-pill.tm-cat { letter-spacing:.07em; }
-  .tm-pill.tone-accent { background:color-mix(in srgb, var(--tm-accent) 15%, var(--tm-card)); color:var(--tm-accent); }
-  .tm-pill.tone-warn { background:var(--tm-warn-soft); color:var(--tm-warn); }
-  .tm-pill.tone-good { background:color-mix(in srgb, var(--tm-accent) 14%, var(--tm-card)); color:var(--tm-accent); }
-  .tm-pill.tone-muted { background:var(--tm-chip); color:var(--tm-ink-faint); }
-  .tm-pill.tone-strong { background:var(--tm-ink); color:var(--tm-bg); }
-  .tm-due { font-family:var(--tm-mono); font-size:10.5px; font-weight:400; letter-spacing:.02em; text-transform:none; padding:3px 0;
-    background:transparent; color:var(--tm-ink-faint); }
-  .tm-due.tm-today { color:var(--tm-ink); font-weight:500; }
-  .tm-due.tm-overdue { color:var(--tm-danger); font-weight:500; }
-  .tm-empty { padding:36px 24px; text-align:center; font-family:var(--tm-serif); font-style:italic; font-size:15px; color:var(--tm-ink-faint);
-    background:var(--tm-card); border:1px solid var(--tm-line); border-radius:var(--tm-radius); }
-  .tm-sync { font-family:var(--tm-sans); font-size:11px; font-weight:600; letter-spacing:.04em; padding:6px 12px; border-radius:999px; }
-  .tm-sync.on { color:var(--tm-accent); background:color-mix(in srgb, var(--tm-accent) 12%, var(--tm-card)); }
-  .tm-sync.off { color:var(--tm-warn); background:var(--tm-warn-soft); }
-  .tm-sheet { border:none; padding:0; background:transparent; max-width:520px; width:92vw; margin:auto; }
-  .tm-sheet::backdrop { background:rgba(0,0,0,.42); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
-  .tm-sheet-inner { background:var(--tm-glass); border-radius:24px; padding:22px 24px;
-    -webkit-backdrop-filter:blur(26px) saturate(160%); backdrop-filter:blur(26px) saturate(160%); border:1px solid var(--tm-glass-line);
-    box-shadow:0 28px 70px -16px rgba(0,0,0,.5); animation:tm-pop .22s cubic-bezier(.2,.7,.2,1) both; }
-  @keyframes tm-pop { from { opacity:0; transform:scale(.97); } to { opacity:1; transform:none; } }
-  .tm-sheet-title { display:block; width:100%; font-family:var(--tm-serif); font-size:22px; font-weight:540; line-height:1.25;
-    color:var(--tm-ink); background:transparent; border:none; padding:0; margin-bottom:16px; resize:none; overflow:hidden; }
-  .tm-sheet-title:focus { outline:none; }
-  .tm-sheet-title::placeholder { color:var(--tm-ink-faint); font-style:italic; }
-  .tm-field { margin-bottom:12px; }
-  .tm-field > label { display:block; font-family:var(--tm-sans); font-size:10px; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
-    color:var(--tm-ink-faint); margin-bottom:6px; }
-  .tm-field input, .tm-field textarea, .tm-field select { width:100%; padding:10px 12px; font-family:var(--tm-sans); font-size:14px;
-    background:var(--tm-well); border:none; border-radius:12px; color:var(--tm-ink); }
-  .tm-field textarea { resize:none; line-height:1.45; min-height:64px; }
-  .tm-field input:focus, .tm-field textarea:focus, .tm-field select:focus { outline:none; box-shadow:0 0 0 1.5px color-mix(in srgb, var(--tm-accent) 45%, transparent); }
-  .tm-row { display:flex; gap:10px; flex-wrap:wrap; }
-  .tm-row .tm-field { flex:1 1 130px; min-width:0; margin-bottom:12px; }
-  .tm-select { appearance:none; -webkit-appearance:none; cursor:pointer; text-align-last:left;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa191' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat:no-repeat; background-position:right 11px center; background-size:14px; padding-right:32px; }
-  .tm-newcat { margin-top:8px; }
-  .tm-newcat[hidden] { display:none; }
-  .tm-inline-clear { display:flex; gap:8px; }
-  .tm-inline-clear input { flex:1; min-width:0; }
-  .tm-mini-clear { flex:none; width:40px; border:none; border-radius:12px; background:var(--tm-well); color:var(--tm-ink-faint);
-    font-size:17px; cursor:pointer; }
-  .tm-mini-clear:hover { color:var(--tm-ink); }
-  .tm-sheet-actions { display:flex; align-items:center; justify-content:space-between; margin-top:18px; }
-  .tm-actions-right { display:inline-flex; gap:10px; }
-  .tm-btn { font-family:var(--tm-sans); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:10px 18px;
-    border-radius:12px; cursor:pointer; border:none; background:var(--tm-chip); color:var(--tm-ink-soft); }
-  .tm-btn:hover { color:var(--tm-ink); }
-  .tm-btn-primary { background:var(--tm-accent); color:var(--tm-accent-ink); }
-  .tm-btn-primary:hover { color:var(--tm-accent-ink); filter:brightness(1.06); }
-  .tm-btn-danger { background:transparent; color:var(--tm-danger); }
-  .tm-btn-danger:hover { background:var(--tm-danger); color:#fff; }
-  @media (prefers-reduced-motion:reduce) { .tm-card, .tm-menu, .tm-sheet-inner { animation:none; } }
-  /* ===== end vendored tasks-machine.css ===== */
 
   /* ---------- under the hood ---------- */
   .engine-intro {
@@ -640,110 +374,11 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
     .an-weeks { gap: 10px; }
   }
 
-  /* ---------- files ---------- */
-  .file-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-  .file {
-    display: flex; gap: 14px; align-items: flex-start; text-decoration: none;
-    background: var(--card); border: 1px solid var(--hairline); border-radius: 12px;
-    padding: 16px 18px; transition: all .2s ease;
-  }
-  .file:hover { border-color: var(--green-soft); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(42, 82, 50, .07); }
-  .file .glyph {
-    flex: none; width: 38px; height: 38px; border-radius: 10px;
-    background: var(--leaf); border: 1px solid var(--leaf-line);
-    display: grid; place-items: center;
-    font-family: var(--serif); font-size: 11px; font-weight: 600; color: var(--green-deep);
-    letter-spacing: .04em;
-  }
-  .file .fname { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.3; }
-  .file .fdesc { font-size: 12.5px; color: var(--ink-soft); margin-top: 3px; }
-
-  .howto {
-    margin-top: 40px; background: var(--leaf); border: 1px solid var(--leaf-line);
-    border-radius: 14px; padding: 22px 26px; max-width: 640px;
-  }
-  .howto h4 { font-family: var(--serif); font-size: 17px; font-weight: 600; color: var(--green-deep); margin-bottom: 8px; }
-  .howto p { font-size: 13.5px; color: var(--ink-soft); }
-  .howto p + p { margin-top: 8px; }
-
-  /* files pane: section launchers — each opens in its own browser tab */
-  .files-subhead { font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--green-deep); margin: 2px 0 12px; }
-  .files-subhead:not(:first-child) { margin-top: 34px; }
-  .section-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-  .section-card {
-    display: flex; gap: 14px; align-items: flex-start; text-align: left; cursor: pointer;
-    font: inherit; width: 100%;
-    background: var(--leaf); border: 1px solid var(--leaf-line); border-radius: 12px;
-    padding: 16px 18px; transition: all .2s ease;
-  }
-  .section-card:hover { border-color: var(--green-soft); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(42, 82, 50, .07); }
-  .section-card:focus-visible { outline: 2px solid var(--green-soft); outline-offset: 2px; }
-  .section-card .glyph {
-    flex: none; width: 38px; height: 38px; border-radius: 10px;
-    background: var(--card); border: 1px solid var(--leaf-line);
-    display: grid; place-items: center; font-size: 17px;
-  }
-  .section-card .sc-body { flex: 1; min-width: 0; }
-  .section-card .sc-name { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.3; display: inline-flex; align-items: center; gap: 6px; }
-  .section-card .sc-name svg { width: 13px; height: 13px; color: var(--green); flex: none; }
-  .section-card:hover .sc-name svg { transform: translate(1px, -1px); }
-  .section-card .sc-name svg { transition: transform .18s ease; }
-  .section-card .sc-desc { font-size: 12.5px; color: var(--ink-soft); margin-top: 3px; }
-
   /* solo view: a section opened in its own browser tab (#view=…) — hide nav chrome */
   body.solo-view .tab-nav { display: none; }
   body.solo-view .pane { padding-top: 20px; }
 
   .empty { color: var(--ink-faint); font-size: 14px; padding: 30px 0; text-align: center; }
-
-  /* ── Design Studio: the immersive takeover ─────────────────────────────────
-     Full-screen, its own dark chrome, zooms in so the handoff feels deliberate. */
-  .studio-takeover {
-    position: fixed; inset: 0; z-index: 1000;
-    display: flex; flex-direction: column; background: #0c140f;
-    opacity: 0; transform: scale(.985); transform-origin: center 42%;
-    transition: opacity .42s var(--clay-ease), transform .42s var(--clay-ease);
-  }
-  .studio-takeover.open { opacity: 1; transform: none; }
-  .studio-takeover[hidden] { display: none; }
-  body.studio-on { overflow: hidden; }
-
-  .studio-chrome {
-    flex: none; height: 56px; display: flex; align-items: center; justify-content: space-between;
-    padding: 0 16px 0 22px; color: #eaf3ec;
-    background: linear-gradient(180deg, #1a3322, #112417);
-    border-bottom: 1px solid rgba(255, 255, 255, .08);
-  }
-  .studio-chrome-brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
-  .studio-chrome-dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: #6fbf86; box-shadow: 0 0 0 4px rgba(111, 191, 134, .18); }
-  .studio-chrome-title { font-family: var(--serif); font-size: 16px; font-weight: 600; white-space: nowrap; }
-  .studio-chrome-sub { font-size: 12px; color: #9fc6ab; white-space: nowrap; }
-  @media (max-width: 540px) { .studio-chrome-sub { display: none; } }
-  .studio-close {
-    flex: none; display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .16); color: #eaf3ec;
-    border-radius: 10px; padding: 8px 12px; font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer;
-    transition: background .15s ease, border-color .15s ease;
-  }
-  .studio-close:hover { background: rgba(255, 255, 255, .15); border-color: rgba(255, 255, 255, .3); }
-  .studio-close:focus-visible { outline: 2px solid #6fbf86; outline-offset: 2px; }
-  .studio-close svg { width: 15px; height: 15px; }
-  .studio-close kbd { font-family: var(--mono); font-size: 10.5px; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .18); border-radius: 5px; padding: 1px 5px; }
-
-  .studio-stage { flex: 1 1 auto; position: relative; background: #0c140f; }
-  .studio-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity .35s ease; }
-  .studio-takeover.loaded .studio-frame { opacity: 1; }
-  .studio-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 10px; color: #9fc6ab; font-size: 14px; transition: opacity .3s ease; }
-  .studio-takeover.loaded .studio-loading { opacity: 0; }
-  .studio-loading-dot { width: 9px; height: 9px; border-radius: 50%; background: #6fbf86; animation: studio-pulse 1.1s ease-in-out infinite; }
-  .studio-loading.is-note { padding: 0 32px; }
-  .studio-loading.is-note .studio-loading-dot { display: none; }
-  .studio-loading .studio-note { max-width: 400px; text-align: center; line-height: 1.55; color: #b6d3c0; font-size: 14px; }
-  @keyframes studio-pulse { 0%, 100% { opacity: .35; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.1); } }
-  @media (prefers-reduced-motion: reduce) {
-    .studio-takeover { transition: opacity .2s ease; transform: none; }
-    .studio-loading-dot { animation: none; }
-  }
 
   footer {
     margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--hairline);
@@ -757,18 +392,13 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
 
   /* ---------- mobile ---------- */
   @media (max-width: 640px) {
-    .wrap { padding: 0 18px 130px; }
+    .wrap { padding: 0 18px 60px; }
     header { padding-top: 36px; }
-    .tab-nav {
-      position: fixed; top: auto; bottom: 0; left: 0; right: 0; margin: 0;
-      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-      justify-content: center; border-bottom: none; border-top: 1px solid var(--hairline);
-      background: color-mix(in srgb, var(--paper) 94%, transparent);
-    }
+    /* The nav stays on top at every width. Four tabs fit one row at 390px;
+       it wraps rather than scrolls if a label is ever added. */
+    .tab-nav { margin: 24px -18px 0; padding: 10px 18px; }
     .tab { font-size: 10px; padding: 8px 12px; }
     .decision .why { padding-left: 20px; }
-    .g-label { width: 150px; }
-    .gantt { --label-w: 150px; }
   }
 
   /* ====================================================================
@@ -2415,11 +2045,6 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
   .al-mnote .al-so { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line-soft); font-size: 12.5px; color: var(--ink-soft); }
   .al-mnote .al-so b { color: var(--green-deep); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; display: block; margin-bottom: 2px; }
 
-  .al-note {
-    font-size: 12.5px; color: var(--ink-faint); line-height: 1.6;
-    margin-top: 18px; max-width: 760px;
-  }
-
   @media (max-width: 720px) {
     .al-hint { display: none; }
     .al-filters input { min-width: 0; flex: 1 1 140px; }
@@ -2650,200 +2275,30 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
     .inv-hint { display: none; }
   }
 
-  /* ── From Claude (Claude→human handoff queue) ─────────────────────────────
-     ho- prefix throughout. No hero, no summary text, no usage
-     instructions. The pixel cat is ILLUSTRATION ONLY, aria-hidden;
-     its single variation — asleep when the queue is empty — mirrors what the
-     empty state already says in words. It never escalates: status escalation
-     on this pane uses the house amber only. Items render in two strata by the
-     `weight` column: heavy ("the big asks", cards) then light ("the small
-     stuff", compact rows). */
-  .tab[data-tab="claude"] .count {
-    /* Count badges are hidden nav-wide by design ("the nav reads cleaner").
-       This one badge is the tab's whole point — a handoff queue invisible from
-       the nav is the buried needs-a-human list all over again. Scoped,
-       deliberate reversal for this tab only. */
-    display: inline-flex; align-items: center; justify-content: center;
-    min-width: 18px; height: 18px; padding: 0 5px; margin-left: 6px;
-    border-radius: 9px; font-size: 11.5px; font-weight: 700;
-    background: var(--leaf); color: var(--green); font-family: var(--mono);
-  }
-  .tab[data-tab="claude"] .count:empty { display: none; }
-  .tab[data-tab="claude"] .count.hot { background: var(--amber-ink); color: var(--on-amber); }
-
-  .ho-head { display: flex; align-items: flex-end; gap: 14px; }
-  .ho-head h2 { margin: 0; }
-  #ho-cat { flex: 0 0 auto; line-height: 0; }
-  #ho-cat svg { width: 45px; height: 45px; }
-
-  .ho-sechead { font-family: var(--mono); font-size: 11.5px; letter-spacing: .09em;
-    text-transform: uppercase; color: var(--ink-soft); margin: 22px 0 10px; }
-  .ho-sechead:first-child { margin-top: 6px; }
-  .ho-item.ho-card { border: 1px solid var(--hairline); background: var(--card);
-    border-radius: 14px; margin: 0 0 10px; }
-  .ho-item.ho-card .ho-row { padding: 15px 12px; }
-  .ho-item.ho-card .ho-title { font-family: var(--serif); font-size: 18px; }
-  .ho-item.ho-card .ho-body { padding: 2px 12px 16px 88px; }
-
-  .ho-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 10px; }
-  .ho-chips { display: flex; gap: 8px; }
-  .ho-chip { border: 1px solid var(--hairline); background: var(--card); color: var(--ink-soft);
-    border-radius: 999px; padding: 7px 16px; font-size: 13.5px; font-family: var(--sans); cursor: pointer; }
-  .ho-chip.on { background: var(--green); border-color: var(--green); color: var(--on-green); font-weight: 600; }
-  .ho-chip:focus-visible, .ho-row:focus-visible, .ho-done:focus-visible, .ho-drop:focus-visible {
-    outline: 2px solid var(--green-soft); outline-offset: 2px; }
-  .ho-live { font-size: 12.5px; color: var(--ink-faint); }
-  .ho-live.off { color: var(--amber-ink); }
-
-  .ho-plain { border-top: 1px solid var(--hairline); }
-  .ho-plain .ho-item { border-bottom: 1px solid var(--hairline); }
-  .ho-row { display: grid; grid-template-columns: 64px 1fr auto 20px; gap: 12px; align-items: center;
-    width: 100%; text-align: left; background: none; border: 0; padding: 13px 6px; cursor: pointer;
-    font-family: var(--sans); color: var(--ink); }
-  .ho-caret { display: inline-flex; color: var(--ink-faint); transition: transform .15s ease; }
-  .ho-row[aria-expanded="true"] .ho-caret { transform: rotate(90deg); }
-  @media (prefers-reduced-motion: reduce) { .ho-caret { transition: none; } }
-  .ho-row:hover { background: var(--leaf); }
-  .ho-age { justify-self: center; font-family: var(--mono); font-size: 12px; padding: 3px 8px;
-    border-radius: 999px; border: 1px solid var(--hairline); color: var(--ink-faint); white-space: nowrap; }
-  .ho-age.mid { border-color: var(--amber-line); background: var(--amber-soft); color: var(--amber-ink); }
-  .ho-age.old { border-color: var(--amber-ink); background: var(--amber-ink); color: var(--on-amber); font-weight: 700; }
-  .ho-age.motion { border-color: var(--leaf-line); background: var(--leaf); color: var(--green); }
-  .ho-t { min-width: 0; }
-  .ho-title { font-size: 15.5px; font-weight: 600; }
-  .ho-blocks { display: block; font-size: 12.5px; color: var(--amber-ink); margin-top: 2px; }
-  .ho-own { font-size: 12.5px; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
-  .ho-own.aaron { background: var(--leaf); color: var(--green); }
-  .ho-own.lisa  { background: var(--amber-soft); color: var(--amber); }
-  .ho-own.both  { background: var(--track); color: var(--ink-soft); }
-  .ho-body { padding: 2px 6px 16px 82px; }
-  .ho-detail { color: var(--ink-soft); font-size: 14.5px; line-height: 1.55; max-width: 72ch;
-    margin: 0 0 8px; white-space: pre-wrap; }
-  .ho-motion-note { color: var(--green); font-size: 13px; font-style: italic; margin: 0 0 8px; }
-  .ho-meta { font-size: 12px; color: var(--ink-faint); margin: 0 0 12px; }
-  .ho-act { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  .ho-res { flex: 1 1 240px; min-width: 0; border: 1px solid var(--hairline); border-radius: 8px;
-    background: var(--card); color: var(--ink); font-family: var(--sans); font-size: 16px; padding: 8px 10px; }
-  .ho-done { background: var(--green); color: var(--on-green); border: 0; border-radius: 8px;
-    padding: 9px 18px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--sans); }
-  .ho-done:hover { background: var(--green-deep); }
-  .ho-drop { background: none; border: 1px solid var(--hairline); color: var(--ink-soft); border-radius: 8px;
-    padding: 9px 14px; font-size: 14px; cursor: pointer; font-family: var(--sans); }
-  .ho-empty { text-align: center; padding: 46px 20px; color: var(--ink-soft); font-size: 15px; }
-  .ho-offline { background: var(--amber-soft); border: 1px solid var(--amber-line); border-radius: 12px;
-    color: var(--amber-ink); padding: 18px 20px; margin: 14px 0; font-size: 14.5px; line-height: 1.5; }
-  .ho-doneWrap { margin-top: 24px; }
-  .ho-doneWrap summary { cursor: pointer; color: var(--ink-faint); font-size: 13px; }
-  .ho-doneRow { padding: 10px 6px; border-bottom: 1px solid var(--line-soft); }
-  .ho-doneRow .t { color: var(--ink-soft); font-size: 14px; text-decoration: line-through; }
-  .ho-doneRow .r { color: var(--ink-faint); font-size: 12.5px; margin-top: 2px; }
-  @media (max-width: 640px) {
-    .ho-head { align-items: center; }
-    /* re-flow rows: meta line up top (age · owner · caret), title full-width below */
-    .ho-row { grid-template-columns: auto 1fr auto; gap: 6px 10px; }
-    .ho-age { justify-self: start; grid-column: 1; grid-row: 1; }
-    .ho-own { grid-column: 2; grid-row: 1; justify-self: end; }
-    .ho-caret { grid-column: 3; grid-row: 1; }
-    .ho-t { grid-column: 1 / -1; grid-row: 2; }
-    .ho-body { padding-left: 6px; }
-    .ho-item.ho-card .ho-body { padding-left: 12px; }
-    .ho-bar { flex-direction: column; align-items: flex-start; }
-  }
 </style>
 </head>
 <body>
-<div id="hq-source-banner" hidden>
-  <strong>Working copy.</strong>
-  <span>This is the file the dashboard is edited in. The one Lisa and Joanna read is
-  <a href="https://www.shophelthy.com/hq-4aceb8b9/">shophelthy.com/hq-4aceb8b9</a>,
-  and it only changes when the deploy is run.</span>
-</div>
-<style>
-  #hq-source-banner {
-    display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline;
-    padding: 10px 18px; font-size: 13.5px; line-height: 1.5;
-    background: #8a6524; color: #fff;
-  }
-  #hq-source-banner a { color: #fff; text-underline-offset: 3px; }
-  #hq-source-banner strong { letter-spacing: .01em; }
-  @media print { #hq-source-banner { display: none; } }
-</style>
-<script>
-  /* Show it anywhere that is not the published host. */
-  (function () {
-    var el = document.getElementById("hq-source-banner");
-    if (!el) return;
-    var published = location.hostname === "www.shophelthy.com" ||
-                    location.hostname === "shophelthy.com";
-    if (!published) el.hidden = false;
-  })();
-</script>
 <div class="wrap">
 
   <header>
     <div class="header-actions">
-      <button class="hq-studio-btn" id="board-open" type="button" aria-label="Open the Scoring Sound Board" title="Open the Scoring Sound Board">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M6 4v16M12 4v16M18 4v16"/>
-          <rect x="4" y="13" width="4" height="3.4" rx="1.2" fill="currentColor" stroke="none"/>
-          <rect x="10" y="7" width="4" height="3.4" rx="1.2" fill="currentColor" stroke="none"/>
-          <rect x="16" y="10.5" width="4" height="3.4" rx="1.2" fill="currentColor" stroke="none"/>
-        </svg>
-        <span>Sound Board</span>
-      </button>
       <div class="theme-tog" id="theme-tog" role="group" aria-label="Color theme"></div>
     </div>
     <p class="load-error" id="load-error" hidden></p>
   </header>
 
   <nav class="tab-nav" role="tablist" aria-label="Dashboard sections">
-    <button class="tab active" data-tab="roadmap" role="tab">Roadmap</button>
-    <button class="tab" data-tab="claude" role="tab">From Claude <span class="count" id="handoff-count"></span></button>
-    <button class="tab" data-tab="analytics" role="tab">Analytics</button>
+    <button class="tab active" data-tab="analytics" role="tab">Analytics</button>
     <button class="tab" data-tab="alpha" role="tab">Alpha</button>
     <button class="tab" data-tab="leads" role="tab">Leads</button>
-    <button class="tab" data-tab="tasks" role="tab">Tasks <span class="count" id="task-count"></span></button>
-    <button class="tab" data-tab="meetings" role="tab">Meetings <span class="count" id="meeting-count"></span></button>
-    <button class="tab" data-tab="files" role="tab">Files</button>
+    <button class="tab" data-tab="meetings" role="tab">Meetings</button>
   </nav>
-
-  <!-- ================= ROADMAP ================= -->
-  <section class="pane active" id="pane-roadmap">
-    <div class="pane-head">
-      <h2>Where we are headed</h2>
-    </div>
-    <div class="gantt-scroll"><div class="gantt" id="gantt"></div></div>
-    <div class="legend">
-      <span><span class="lg-bar"><i></i></span> progress so far</span>
-      <span><span class="lg-di"></span> milestone</span>
-      <span><span class="lg-today"></span> today</span>
-    </div>
-  </section>
-
-  <!-- ================= FROM CLAUDE =================
-       The Claude→human handoff queue (hq_handoffs). Claudes on both machines
-       write rows when a session is blocked on human hands or a human decision;
-       Aaron and Lisa clear them here. -->
-  <section class="pane" id="pane-claude">
-    <div class="pane-head ho-head">
-      <div id="ho-cat" aria-hidden="true"></div>
-      <h2>Where I need human hands</h2>
-    </div>
-    <div class="ho-bar">
-      <div class="ho-chips" id="ho-chips" role="group" aria-label="Filter by person"></div>
-      <span class="ho-live" id="ho-live"></span>
-    </div>
-    <div id="ho-list"></div>
-  </section>
 
   <!-- ================= ANALYTICS =================
        Reads data/analytics-data.js, a snapshot written by
        analytics/refresh-analytics.py. The dashboard never calls PostHog itself:
        that needs a personal API key, and a key must not live in this folder. -->
-  <section class="pane" id="pane-analytics">
-    <div class="pane-head">
-      <h2>How testers are using the app</h2>
-    </div>
+  <section class="pane active" id="pane-analytics">
     <div id="analytics-root"></div>
   </section>
 
@@ -2858,15 +2313,6 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
       <h2>What the alpha told us</h2>
     </div>
     <div id="alpha-root"></div>
-  </section>
-
-  <!-- ================= TASKS ================= -->
-  <section class="pane" id="pane-tasks">
-    <div class="pane-head">
-      <h2>What we are growing</h2>
-      <p class="deck">Everything in motion, who is tending it, and what it is waiting on. Tap the dot to move a task along; tap the card to set its category, owner, or due date. Use the filter up top to focus on one workstream. Changes save for both of us, on every device.</p>
-    </div>
-    <div id="tm-board"></div>
   </section>
 
   <!-- ================= UNDER THE HOOD ================= -->
@@ -2892,7 +2338,6 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
   <section class="pane" id="pane-meetings">
     <div class="pane-head">
       <h2>When we meet</h2>
-      <p class="deck">A row per meeting: the date, what it is about, and a notebook to open. Notes write in plain markdown that formats itself as you type, and save for both of us automatically.</p>
     </div>
     <div class="mtg-sync" id="mtg-sync"></div>
     <form class="mtg-composer" id="mtg-composer" autocomplete="off">
@@ -2905,33 +2350,13 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
     <div id="mtg-list"><div class="mtg-skel">loading…</div></div>
   </section>
 
-  <!-- ================= FILES ================= -->
-  <section class="pane" id="pane-files">
-    <div class="pane-head">
-      <h2>Files &amp; sections</h2>
-      <p class="deck">Our shared workspaces and every file in this folder. Sections open in their own browser tab so you can keep a few side by side; files open on click. Anything you drop into the Files folder appears on my side within seconds.</p>
-    </div>
-    <div class="files-subhead">Sections</div>
-    <div class="section-list" id="section-list"></div>
-    <div class="files-subhead">Files in this folder</div>
-    <div class="file-list" id="file-list"></div>
-    <div class="howto">
-      <h4>How this folder works</h4>
-      <p>This whole folder lives on both of our computers and syncs by itself (no cloud account, no login). When either of us adds or edits a file, the other side has it moments later.</p>
-      <p>To share something: drag it into the <b>Files</b> folder. That is the whole workflow. This dashboard is updated by Aaron and always reflects the latest plan.</p>
-    </div>
-  </section>
-
-
   <!-- ================= LEADS (beta testers) ================= -->
   <section class="pane" id="pane-leads">
     <div class="pane-head">
       <h2>Beta tester leads</h2>
-      <p class="deck">Everyone in the pipeline: contact info, health context, platform, and where they stand. Click any cell to edit.</p>
     </div>
     <div class="inv-toolbar">
       <button class="inv-add-row" id="beta-add-row" type="button">+ Add tester</button>
-      <span class="inv-hint">Click any cell to edit · <kbd>Tab</kbd> moves between cells · <kbd>Enter</kbd> confirms</span>
     </div>
     <div class="inv-table-wrap">
       <table class="inv-table" id="beta-table">
@@ -2986,7 +2411,6 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
         <option value="investor">Investors</option>
         <option value="accelerator">Accelerators</option>
       </select>
-      <span class="inv-hint">Click any cell to edit · pre-loaded rows can be changed or deleted</span>
     </div>
     <div class="inv-table-wrap">
       <table class="inv-table" id="inv-table">
@@ -3013,31 +2437,8 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
 
   <footer>
     <span><span class="mark">Helthy</span> · founders' dashboard</span>
-    <span>Questions? Tell Aaron and it gets fixed.</span>
   </footer>
 </div>
-
-<!-- ================= DESIGN STUDIO TAKEOVER (immersive, full-screen) ================= -->
-<div class="studio-takeover" id="board-takeover" role="dialog" aria-modal="true" aria-label="Helthy Scoring Sound Board" hidden>
-  <div class="studio-chrome">
-    <div class="studio-chrome-brand">
-      <span class="studio-chrome-dot"></span>
-      <span class="studio-chrome-title">Scoring Sound Board</span>
-      <span class="studio-chrome-sub">launched from Helthy HQ</span>
-    </div>
-    <button class="studio-close" id="board-close" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      Close board <kbd>Esc</kbd>
-    </button>
-  </div>
-  <div class="studio-stage">
-    <div class="studio-loading" id="board-loading">
-      <span class="studio-loading-dot"></span> Opening the sound board…
-    </div>
-    <iframe class="studio-frame" id="board-frame" title="Helthy Scoring Sound Board" loading="lazy" allow="clipboard-write"></iframe>
-  </div>
-</div>
-
 
 <!-- ================= MEETING NOTE EDITOR (overlay) ================= -->
 <div class="editor-overlay" id="editor-overlay" aria-hidden="true">
@@ -3162,9 +2563,10 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
   }
   tabs.forEach(t => t.addEventListener("click", () => activate(t.dataset.tab, true)));
 
-  // Solo view: this dashboard opened as its own browser tab via #view=<pane>
-  // (from a Files → Sections card). Show just that section, hide the nav chrome.
-  const SOLO_TITLES = { engine: "Under the hood", investors: "Funding", decisions: "Decisions", claude: "From Claude" };
+  // Solo view: this dashboard opened as its own browser tab via #view=<pane>.
+  // Show just that section and hide the nav chrome. These three panes have no tab
+  // of their own — a deep link is the only way in, which is deliberate.
+  const SOLO_TITLES = { engine: "Under the hood", investors: "Funding", decisions: "Decisions" };
   const soloMatch = /(?:^|[#&])view=([a-z]+)/i.exec(location.hash || "");
   const soloView = soloMatch && $("#pane-" + soloMatch[1]) ? soloMatch[1] : null;
   if (soloView) {
@@ -3179,1010 +2581,6 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
       if (saved && navTabs.has(saved) && $("#pane-" + saved)) activate(saved, false);
     } catch (e) {}
   }
-
-  /* ---------- Design Studio launcher (HQ calm -> full-screen takeover) ---------- */
-  (function studio() {
-    /* The studio source. Local live server for now; once the studio is hosted,
-       swap this single constant for its deployed Netlify URL (hosting is still
-       pending / gated). Everything else here stays the same. */
-    // The hosted Design Studio on Netlify. For local playground development you
-    // can temporarily point this at "http://localhost:5180/index.html".
-    const STUDIO_URL = ""; /* hosted copy: Design Studio removed */
-
-    const openBtn  = $("#studio-open");
-    const takeover = $("#studio-takeover");
-    const closeBtn = $("#studio-close");
-    const frame    = $("#studio-frame");
-    if (!openBtn || !takeover || !closeBtn || !frame) return;
-
-    const loading = $("#studio-loading");
-    let isOpen = false;
-    let closeTimer = 0;
-    let readyTimer = 0;
-
-    // The studio posts "helthy-studio-ready" once it actually renders. We reveal
-    // it only on that handshake (an iframe "load" also fires for a browser error
-    // page, so it is not proof the studio is really up). If the handshake never
-    // arrives — e.g. this synced copy is opened somewhere the local studio is not
-    // running — we show a calm note instead of a broken frame. Goes live for
-    // everyone once the studio is hosted online.
-    function markStudioReady() { clearTimeout(readyTimer); takeover.classList.add("loaded"); }
-    function armStudioReady() {
-      clearTimeout(readyTimer);
-      readyTimer = setTimeout(() => {
-        if (!loading) return;
-        loading.classList.add("is-note");
-        loading.innerHTML = '<span class="studio-note">The live studio is not running here yet. It opens right in this window once we put it online.</span>';
-      }, 5000);
-    }
-
-    function openStudio() {
-      if (isOpen) return;
-      isOpen = true;
-      clearTimeout(closeTimer);
-      // load the studio lazily on first open, then keep it warm for reopens
-      if (!frame.getAttribute("src")) {
-        armStudioReady();
-        frame.setAttribute("src", STUDIO_URL);
-      }
-      takeover.hidden = false;
-      document.body.classList.add("studio-on");
-      // two frames so the element is laid out before the transition runs
-      requestAnimationFrame(() => requestAnimationFrame(() => takeover.classList.add("open")));
-      closeBtn.focus();   // so Esc works immediately, before focus enters the iframe
-    }
-
-    function closeStudio() {
-      if (!isOpen) return;
-      isOpen = false;
-      takeover.classList.remove("open");
-      document.body.classList.remove("studio-on");
-      const finish = () => { takeover.hidden = true; takeover.removeEventListener("transitionend", finish); };
-      takeover.addEventListener("transitionend", finish);
-      closeTimer = setTimeout(finish, 520);   // fallback if transitionend is missed
-      openBtn.focus();
-    }
-
-    openBtn.addEventListener("click", openStudio);
-    closeBtn.addEventListener("click", closeStudio);
-    document.addEventListener("keydown", e => { if (e.key === "Escape" && isOpen) closeStudio(); });
-    // the studio (cross-origin iframe) posts this when Esc is pressed *inside* it,
-    // so the takeover also closes from within — not just via HQ's own Esc / button
-    let studioOrigin = "";
-    try { studioOrigin = new URL(STUDIO_URL, location.href).origin; } catch (e) {}
-    window.addEventListener("message", e => {
-      if (studioOrigin && e.origin !== studioOrigin) return;
-      if (e.data === "helthy-studio-ready") markStudioReady();
-      else if (e.data === "helthy-studio-close") closeStudio();
-    });
-  })();
-
-  /* ---------- scoring sound board (same takeover pattern as the studio) ---------- */
-  (function board() {
-    // The sound board ships INSIDE this HQ folder (soundboard/) and syncs to Lisa over
-    // Syncthing like everything else — no hosting, no Supabase, works from file://.
-    // (fetch/Worker are deliberately absent in it; plain script tags load fine locally.)
-    const BOARD_URL = "soundboard/index.html";
-
-    const openBtn  = $("#board-open");
-    const takeover = $("#board-takeover");
-    const closeBtn = $("#board-close");
-    const frame    = $("#board-frame");
-    if (!openBtn || !takeover || !closeBtn || !frame) return;
-
-    const loading = $("#board-loading");
-    let isOpen = false;
-    let closeTimer = 0;
-    let readyTimer = 0;
-
-    // The board posts "helthy-board-ready" once it actually renders (an iframe "load"
-    // also fires for an error page). If the handshake never arrives, show a calm note.
-    function markReady() { clearTimeout(readyTimer); takeover.classList.add("loaded"); }
-    function armReady() {
-      clearTimeout(readyTimer);
-      readyTimer = setTimeout(() => {
-        if (!loading) return;
-        loading.classList.add("is-note");
-        loading.innerHTML = '<span class="studio-note">The sound board is not online yet. It opens right in this window once we put it up.</span>';
-      }, 6000);
-    }
-
-    function openBoard() {
-      if (isOpen) return;
-      isOpen = true;
-      clearTimeout(closeTimer);
-      if (!frame.getAttribute("src")) {
-        armReady();
-        frame.setAttribute("src", BOARD_URL);
-      }
-      takeover.hidden = false;
-      document.body.classList.add("studio-on");
-      requestAnimationFrame(() => requestAnimationFrame(() => takeover.classList.add("open")));
-      closeBtn.focus();
-    }
-
-    function closeBoard() {
-      if (!isOpen) return;
-      isOpen = false;
-      takeover.classList.remove("open");
-      document.body.classList.remove("studio-on");
-      const finish = () => { takeover.hidden = true; takeover.removeEventListener("transitionend", finish); };
-      takeover.addEventListener("transitionend", finish);
-      closeTimer = setTimeout(finish, 520);
-      openBtn.focus();
-    }
-
-    openBtn.addEventListener("click", openBoard);
-    closeBtn.addEventListener("click", closeBoard);
-    document.addEventListener("keydown", e => { if (e.key === "Escape" && isOpen) closeBoard(); });
-    // Provenance by window identity, not origin strings: the board ships in this same
-    // folder, and file:// frames serialize their origin inconsistently across Chrome
-    // versions ("null" vs "file://"). e.source === the board iframe's contentWindow is
-    // the stronger check and works over file:// and http alike.
-    window.addEventListener("message", e => {
-      if (e.source !== frame.contentWindow) return;
-      if (e.data === "helthy-board-ready") markReady();
-      else if (e.data === "helthy-board-close") closeBoard();
-    });
-  })();
-
-  /* ---------- roadmap (gantt) ---------- */
-  (function gantt() {
-    const start = parse(D.timeline.start), end = parse(D.timeline.end);
-    const days = Math.round((end - start) / day) + 1;
-    const today = todayMid();
-    const tIdx = Math.round((today - start) / day);
-    const pct = n => (n / days * 100).toFixed(3) + "%";
-    const root = $("#gantt");
-
-    // month header
-    let mh = '<div class="g-months">';
-    let cursor = new Date(start), runStart = 0;
-    for (let i = 0; i <= days; i++) {
-      const d = new Date(start.getTime() + i * day);
-      if (i === days || d.getMonth() !== cursor.getMonth()) {
-        mh += '<div class="g-month" style="width:' + pct(i - runStart) + '">' +
-              cursor.toLocaleDateString("en-US", { month: "long" }) + "</div>";
-        cursor = d; runStart = i;
-      }
-    }
-    mh += "</div>";
-
-    // day header (label Mondays + the 1st)
-    let dh = '<div class="g-days">';
-    for (let i = 0; i < days; i++) {
-      const d = new Date(start.getTime() + i * day);
-      const mon = d.getDay() === 1;
-      const show = mon || d.getDate() === 1;
-      dh += '<div class="g-day' + (mon ? " is-monday" : "") + '">' +
-            (show ? d.getDate() : "") + "</div>";
-    }
-    dh += "</div>";
-
-    // grid columns
-    let grid = '<div class="g-grid">';
-    for (let i = 0; i < days; i++) {
-      const d = new Date(start.getTime() + i * day);
-      grid += '<div class="g-col' + (d.getDay() === 1 ? " is-monday" : "") +
-              (i === tIdx ? " is-today" : "") + '"></div>';
-    }
-    grid += "</div>";
-
-    // rows
-    let rows = "";
-    (D.tracks || []).forEach(track => {
-      (track.bars || []).forEach((bar, bi) => {
-        const b0 = Math.max(0, Math.round((parse(bar.start) - start) / day));
-        const b1 = Math.min(days, Math.round((parse(bar.end) - start) / day) + 1);
-        const p = Math.max(0, Math.min(100, bar.progress || 0));
-        rows +=
-          '<div class="g-row">' +
-            '<div class="g-label"><div class="t">' + esc(bar.label) + '</div>' +
-            '<div class="s">' + esc(track.name) + " · " + fmt(parse(bar.start)) + " to " + fmt(parse(bar.end)) + "</div></div>" +
-            '<div class="g-lane">' +
-              '<div class="g-bar' + (p >= 100 ? " done" : "") + '" style="left:' + pct(b0) + ";width:" + pct(b1 - b0) + ';" title="' +
-                esc(bar.label) + " · " + p + '% grown">' +
-                '<span class="fill" style="--p:' + p + '%"></span>' +
-                '<span class="pct">' + p + "%</span>" +
-              "</div>" +
-            "</div>" +
-          "</div>";
-      });
-    });
-
-    // milestone row
-    const ms = D.milestones || [];
-    if (ms.length) {
-      let lane = "";
-      ms.forEach(m => {
-        const x = Math.round((parse(m.date) - start) / day) + 0.5;
-        lane += '<div class="g-milestone' + (parse(m.date) <= today ? " hit" : "") +
-                '" style="left:' + pct(x) + '"><span class="tip">' +
-                esc(m.label) + " · " + fmt(parse(m.date)) + "</span></div>";
-      });
-      rows += '<div class="g-row milestones-row">' +
-        '<div class="g-label"><div class="t">Milestones</div><div class="s">hover each diamond</div></div>' +
-        '<div class="g-lane">' + lane + "</div></div>";
-    }
-
-    const todayTag = (tIdx >= 0 && tIdx < days)
-      ? '<div class="g-today-tag" style="left:calc(var(--label-w,200px) + (100% - var(--label-w,200px)) * ' +
-        ((tIdx + 0.5) / days).toFixed(4) + ')">Today</div>'
-      : "";
-
-    root.innerHTML = mh + dh + '<div class="g-body">' + todayTag + grid + rows + "</div>";
-  })();
-
-  /* ---------- tasks ---------- */
-  /* Rendered by the Tasks Machine, vendored from Claude/Utils/tasks-machine.
-     Keep this block in sync with that canonical copy. Wired to the hq_tasks
-     Supabase table by the adapter in the mount step below. */
-
-  /* ===== vendored tasks-machine.js — BEGIN ===== */
-/* ============================================================================
-   tasks-machine.js — a small, themeable, backend-agnostic task board.
-
-   Renders an elegant task list: a category filter dropdown with live counts,
-   soft task cards, and a tap-to-edit sheet where every field lives (category,
-   status, tags like owner/priority, due date, note). All persistence goes
-   through an adapter you provide, so it works against Supabase/PostgREST, a
-   REST API, localStorage, or anything else.
-
-       TasksMachine.mount({ mount, adapter, ...config })
-
-   See README.md for the full config + adapter contract. No dependencies.
-   ========================================================================== */
-(function (global) {
-  "use strict";
-
-  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g,
-    c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const el = html => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
-  const CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
-  const CARET_SVG = '<svg class="tm-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
-
-  // deterministic hue from a string (for category pill tinting)
-  function hashHue(str) { let h = 0; for (const ch of String(str)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h % 360; }
-  function catColors(name, cfg) {
-    if (cfg.category.colors && cfg.category.colors[name]) return cfg.category.colors[name];
-    const hue = hashHue(name);
-    const root = cfg.mount;
-    const cs = getComputedStyle(root);
-    const sat = cs.getPropertyValue("--tm-pill-sat").trim() || "42%";
-    const light = cs.getPropertyValue("--tm-pill-light").trim() || "93%";
-    const isat = cs.getPropertyValue("--tm-pill-ink-sat").trim() || "38%";
-    const ilight = cs.getPropertyValue("--tm-pill-ink-light").trim() || "32%";
-    return { bg: `hsl(${hue} ${sat} ${light})`, fg: `hsl(${hue} ${isat} ${ilight})`, dot: `hsl(${hue} 45% 55%)` };
-  }
-
-  function todayISO() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-  }
-  function dueLabel(iso) {
-    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || "");
-    if (!m) return iso || "";
-    const d = new Date(+m[1], +m[2] - 1, +m[3]);
-    const opts = { month: "short", day: "numeric" };
-    if (d.getFullYear() !== new Date().getFullYear()) opts.year = "numeric";
-    return "by " + d.toLocaleDateString([], opts);
-  }
-  function dueClass(iso) {
-    if (!iso) return "";
-    const t = todayISO();
-    return iso < t ? "tm-overdue" : iso === t ? "tm-today" : "";
-  }
-
-  // ---- config normalization -------------------------------------------------
-  function normalize(cfg) {
-    if (!cfg || !cfg.mount) throw new Error("TasksMachine: `mount` element is required");
-    if (!cfg.adapter) throw new Error("TasksMachine: an `adapter` is required");
-    const c = Object.assign({}, cfg);
-    c.idKey = cfg.idKey || "id";
-    c.title = Object.assign({ key: "title", label: "Title", placeholder: "Add a task…" }, cfg.title);
-    c.category = Object.assign({ key: "track", label: "Category", default: "General", allowNew: true }, cfg.category);
-    c.note = cfg.note === false ? null : Object.assign({ key: "note", label: "Note" }, cfg.note);
-    c.due = cfg.due === false ? null : Object.assign({ key: "due", label: "Due" }, cfg.due);
-    c.tags = (cfg.tags || []).map(t => Object.assign({ default: (t.options && t.options[0] && t.options[0].value) }, t));
-    // status: options [{value,label,tone,kind,done,next}]
-    c.status = Object.assign({ key: "status", label: "Status", default: null, options: [], cycleDot: true }, cfg.status);
-    if (!c.status.default && c.status.options[0]) c.status.default = c.status.options[0].value;
-    c.strings = Object.assign({
-      addCta: "Add task", addTitle: "New task", editTitle: "Edit task",
-      save: "Save", cancel: "Cancel", delete: "Delete", empty: "Nothing here right now.",
-      newCategory: "+ New category…", hideDone: "Hide done", all: "All", search: "Search tasks…",
-      offline: "offline · changes paused", online: "live · changes save",
-      confirmTitle: "Are you sure?", confirmDelete: t => `Remove “${t}”?`,
-    }, cfg.strings);
-    c.seed = cfg.seed || [];
-    c.search = cfg.search !== false;
-    c.confirm = cfg.confirm || null;   // null → use the built-in native-dialog confirm
-    c.onChange = cfg.onChange || (() => {});
-    c.prefKey = cfg.prefKey || "tm-board";
-    return c;
-  }
-
-  function statusOpt(cfg, val) { return cfg.status.options.find(o => o.value === val) || cfg.status.options[0] || {}; }
-  function isDone(cfg, t) { return !!statusOpt(cfg, t[cfg.status.key]).done; }
-  function catOf(cfg, t) { return t[cfg.category.key] || cfg.category.default; }
-
-  // ===========================================================================
-  class TasksMachine {
-    constructor(cfg) {
-      this.cfg = normalize(cfg);
-      this.root = cfg.mount;
-      this.root.classList.add("tm-root");
-      this.tasks = (this.cfg.seed || []).map((t, i) => Object.assign({ [this.cfg.idKey]: "seed-" + i }, t));
-      this.live = false;
-      this.filter = "all";           // "all" | "cat:<name>" | "tag:<key>:<value>"
-      this.query = "";
-      this.menuOpen = false;
-      try { this.hideDone = localStorage.getItem(this.cfg.prefKey + ":hideDone") === "1"; } catch { this.hideDone = false; }
-      this.sheetTask = null;         // task being edited, or null for "add" mode
-      this._build();
-      this.refresh();
-    }
-
-    // ---- one-time DOM scaffold ----
-    _build() {
-      const c = this.cfg;
-      this.root.innerHTML = "";
-      this.toolbar = el(`<div class="tm-toolbar"></div>`);
-      if (c.search) {
-        this.search = el(`<input class="tm-search" type="text" placeholder="${esc(c.strings.search)}" autocomplete="off">`);
-        this.search.addEventListener("input", e => { this.query = e.target.value; this._renderList(); });
-        this.toolbar.appendChild(this.search);
-      }
-      this.toolbar.appendChild(el(`<span class="tm-spacer"></span>`));
-      this.filterWrap = el(`<div class="tm-filter">
-        <button class="tm-filter-btn" type="button" aria-haspopup="listbox" aria-expanded="false">
-          <span class="tm-filter-label">${esc(c.strings.all)}</span>
-          <span class="tm-filter-count">0</span>${CARET_SVG}
-        </button>
-        <div class="tm-menu" hidden role="listbox"></div>
-      </div>`);
-      this.filterBtn = this.filterWrap.querySelector(".tm-filter-btn");
-      this.menu = this.filterWrap.querySelector(".tm-menu");
-      this.filterBtn.addEventListener("click", e => { e.stopPropagation(); this._setMenu(!this.menuOpen); });
-      this.toolbar.appendChild(this.filterWrap);
-
-      this.addBtn = el(`<button class="tm-add-btn" type="button">${esc(c.strings.addCta)}</button>`);
-      this.addBtn.addEventListener("click", () => this.openSheet(null));
-      this.toolbar.appendChild(this.addBtn);
-
-      this.listEl = el(`<div class="tm-list"></div>`);
-      this.syncEl = el(`<div style="margin-top:14px;text-align:right"></div>`);
-
-      this.root.appendChild(this.toolbar);
-      this.root.appendChild(this.listEl);
-      this.root.appendChild(this.syncEl);
-
-      this._buildSheet();
-
-      document.addEventListener("click", e => { if (!this.filterWrap.contains(e.target)) this._setMenu(false); });
-      document.addEventListener("keydown", e => { if (e.key === "Escape") this._setMenu(false); });
-    }
-
-    _setMenu(open) { this.menuOpen = open; this.filterBtn.setAttribute("aria-expanded", String(open)); this.menu.hidden = !open; if (open) this._renderMenu(); }
-
-    // ---- data ----
-    async refresh() {
-      try {
-        const rows = await this.cfg.adapter.list();
-        if (!Array.isArray(rows)) throw new Error("adapter.list() did not return an array");
-        this.live = true;
-        this.tasks = rows;
-      } catch (err) {
-        this.live = false;        // stay on seed/offline copy
-      }
-      this._renderAll();
-      this.cfg.onChange(this.tasks, this);
-    }
-
-    categories() {
-      const c = this.cfg;
-      const set = new Set([c.category.default, ...(c.seed || []).map(t => catOf(c, t)), ...this.tasks.map(t => catOf(c, t))]);
-      return [...set].filter(Boolean).sort((a, b) => a.localeCompare(b));
-    }
-
-    _openCount(predicate) { return this.tasks.filter(t => !isDone(this.cfg, t) && predicate(t)).length; }
-
-    _filtered() {
-      const c = this.cfg;
-      const q = this.query.trim().toLowerCase();
-      return this.tasks.filter(t => {
-        if (this.hideDone && isDone(c, t)) return false;
-        if (this.filter.startsWith("cat:") && catOf(c, t) !== this.filter.slice(4)) return false;
-        if (this.filter.startsWith("tag:")) {
-          const [, key, val] = this.filter.split(":");
-          if (String(t[key] ?? "") !== val) return false;
-        }
-        if (!q) return true;
-        const hay = [t[c.title.key], c.note && t[c.note.key], catOf(c, t)].filter(Boolean).join(" ").toLowerCase();
-        return q.split(/\s+/).every(tok => hay.includes(tok));
-      });
-    }
-
-    // ---- rendering ----
-    _renderAll() { this._renderMenu(); this._renderList(); this._renderSync(); }
-
-    _renderSync() {
-      const c = this.cfg;
-      this.syncEl.innerHTML = `<span class="tm-sync ${this.live ? "on" : "off"}">${this.live ? esc(c.strings.online) : esc(c.strings.offline)}</span>`;
-      this.addBtn.disabled = !this.live;
-      if (!this.live) this.addBtn.title = c.strings.offline;
-    }
-
-    _filterLabel() {
-      const c = this.cfg;
-      if (this.filter === "all") return c.strings.all;
-      if (this.filter.startsWith("cat:")) return this.filter.slice(4);
-      if (this.filter.startsWith("tag:")) { const [, key, val] = this.filter.split(":"); const tag = c.tags.find(t => t.key === key); const o = tag && tag.options.find(o => o.value === val); return (o && o.label) || val; }
-      return c.strings.all;
-    }
-
-    _renderMenu() {
-      const c = this.cfg;
-      this.filterBtn.querySelector(".tm-filter-label").textContent = this._filterLabel();
-      this.filterBtn.querySelector(".tm-filter-count").textContent = this.filter === "all"
-        ? this._openCount(() => true)
-        : this._filtered().filter(t => !isDone(c, t)).length;
-      this.filterBtn.classList.toggle("tm-on", this.filter !== "all");
-      if (this.menu.hidden) return;
-
-      const item = (key, label, count, swatch) => `
-        <button class="tm-item${this.filter === key ? " tm-active" : ""}" type="button" role="option" data-filter="${esc(key)}">
-          <span class="tm-item-left">${swatch ? `<span class="tm-swatch" style="background:${swatch}"></span>` : ""}<span>${esc(label)}</span></span>
-          <span class="tm-item-count">${count}</span>
-        </button>`;
-
-      let html = item("all", c.strings.all, this._openCount(() => true), "");
-      html += `<div class="tm-menu-label">${esc(c.category.label)}</div>`;
-      this.categories().forEach(cat => {
-        const col = catColors(cat, c);
-        html += item("cat:" + cat, cat, this._openCount(t => catOf(c, t) === cat), col.dot || col.bg);
-      });
-      c.tags.forEach(tag => {
-        if (tag.filter === false) return;
-        html += `<div class="tm-menu-label">${esc(tag.label)}</div>`;
-        tag.options.forEach(o => {
-          html += item(`tag:${tag.key}:${o.value}`, o.label, this._openCount(t => String(t[tag.key] ?? "") === o.value), "");
-        });
-      });
-      html += `<button class="tm-item tm-toggle${this.hideDone ? " tm-on" : ""}" type="button" data-action="hide-done">
-        <span class="tm-item-left"><span>${esc(c.strings.hideDone)}</span></span>
-        <span class="tm-toggle-state">${CHECK_SVG}</span></button>`;
-      this.menu.innerHTML = html;
-
-      this.menu.querySelectorAll(".tm-item").forEach(b => b.addEventListener("click", () => {
-        if (b.dataset.action === "hide-done") {
-          this.hideDone = !this.hideDone;
-          try { localStorage.setItem(c.prefKey + ":hideDone", this.hideDone ? "1" : "0"); } catch {}
-          this._renderAll(); return;
-        }
-        this.filter = b.dataset.filter; this._setMenu(false); this._renderAll();
-      }));
-    }
-
-    _renderList() {
-      const c = this.cfg;
-      const shown = this._filtered();
-      this.filterBtn.querySelector(".tm-filter-count").textContent = this.filter === "all"
-        ? this._openCount(() => true) : shown.filter(t => !isDone(c, t)).length;
-      if (!shown.length) { this.listEl.innerHTML = `<p class="tm-empty">${esc(c.strings.empty)}</p>`; return; }
-
-      // group by category (only when not already filtered to one category)
-      const grouped = !this.filter.startsWith("cat:");
-      this.listEl.innerHTML = "";
-      if (grouped) {
-        const groups = {};
-        shown.forEach(t => { const k = catOf(c, t); (groups[k] = groups[k] || []).push(t); });
-        Object.keys(groups).sort((a, b) => a.localeCompare(b)).forEach(cat => {
-          const col = catColors(cat, c);
-          this.listEl.appendChild(el(`<div class="tm-group-label"><span class="tm-swatch" style="background:${col.dot || col.bg}"></span>${esc(cat)}</div>`));
-          groups[cat].forEach((t, i) => this.listEl.appendChild(this._card(t, i)));
-        });
-      } else {
-        shown.forEach((t, i) => this.listEl.appendChild(this._card(t, i)));
-      }
-    }
-
-    _card(t, i) {
-      const c = this.cfg;
-      const so = statusOpt(c, t[c.status.key]);
-      const done = !!so.done;
-      const card = el(`<div class="tm-card${done ? " tm-done" : ""}" style="--i:${Math.min(i, 12)}"></div>`);
-
-      const dot = el(`<button class="tm-dot k-${esc(so.kind || "open")}" type="button" aria-label="Change status" title="${this.live ? "Advance status" : "Read-only"}"></button>`);
-      if (!this.live) dot.setAttribute("data-readonly", "");
-      else dot.addEventListener("click", e => { e.stopPropagation(); this._advance(t); });
-      card.appendChild(dot);
-
-      const body = el(`<div class="tm-body"></div>`);
-      body.appendChild(el(`<span class="tm-title">${esc(t[c.title.key] || "")}</span>`));
-      if (c.note && t[c.note.key]) body.appendChild(el(`<span class="tm-note">${esc(t[c.note.key])}</span>`));
-
-      const meta = el(`<div class="tm-meta"></div>`);
-      // category isn't repeated here — the colored group label above the card carries it.
-      c.tags.forEach(tag => {
-        const v = t[tag.key]; if (v == null || v === "") return;
-        const o = tag.options.find(o => o.value === String(v));
-        meta.appendChild(el(`<span class="tm-pill ${o && o.tone ? "tone-" + o.tone : "tone-muted"}">${esc(o ? o.label : v)}</span>`));
-      });
-      if (c.status.showPill !== false && so.label) meta.appendChild(el(`<span class="tm-pill ${so.tone ? "tone-" + so.tone : "tone-muted"}">${esc(so.label)}</span>`));
-      if (c.due && t[c.due.key]) meta.appendChild(el(`<span class="tm-pill tm-due ${dueClass(t[c.due.key])}">${esc(dueLabel(t[c.due.key]))}</span>`));
-      if (meta.children.length) body.appendChild(meta);
-
-      body.addEventListener("click", () => this.openSheet(t));
-      card.appendChild(body);
-      return card;
-    }
-
-    // ---- mutations (optimistic) ----
-    _idsel(t) { return t[this.cfg.idKey]; }
-
-    async _advance(t) {
-      const c = this.cfg;
-      const cur = statusOpt(c, t[c.status.key]);
-      let next = cur.next;
-      if (!next) { const opts = c.status.options; const idx = opts.findIndex(o => o.value === cur.value); next = opts[(idx + 1) % opts.length].value; }
-      t[c.status.key] = next; this._renderAll();
-      try { await this.cfg.adapter.update(this._idsel(t), { [c.status.key]: next }); } catch {}
-      this.cfg.onChange(this.tasks, this);
-    }
-
-    async _patch(t, patch) {
-      Object.assign(t, patch); this._renderAll();
-      try { await this.cfg.adapter.update(this._idsel(t), patch); } catch {}
-      this.cfg.onChange(this.tasks, this);
-    }
-
-    async _create(data) {
-      const c = this.cfg;
-      const tmp = Object.assign({ [c.idKey]: "tmp-" + Math.random().toString(36).slice(2, 8) }, data);
-      this.tasks.push(tmp); this._renderAll();
-      try {
-        const row = await this.cfg.adapter.create(data);
-        if (row && row[c.idKey] != null) Object.assign(tmp, row);
-        this._renderAll();
-      } catch {}
-      this.cfg.onChange(this.tasks, this);
-    }
-
-    async _remove(t) {
-      this.tasks = this.tasks.filter(x => this._idsel(x) !== this._idsel(t)); this._renderAll();
-      try { await this.cfg.adapter.remove(this._idsel(t)); } catch {}
-      this.cfg.onChange(this.tasks, this);
-    }
-
-    // ---- the sheet (add + edit) ----
-    _buildSheet() {
-      const c = this.cfg;
-      this.sheet = el(`<dialog class="tm-sheet"><form class="tm-sheet-inner" method="dialog"></form></dialog>`);
-      this.sheetForm = this.sheet.querySelector(".tm-sheet-inner");
-      // Mount inside the themed root (not <body>) so the dialog inherits the host's --tm-* tokens
-      // set on .tm-root. showModal() still promotes it to the top layer, so stacking is unaffected.
-      this.root.appendChild(this.sheet);
-      this.sheetForm.addEventListener("submit", e => { e.preventDefault(); this._saveSheet(); });
-      this.sheet.addEventListener("click", e => { if (e.target === this.sheet) this.sheet.close(); });
-    }
-
-    openSheet(t) {
-      const c = this.cfg;
-      this.sheetTask = t;
-      const cats = this.categories();
-      const cat = t ? catOf(c, t) : (this.filter.startsWith("cat:") ? this.filter.slice(4) : c.category.default);
-
-      const catOptions = cats.map(x => `<option value="${esc(x)}"${x === cat ? " selected" : ""}>${esc(x)}</option>`).join("")
-        + (c.category.allowNew ? `<option value="__new__">${esc(c.strings.newCategory)}</option>` : "");
-
-      const tagFields = c.tags.map(tag => {
-        const v = t ? (t[tag.key] ?? tag.default) : tag.default;
-        const opts = tag.options.map(o => `<option value="${esc(o.value)}"${String(v) === o.value ? " selected" : ""}>${esc(o.label)}</option>`).join("");
-        return `<div class="tm-field"><label>${esc(tag.label)}</label><select class="tm-select" data-tag="${esc(tag.key)}">${opts}</select></div>`;
-      }).join("");
-
-      const statusField = c.status.options.length ? `<div class="tm-field"><label>${esc(c.status.label)}</label>
-        <select class="tm-select" data-role="status">${c.status.options.map(o =>
-          `<option value="${esc(o.value)}"${(t ? t[c.status.key] : c.status.default) === o.value ? " selected" : ""}>${esc(o.label)}</option>`).join("")}</select></div>` : "";
-
-      const dueField = c.due ? `<div class="tm-field"><label>${esc(c.due.label)}</label>
-        <div class="tm-inline-clear"><input type="date" data-role="due" value="${esc(t && t[c.due.key] || "")}">
-        <button class="tm-mini-clear" type="button" data-role="due-clear" title="Clear">×</button></div></div>` : "";
-
-      const noteField = c.note ? `<div class="tm-field"><label>${esc(c.note.label)}</label>
-        <textarea data-role="note" rows="3" placeholder="">${esc(t && t[c.note.key] || "")}</textarea></div>` : "";
-
-      this.sheetForm.innerHTML = `
-        <textarea class="tm-sheet-title" data-role="title" rows="1" placeholder="${esc(c.title.placeholder)}">${esc(t ? t[c.title.key] : "")}</textarea>
-        <div class="tm-row">
-          <div class="tm-field"><label>${esc(c.category.label)}</label>
-            <select class="tm-select" data-role="cat">${catOptions}</select>
-            <input class="tm-newcat" type="text" data-role="cat-new" placeholder="${esc(c.category.label)}" hidden>
-          </div>
-          ${tagFields}
-        </div>
-        <div class="tm-row">${statusField}${dueField}</div>
-        ${noteField}
-        <div class="tm-sheet-actions">
-          ${t ? `<button class="tm-btn tm-btn-danger" type="button" data-role="delete">${esc(c.strings.delete)}</button>` : "<span></span>"}
-          <span class="tm-actions-right">
-            <button class="tm-btn" type="button" data-role="cancel">${esc(c.strings.cancel)}</button>
-            <button class="tm-btn tm-btn-primary" type="submit">${esc(c.strings.save)}</button>
-          </span>
-        </div>`;
-
-      const q = sel => this.sheetForm.querySelector(sel);
-      const titleEl = q('[data-role="title"]');
-      const grow = () => { titleEl.style.height = "auto"; titleEl.style.height = titleEl.scrollHeight + "px"; };
-      titleEl.addEventListener("input", grow);
-      // Editing an existing task: keep the title readonly so the dialog's autofocus can't summon
-      // the keyboard on iOS. First tap arms it (focus inside a gesture is what opens the keyboard).
-      if (t) {
-        titleEl.setAttribute("readonly", "");
-        titleEl.addEventListener("click", () => {
-          if (!titleEl.hasAttribute("readonly")) return;
-          titleEl.removeAttribute("readonly");
-          const end = titleEl.value.length;
-          titleEl.blur(); titleEl.focus();
-          try { titleEl.setSelectionRange(end, end); } catch {}
-        });
-      }
-
-      const catSel = q('[data-role="cat"]'), catNew = q('[data-role="cat-new"]');
-      catSel.addEventListener("change", () => { const isNew = catSel.value === "__new__"; catNew.hidden = !isNew; if (isNew) catNew.focus(); });
-
-      q('[data-role="cancel"]').addEventListener("click", () => this.sheet.close());
-      if (q('[data-role="due-clear"]')) q('[data-role="due-clear"]').addEventListener("click", () => { q('[data-role="due"]').value = ""; });
-      const del = q('[data-role="delete"]');
-      if (del) del.addEventListener("click", async () => {
-        const ask = c.confirm || (m => this._confirm(m));
-        if (!await ask(c.strings.confirmDelete(t[c.title.key]))) return;
-        this.sheet.close(); this._remove(t);
-      });
-
-      this.sheet.showModal();
-      requestAnimationFrame(grow);
-    }
-
-    // built-in confirm — a native <dialog> so it stacks ABOVE the edit sheet's top layer.
-    _confirm(message) {
-      const c = this.cfg;
-      return new Promise(resolve => {
-        const dlg = el(`<dialog class="tm-sheet"><div class="tm-sheet-inner">
-          <div style="font-family:var(--tm-serif);font-size:19px;color:var(--tm-ink);margin-bottom:8px">${esc(c.strings.confirmTitle)}</div>
-          <div style="color:var(--tm-ink-soft);font-size:14px;line-height:1.5;margin-bottom:18px">${esc(message)}</div>
-          <div class="tm-sheet-actions"><span></span><span class="tm-actions-right">
-            <button class="tm-btn" type="button" data-x="0">${esc(c.strings.cancel)}</button>
-            <button class="tm-btn tm-btn-danger" type="button" data-x="1">${esc(c.strings.delete)}</button>
-          </span></div></div></dialog>`);
-        this.root.appendChild(dlg);   // inside the themed root so --tm-* resolve; top layer keeps it above the sheet
-        const fin = v => { try { dlg.close(); } catch {} dlg.remove(); resolve(v); };
-        dlg.querySelector('[data-x="0"]').addEventListener("click", () => fin(false));
-        dlg.querySelector('[data-x="1"]').addEventListener("click", () => fin(true));
-        dlg.addEventListener("click", e => { if (e.target === dlg) fin(false); });
-        dlg.addEventListener("cancel", e => { e.preventDefault(); fin(false); });
-        dlg.showModal();
-        setTimeout(() => { const b = dlg.querySelector('[data-x="1"]'); if (b) b.focus(); }, 50);
-      });
-    }
-
-    _saveSheet() {
-      const c = this.cfg;
-      const q = sel => this.sheetForm.querySelector(sel);
-      const title = q('[data-role="title"]').value.replace(/\s+/g, " ").trim();
-      if (!title) { q('[data-role="title"]').focus(); return; }
-      const catSel = q('[data-role="cat"]');
-      const cat = (catSel.value === "__new__" ? q('[data-role="cat-new"]').value.trim() : catSel.value) || c.category.default;
-
-      const data = { [c.title.key]: title, [c.category.key]: cat };
-      if (c.note) data[c.note.key] = q('[data-role="note"]').value.trim();
-      if (c.due) data[c.due.key] = q('[data-role="due"]').value || "";
-      if (c.status.options.length && q('[data-role="status"]')) data[c.status.key] = q('[data-role="status"]').value;
-      this.sheetForm.querySelectorAll("[data-tag]").forEach(s => { data[s.dataset.tag] = s.value; });
-
-      this.sheet.close();
-      if (this.sheetTask) this._patch(this.sheetTask, data);
-      else { if (!data[c.status.key] && c.status.default) data[c.status.key] = c.status.default; this._create(data); }
-    }
-  }
-
-  global.TasksMachine = { mount: cfg => new TasksMachine(cfg) };
-})(typeof window !== "undefined" ? window : globalThis);
-
-  /* ===== vendored tasks-machine.js — END ===== */
-
-  /* ---------- mount the Tasks Machine on #tm-board (Supabase-backed) ---------- */
-  (function mountTasks() {
-    const board = document.getElementById("tm-board");
-    if (!board || !window.TasksMachine) return;
-    const SB = D.supabase || {};
-    const sbReady = !!(SB.url && SB.key);
-    const sb = (path, opts = {}) => fetch(SB.url + path, Object.assign({}, opts, {
-      headers: Object.assign({ apikey: SB.key, Authorization: "Bearer " + SB.key, "Content-Type": "application/json" }, opts.headers || {}),
-    }));
-    const seed = (D.tasks || []);
-    const adapter = {
-      list: async () => {
-        if (!sbReady) throw new Error("no supabase config");
-        const r = await sb("/hq_tasks?select=*&order=created_at.asc", { cache: "no-store" });
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        let rows = await r.json();
-        if (Array.isArray(rows) && rows.length === 0 && seed.length) {
-          // first run ever: seed the table from the bundled tasks
-          const body = seed.map(t => ({ title: t.title, note: t.note || "", owner: t.owner || "Both",
-            track: t.track || "General", status: t.status || "sprout", due: t.due || "" }));
-          const sr = await sb("/hq_tasks", { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify(body) });
-          rows = await sr.json();
-        }
-        return rows;
-      },
-      create: async (data) => {
-        const r = await sb("/hq_tasks", { method: "POST", headers: { Prefer: "return=representation" }, body: JSON.stringify(data) });
-        const rows = await r.json();
-        return Array.isArray(rows) ? rows[0] : rows;
-      },
-      update: (id, patch) => sb("/hq_tasks?id=eq." + encodeURIComponent(id), { method: "PATCH", body: JSON.stringify(patch) }),
-      remove: (id) => sb("/hq_tasks?id=eq." + encodeURIComponent(id), { method: "DELETE" }),
-    };
-
-    TasksMachine.mount({
-      mount: board,
-      adapter,
-      seed,
-      category: { key: "track", label: "Category", default: "General" },
-      status: {
-        key: "status", default: "sprout", cycleDot: true,
-        options: [
-          { value: "sprout",  label: "Up next",     tone: "muted",  kind: "open",    next: "growing" },
-          { value: "growing", label: "In progress", tone: "accent", kind: "active",  next: "grown" },
-          { value: "grown",   label: "Done",        tone: "good",   kind: "done",    next: "sprout", done: true },
-          { value: "waiting", label: "Waiting",     tone: "warn",   kind: "waiting", next: "growing" },
-        ],
-      },
-      tags: [
-        { key: "owner", label: "Owner", default: "Both", options: [
-          { value: "Aaron", label: "Aaron", tone: "accent" },
-          { value: "Lisa",  label: "Lisa",  tone: "warn" },
-          { value: "Both",  label: "Both",  tone: "muted" },
-        ] },
-      ],
-      due: { key: "due", label: "Due date" },
-      note: { key: "note", label: "Note" },
-      prefKey: "helthy-hq-tasks",
-      strings: {
-        addCta: "Plant it", empty: "Nothing here right now. Lovely.",
-        online: "live · changes save for both of us", offline: "offline copy · changes are paused",
-      },
-      onChange: tasks => {
-        const badge = document.getElementById("task-count");
-        if (badge) { const open = tasks.filter(t => t.status !== "grown").length; badge.textContent = open ? open : ""; }
-      },
-    });
-  })();
-
-  /* ---------- From Claude (Claude→human handoff queue, hq_handoffs) ---------- */
-  (function handoffs() {
-    const list = $("#ho-list"), chipsBox = $("#ho-chips"), live = $("#ho-live");
-    const badge = document.getElementById("handoff-count");
-    const catBox = document.getElementById("ho-cat");
-    if (!list || !chipsBox) return;
-
-    /* Pixel cat (illustration only,
-       "wrapped" posture), recolored to the Anthropic terracotta. Keep the
-       GRIDS in sync with that file (it is the canonical sprite workshop);
-       only the palette differs here. Illustration only (aria-hidden): its one
-       variation — asleep when the queue is empty — repeats what the empty
-       state says in words. It never frowns; urgency is amber's job. */
-    const CAT_PAL = { K: "#D97757", j: "#C05C33", E: "#40241A", N: "#40241A", m: "#40241A" };
-    const CAT_BODY = [
-      ".K........K...",
-      ".KK......KK...",
-      ".KKKK..KKKK...",
-      ".KKKKKKKKKK...",
-      "KKKKKKKKKKKK..",
-      "KKKKKKKKKKKK..",
-      "KKKKKKKKKKKK..",
-      "KKKKKKKKKKKK..",
-      "KKKKKKKKKKKK..",
-      ".KKKKKKKKKK...",
-      ".KKKKKKKKKKK..",
-      ".KKKKKKKKKKj..",
-      ".jKKKKKKKjjj..",
-      ".jjjjjjjjjjj..",
-      "..jjjjjjjjj...",
-    ];
-    const CAT_FACE = {
-      awake:  { 5: "KKEEKKKKEEKK", 6: "KKEEKKKKEEKK", 7: "KKKKKNNKKKKK" },
-      asleep: { 5: "KKmmKKKKmmKK" },
-    };
-    function drawCat(state) {
-      if (!catBox) return;
-      const g = CAT_BODY.map(r => r.split(""));
-      const face = CAT_FACE[state] || CAT_FACE.awake;
-      for (const row in face) {
-        const s = face[row];
-        for (let i = 0; i < s.length; i++) if (s[i] !== ".") g[+row][i] = s[i];
-      }
-      let px = "";
-      g.forEach((r, y) => r.forEach((c, x) => {
-        if (CAT_PAL[c]) px += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="' + CAT_PAL[c] + '"/>';
-      }));
-      const zzz = state === "asleep"
-        ? '<g fill="var(--ink-soft)"><rect x="11" y="0" width="3" height="1"/><rect x="12" y="1" width="1" height="1"/><rect x="11" y="2" width="3" height="1"/></g>'
-        : "";
-      catBox.innerHTML = '<svg viewBox="0 0 15 15" shape-rendering="crispEdges" aria-hidden="true">' + px + zzz + "</svg>";
-    }
-    const SB = D.supabase || {};
-    const sbReady = !!(SB.url && SB.key);
-    const sb = (path, opts = {}) => fetch(SB.url + path, Object.assign({}, opts, {
-      headers: Object.assign({ apikey: SB.key, Authorization: "Bearer " + SB.key, "Content-Type": "application/json" }, opts.headers || {}),
-    }));
-    const FILTER_KEY = "helthy-handoff-owner";
-    let who = "All";
-    try { who = localStorage.getItem(FILTER_KEY) || "All"; } catch (e) {}
-    if (["All", "Aaron", "Lisa"].indexOf(who) < 0) who = "All";
-    let rows = null;       // null = no successful fetch yet; [] = fetched, empty
-    let reachable = true;  // outcome of the most recent network attempt
-    let expanded = null;   // id of the currently expanded item, survives re-render
-
-    const openRows    = () => (rows || []).filter(r => r.status === "open");
-    const claimedRows = () => (rows || []).filter(r => r.status === "claimed");
-    const handledRows = () => (rows || []).filter(r => r.status === "done" || r.status === "dropped")
-      .sort((a, b) => String(b.resolved_at || b.updated_at || "").localeCompare(String(a.resolved_at || a.updated_at || "")))
-      .slice(0, 8);
-    const ageOf = r => Math.max(0, Math.floor((Date.now() - new Date(r.created_at).getTime()) / day));
-    const matches = r => who === "All" || r.owner === who || r.owner === "Both";
-
-    async function load() {
-      if (!sbReady) { reachable = false; render(); return; }
-      try {
-        const r = await sb("/hq_handoffs?select=*&order=created_at.asc", { cache: "no-store" });
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        rows = await r.json();
-        reachable = true;
-      } catch (e) { reachable = false; }
-      render();
-    }
-
-    async function patch(id, body) {
-      try {
-        const r = await sb("/hq_handoffs?id=eq." + encodeURIComponent(id), { method: "PATCH", body: JSON.stringify(body) });
-        if (!r.ok) throw new Error("HTTP " + r.status);
-        await load();
-      } catch (e) { reachable = false; render(); }
-    }
-
-    function itemHTML(r, heavy) {
-      const claimed = r.status === "claimed";
-      const a = ageOf(r);
-      const ageCls = claimed ? "motion" : a >= 14 ? "old" : a >= 7 ? "mid" : "";
-      const ageTxt = claimed ? "on it" : a === 0 ? "today" : a + "d";
-      const ownCls = (r.owner || "Both").toLowerCase();
-      const ownTxt = r.owner === "Both" ? "Aaron + Lisa" : r.owner;
-      const isOpen = expanded === r.id;
-      const meta = ["added " + fmt(new Date(r.created_at))]
-        .concat(r.created_by ? [r.created_by] : [])
-        .concat(r.source ? [r.source] : []).join(" · ");
-      return '<div class="ho-item' + (heavy ? " ho-card" : "") + '" data-id="' + esc(r.id) + '">' +
-        '<button class="ho-row" type="button" aria-expanded="' + isOpen + '">' +
-          '<span class="ho-age ' + ageCls + '" title="' + (claimed ? "someone is on it" : a === 0 ? "added today" : "waiting " + a + " day" + (a === 1 ? "" : "s")) + '">' + ageTxt + '</span>' +
-          '<span class="ho-t"><span class="ho-title">' + esc(r.title) + '</span>' +
-            (r.blocks ? '<span class="ho-blocks">holding up: ' + esc(r.blocks) + '</span>' : '') + '</span>' +
-          '<span class="ho-own ' + ownCls + '">' + esc(ownTxt) + '</span>' +
-          '<span class="ho-caret" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>' +
-        '</button>' +
-        '<div class="ho-body"' + (isOpen ? '' : ' hidden') + '>' +
-          (claimed && r.resolution ? '<p class="ho-motion-note">' + esc(r.resolution) + '</p>' : '') +
-          (r.detail ? '<p class="ho-detail">' + esc(r.detail) + '</p>' : '') +
-          '<p class="ho-meta">' + esc(meta) + '</p>' +
-          '<div class="ho-act">' +
-            '<input class="ho-res" type="text" placeholder="What happened? (optional — I read this later)" maxlength="500">' +
-            '<button class="ho-done" type="button">Done</button>' +
-            '<button class="ho-drop" type="button">Not needed</button>' +
-          '</div>' +
-        '</div></div>';
-    }
-
-    function render() {
-      /* nav badge: open items only (claimed = someone already has it) */
-      const openN = openRows().length;
-      if (badge) {
-        badge.textContent = rows === null ? "" : (openN || "");
-        badge.classList.toggle("hot", openRows().some(r => ageOf(r) >= 14));
-      }
-
-      /* live pill — a failed fetch must never read as an empty queue */
-      if (live) {
-        live.textContent = reachable ? "live · saves for everyone" : "can’t reach the queue";
-        live.classList.toggle("off", !reachable);
-      }
-
-      /* the cat naps iff the queue is truly empty (fetched, zero open+claimed) */
-      drawCat(rows !== null && !openRows().length && !claimedRows().length ? "asleep" : "awake");
-
-      /* chips */
-      chipsBox.innerHTML = ["All", "Aaron", "Lisa"].map(n =>
-        '<button class="ho-chip' + (who === n ? " on" : "") + '" type="button" data-who="' + n + '"' +
-        ' aria-pressed="' + (who === n) + '">' + n + '</button>').join("");
-
-      /* list */
-      let html = "";
-      if (rows === null) {
-        html = reachable ? "" :
-          '<div class="ho-offline">I can’t reach the handoff queue (no connection to the task backend), ' +
-          'so I can’t show what’s waiting. This is a connection problem, not an empty queue — ' +
-          'please don’t read this page as “nothing to do.”</div>';
-      } else {
-        if (!reachable) {
-          html += '<div class="ho-offline">Connection lost — showing the last loaded list. Changes are paused until it’s back.</div>';
-        }
-        const visible = openRows().filter(matches).concat(claimedRows().filter(matches));
-        if (!visible.length) {
-          const hiddenElsewhere = openRows().length + claimedRows().length;
-          html += '<div class="ho-empty">' +
-            (who !== "All" && hiddenElsewhere
-              ? "Nothing for " + esc(who) + " right now — switch to All to see the rest."
-              : "Nothing needs a human right now. When I hit something only Aaron or Lisa can do, it lands here.") +
-            '</div>';
-        } else {
-          /* two strata by weight: heavy = a call the venture moves on (cards);
-             everything else — including rows predating the column — is light */
-          const big = visible.filter(r => r.weight === "heavy");
-          const small = visible.filter(r => r.weight !== "heavy");
-          if (big.length) {
-            html += '<div class="ho-sechead">The big asks · ' + big.length + '</div>' +
-              big.map(r => itemHTML(r, true)).join("");
-          }
-          if (small.length) {
-            html += '<div class="ho-sechead">The small stuff · ' + small.length + '</div>' +
-              '<div class="ho-plain">' + small.map(r => itemHTML(r, false)).join("") + '</div>';
-          }
-        }
-        const done = handledRows();
-        if (done.length) {
-          html += '<details class="ho-doneWrap"><summary>Recently handled (' + done.length + ')</summary>' +
-            done.map(r => '<div class="ho-doneRow"><div class="t">' + esc(r.title) + '</div>' +
-              (r.resolution ? '<div class="r">' + esc(r.resolution) + '</div>' : '') +
-              (r.resolved_at ? '<div class="r">' + fmt(new Date(r.resolved_at)) + (r.status === "dropped" ? " · dropped" : "") + '</div>' : '') +
-              '</div>').join("") + '</details>';
-        }
-      }
-      list.innerHTML = html;
-    }
-
-    chipsBox.addEventListener("click", e => {
-      const b = e.target.closest(".ho-chip");
-      if (!b) return;
-      who = b.dataset.who;
-      try { localStorage.setItem(FILTER_KEY, who); } catch (err) {}
-      render();
-    });
-
-    list.addEventListener("click", e => {
-      const item = e.target.closest(".ho-item");
-      if (!item) return;
-      const id = item.dataset.id;
-      if (e.target.closest(".ho-row")) {
-        expanded = expanded === id ? null : id;
-        render();
-        return;
-      }
-      const res = item.querySelector(".ho-res");
-      const note = res && res.value.trim() ? res.value.trim() : "";
-      if (e.target.closest(".ho-done")) {
-        patch(id, { status: "done", resolution: note, resolved_at: new Date().toISOString() });
-      } else if (e.target.closest(".ho-drop")) {
-        patch(id, { status: "dropped", resolution: note || "not needed", resolved_at: new Date().toISOString() });
-      }
-    });
-
-    /* refresh when the tab is opened; first load happens at boot so the nav
-       badge is truthful even if nobody visits the pane */
-    const claudeTab = document.querySelector('.tab[data-tab="claude"]');
-    if (claudeTab) claudeTab.addEventListener("click", () => { load(); });
-    load();
-  })();
 
   /* ---------- under the hood ---------- */
   (function engine() {
@@ -4519,11 +2917,9 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
           "</div>" +
           '<span class="al-count"><b>' + T1.participants.length + "</b> participants · <b>" +
             T1.themeCols.length + "</b> themes</span>" +
-          '<span class="al-hint">Scroll sideways · click a cell to open it</span>' +
         "</div>" +
         '<div class="al-scroll"><table class="al-table"><colgroup>' + cols + "</colgroup>" +
-          "<thead>" + group + head + "</thead><tbody>" + body + rolls + "</tbody></table></div>" +
-        '<p class="al-note">' + esc(T1.note) + "</p>";
+          "<thead>" + group + head + "</thead><tbody>" + body + rolls + "</tbody></table></div>";
     }
 
     /* ================= view 2: findings (evidence) ================= */
@@ -4688,104 +3084,6 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
     window.addEventListener("resize", () => { if (view === "matrix") clamp(); });
   })();
 
-  /* ---------- files ---------- */
-  (function files() {
-    /* Section launchers — the sections we pulled out of the top nav. Each opens
-       in its own browser tab via a #view=<pane> deep link (see the solo-view
-       handler up top), so a couple can sit side by side. */
-    const secEl = $("#section-list");
-    if (secEl) {
-      const OUT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>';
-      const SECTIONS = [
-        { view: "engine",      glyph: "⚙️", title: "Under the hood", desc: "How the smart parts of the app work today, honestly, and the fix for each." },
-        { view: "investors",   glyph: "💰", title: "Funding",        desc: "Grants, investors and accelerators in one pipeline." },
-        { view: "decisions",   glyph: "✅", title: "Decisions",      desc: "The running log of calls we have made, with the reasoning." },
-      ];
-      const base = location.href.replace(/#.*$/, "");
-      secEl.innerHTML = SECTIONS.map(s =>
-        '<button class="section-card" type="button" data-view="' + s.view + '">' +
-          '<span class="glyph" aria-hidden="true">' + s.glyph + "</span>" +
-          '<span class="sc-body"><span class="sc-name">' + esc(s.title) + OUT + "</span>" +
-          '<span class="sc-desc">' + esc(s.desc) + "</span></span>" +
-        "</button>"
-      ).join("");
-      secEl.addEventListener("click", e => {
-        const card = e.target.closest(".section-card");
-        if (!card) return;
-        window.open(base + "#view=" + card.dataset.view, "_blank", "noopener");
-      });
-    }
-
-    const el = $("#file-list");
-    const items = D.files || [];
-    if (!items.length) { el.innerHTML = '<p class="empty">No files listed yet.</p>'; return; }
-    const isMd = p => /\.md$/i.test(p || "");
-    el.innerHTML = items.map(f => {
-      const inner =
-        '<span class="glyph">' + esc(f.kind || "doc") + "</span>" +
-        "<span><span class='fname'>" + esc(f.title) + "</span>" +
-        '<span class="fdesc" style="display:block">' + esc(f.desc || "") + "</span></span>";
-      // Markdown files open in the live-markdown viewer; everything else opens directly.
-      return isMd(f.path)
-        ? '<button class="file" type="button" data-md="1" data-path="' + esc(f.path) +
-            '" data-title="' + esc(f.title) + '">' + inner + "</button>"
-        : '<a class="file" href="' + esc(f.path) + '" target="_blank" rel="noopener">' + inner + "</a>";
-    }).join("");
-
-    /* ---- read-only markdown viewer: same engine as the Meetings notes editor ---- */
-    const fov = $("#file-overlay"), fTitle = $("#file-title"), fPath = $("#file-path"),
-          fRaw = $("#file-raw"), fSurface = $("#file-surface"), fStage = $("#file-stage"),
-          fBack = $("#file-back");
-    let fEd = null;
-    function ensureEd() {
-      if (!fEd) fEd = makeEditor(fSurface, { people: [], scrollParent: fStage });
-      return fEd;
-    }
-    // Read-only reading view: there's no caret, so strip the live-preview reveal that
-    // setText leaves on the offset-0 line (which would otherwise show its `#`/`**` marks).
-    function setDoc(md) {
-      ensureEd().setText(md);
-      fSurface.querySelectorAll(".active").forEach(n => n.classList.remove("active"));
-      fSurface.querySelectorAll(".on").forEach(n => n.classList.remove("on"));
-    }
-    function closeFile() {
-      fov.classList.remove("open"); fov.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-      if (fEd && fEd.dismiss) fEd.dismiss();
-    }
-    async function openFile(path, title) {
-      fTitle.textContent = title || "Document";
-      fPath.textContent = path;
-      fRaw.href = path;
-      fov.classList.add("open"); fov.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-      fStage.scrollTop = 0;
-      setDoc("Loading…");
-      try {
-        const res = await fetch(path, { cache: "no-cache" });
-        if (!res.ok) throw new Error(String(res.status));
-        setDoc(await res.text());
-        fStage.scrollTop = 0;
-      } catch (e) {
-        // file:// (double-click) blocks fetch — fall back to the raw "Open file" link.
-        setDoc("This file can't be previewed here.\n\nUse **Open file** (top right) to view it directly. " +
-          "The in-page preview works when the dashboard is served over a local web server.");
-      }
-    }
-    openDoc = openFile;                 // let other panes (Alpha) reuse this viewer
-    el.addEventListener("click", e => {
-      const b = e.target.closest("button.file[data-md]");
-      if (!b) return;
-      e.preventDefault();
-      openFile(b.dataset.path, b.dataset.title);
-    });
-    fBack.addEventListener("click", closeFile);
-    document.addEventListener("keydown", e => {
-      if (e.key !== "Escape" || !fov.classList.contains("open")) return;
-      e.preventDefault(); closeFile();
-    });
-  })();
-
   /* ==================================================================
      MEETINGS — list (Supabase hq_meetings) + Obsidian-style note editor.
      Notes live exclusively in Supabase as markdown; the editor renders
@@ -4881,7 +3179,7 @@ try{var _t=localStorage.getItem("mde-theme");if(_t==="dark")document.documentEle
     function renderSync() {
       syncEl.className = "mtg-sync";
       syncEl.innerHTML = '<span class="sync-pill ' + (live ? "on" : "off") + '">' +
-        (live ? "live · notes save for both of us" : "offline · changes are paused") + "</span>";
+        (live ? "live" : "offline · changes are paused") + "</span>";
     }
 
     /* ================= data ops ================= */
