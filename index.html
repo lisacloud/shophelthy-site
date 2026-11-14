@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>About Helthy — Grocery shop smarter</title>
-<meta name="description" content="Using science and clinical research to help you grocery shop smarter with diabetes." />
+<meta name="description" content="Using science and clinical research to help you grocery shop smarter with chronic conditions." />
 
 <!-- Social preview -->
 <meta property="og:title" content="About Helthy" />
@@ -107,6 +107,8 @@ header{
   border-radius:22px;
   box-shadow:0 30px 60px rgba(37,41,31,.14);
 }
+.shot{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top center; display:block; }
+.phone > .shot{ inset:11px; width:calc(100% - 22px); height:calc(100% - 22px); border-radius:36px; }
 .eyebrow{
   display:inline-block;
   font-size:13px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
@@ -423,13 +425,13 @@ footer{ padding:56px 0 40px; }
     <div class="hero-copy">
       <span class="eyebrow">About Helthy</span>
       <h1>Using science and clinical research,<br class="hero-br"> to help you <span class="hl">grocery shop smarter.</span></h1>
-      <p class="lede">At Helthy, we believe nutritional labels shouldn't be a barrier to living a smarter and healthier life with diabetes. We've made it our mission to bring you the relevant, healthier facts you need to know.</p>
+      <p class="lede">At Helthy, we believe nutritional labels shouldn't be a barrier to living a smarter and healthier life with chronic conditions. We've made it our mission to bring you the relevant, healthier facts you need to know.</p>
       <div class="hero-actions">
         <a href="mailto:lisa@shophelthy.com?subject=Helthy%20beta%20access" class="btn-solid" data-beta="hero">Get beta access</a>
       </div>
     </div>
     <div class="hero-media">
-      <img src="assets/hero-phone.jpg" alt="The Helthy app showing a diabetes-specific read of Cape Cod potato chips — an 'OK Choice' with a breakdown of whole grains, sodium, fiber, protein and sugar." />
+      <img src="assets/hero-phone-fine.jpg" alt="A hand holding a phone with the Helthy app open on Yoplait Protein Strawberry Yogurt: 'Fine most days,' high protein, with its nutrition breakdown." />
     </div>
   </div>
 </section>
@@ -439,7 +441,7 @@ footer{ padding:56px 0 40px; }
   <div class="wrap">
     <div class="band">
       <span class="eyebrow">Why we exist</span>
-      <h2>Nutritional labels shouldn't be a barrier to living a smarter, healthier life with diabetes.</h2>
+      <h2>Nutritional labels shouldn't be a barrier to living a smarter, healthier life with chronic conditions.</h2>
     </div>
   </div>
 </section>
@@ -463,7 +465,7 @@ footer{ padding:56px 0 40px; }
         <button class="hiw-step" data-i="1" type="button">
           <span class="hiw-bar"></span>
           <span class="hiw-top"><span class="hiw-num">02.</span><span class="hiw-title">Understand</span><span class="hiw-arrow">→</span></span>
-          <span class="hiw-desc">A clear, diabetes-specific read of what that food actually does to you — built for diabetes, not a generic score.</span>
+          <span class="hiw-desc">A clear read of what that food actually does to you — built for chronic conditions, not a generic score.</span>
         </button>
         <button class="hiw-step" data-i="2" type="button">
           <span class="hiw-bar"></span>
@@ -477,87 +479,19 @@ footer{ padding:56px 0 40px; }
         <div class="phone">
           <span class="phone-island"></span>
 
-          <!-- SCREEN 0 · SCAN -->
+          <!-- SCREEN 0 · SCAN (real app, build 17) -->
           <div class="screen show" data-screen="0">
-            <div class="scan-view">
-              <div class="scan-status">Scanning…</div>
-              <div class="scan-frame">
-                <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
-                <div class="barcode">
-                  <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-                </div>
-                <div class="scan-line"></div>
-              </div>
-              <div class="scan-hint">Point at any barcode or label</div>
-            </div>
-            <div class="tabbar">
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/></svg><em>Home</em></span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6v12M7.5 6v12M11 6v12M14.5 6v12M18 6v12M20.5 6v12"/></svg><em>Scan</em></span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><em>Search</em></span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg><em>Profile</em></span>
-            </div>
+            <img class="shot" src="assets/app-scan.jpg" alt="Helthy's scanner pointed at the nutrition label on a yogurt cup in the store." />
           </div>
 
           <!-- SCREEN 1 · UNDERSTAND -->
           <div class="screen" data-screen="1">
-            <div class="app-top"><span class="app-logo"><b>H</b> Helthy</span></div>
-            <div class="app-body">
-              <div class="app-nav"><span class="crumb">‹ Back</span><span class="app-cart">🛒<em>3</em></span></div>
-              <div class="prod">
-                <div class="prod-img">🍓</div>
-                <div>
-                  <div class="prod-name">Strawberry Yogurt</div>
-                  <div class="prod-brand">Fruit-on-the-bottom, lowfat</div>
-                  <span class="badge watch">Think twice</span>
-                </div>
-              </div>
-              <div class="serving">Serving size: 1 container (150 g)</div>
-              <div class="why-head"><b>Why this score</b><span>Ordered by impact</span></div>
-              <div class="rows">
-                <div class="row"><span class="ri">🍬</span><span class="rt"><b>Added Sugar</b><em>High added sugar</em></span><span class="rv">15g</span><span class="d red"></span></div>
-                <div class="row"><span class="ri">🧊</span><span class="rt"><b>Total Sugar</b><em>High sugar</em></span><span class="rv">19g</span><span class="d red"></span></div>
-                <div class="row"><span class="ri">🌾</span><span class="rt"><b>Fiber</b><em>No fiber</em></span><span class="rv">0g</span><span class="d amber"></span></div>
-                <div class="row"><span class="ri">🥛</span><span class="rt"><b>Protein</b><em>Some protein</em></span><span class="rv">5g</span><span class="d amber"></span></div>
-                <div class="row"><span class="ri">🧈</span><span class="rt"><b>Saturated Fat</b><em>Low saturated fat</em></span><span class="rv">1.5g</span><span class="d green"></span></div>
-                <div class="row"><span class="ri">🧂</span><span class="rt"><b>Sodium</b><em>Low sodium</em></span><span class="rv">65mg</span><span class="d green"></span></div>
-              </div>
-            </div>
-            <div class="tabbar">
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/></svg><em>Home</em></span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6v12M7.5 6v12M11 6v12M14.5 6v12M18 6v12M20.5 6v12"/></svg><em>Scan</em></span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><em>Search</em></span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg><em>Profile</em></span>
-            </div>
+            <img class="shot" src="assets/app-understand.jpg" alt="Helthy's read of Yoplait strawberry yogurt: Skip, very high sugar, with total sugar, added sugar and additives flagged." />
           </div>
 
           <!-- SCREEN 2 · SWAP -->
           <div class="screen" data-screen="2">
-            <div class="app-top"><span class="app-logo"><b>H</b> Helthy</span></div>
-            <div class="app-body">
-              <div class="app-nav"><span class="crumb">‹ Back</span><span class="app-cart">🛒<em>3</em></span></div>
-              <div class="swap-title">A better swap for you</div>
-              <div class="swap-from">
-                <div class="prod-img sm">🍓</div>
-                <div><div class="prod-name sm">Strawberry Yogurt</div><span class="badge watch">Think twice</span></div>
-              </div>
-              <div class="swap-arrow">↓ try instead</div>
-              <div class="swap-to">
-                <div class="prod-img sm">🥣</div>
-                <div><div class="prod-name sm">Plain Greek Yogurt + berries</div><span class="badge great">Great Choice</span></div>
-              </div>
-              <div class="swap-wins">
-                <span class="win">－ 15g less added sugar</span>
-                <span class="win">＋ 3× the protein · 17g</span>
-                <span class="win">＋ Add your own fresh berries</span>
-              </div>
-              <button class="add-btn" type="button">Add to cart</button>
-            </div>
-            <div class="tabbar">
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/></svg><em>Home</em></span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6v12M7.5 6v12M11 6v12M14.5 6v12M18 6v12M20.5 6v12"/></svg><em>Scan</em></span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg><em>Search</em></span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.8"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg><em>Profile</em></span>
-            </div>
+            <img class="shot" src="assets/app-swap.jpg" alt="Helthy's swaps for that yogurt: Yoplait Protein and Yoplait Light (Fine) and Siggi's Strawberry (Enjoy)." />
           </div>
 
         </div>
@@ -572,7 +506,7 @@ footer{ padding:56px 0 40px; }
     <div class="section-head" style="margin-bottom:0; max-width:none">
       <span class="eyebrow">The team</span>
       <h2 style="font-size:clamp(24px,2.6vw,32px)">Helthy is brought to you by a team from Harvard</h2>
-      <p style="max-width:74ch; margin-left:auto; margin-right:auto">A female founder-led team combining design, engineering, and lived experience with diabetes — on a mission to make healthier shopping simple for everyone.</p>
+      <p style="max-width:74ch; margin-left:auto; margin-right:auto">A female founder-led team combining design, engineering, and lived experience with chronic conditions — on a mission to make healthier shopping simple for everyone.</p>
     </div>
   </div>
 </section>
